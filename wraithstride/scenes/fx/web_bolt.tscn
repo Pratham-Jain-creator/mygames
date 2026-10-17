@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/bolt.gd" id="e0"]
+
+[sub_resource type="SphereShape3D" id="SS_1"]
+radius = 0.264
+
+[sub_resource type="SphereMesh" id="SM_2"]
+radius = 0.22
+height = 0.44
+
+[sub_resource type="StandardMaterial3D" id="M_3"]
+shading_mode = 0
+albedo_color = Color(0.85, 1, 0.85, 1)
+roughness = 0.7
+emission_enabled = true
+emission = Color(0.85, 1, 0.85, 1)
+emission_energy_multiplier = 5
+
+[node name="Bolt" type="Area3D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("e0")
+speed = 14
+damage = 8
+posture_damage = 10
+snare_time = 2.2
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+shape = SubResource("SS_1")
+
+[node name="Orb" type="MeshInstance3D" parent="."]
+mesh = SubResource("SM_2")
+surface_material_override/0 = SubResource("M_3")
+
+[node name="Light" type="OmniLight3D" parent="."]
+light_color = Color(0.85, 1, 0.85, 1)
+light_energy = 2.0
+omni_range = 4.0

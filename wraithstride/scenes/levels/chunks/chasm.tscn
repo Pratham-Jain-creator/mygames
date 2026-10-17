@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="1_floor"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="2_wall"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="5_torch"]
+
+[node name="ChunkChasm" type="Node3D"]
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Ledge" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -3)
+use_collision = true
+size = Vector3(6, 1, 6)
+material = ExtResource("1_floor")
+
+[node name="WallL" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-4.5, 1, -22)
+use_collision = true
+size = Vector3(1, 14, 32)
+material = ExtResource("2_wall")
+
+[node name="WallR" type="CSGBox3D" parent="Geometry"]
+position = Vector3(4.5, 1, -22)
+use_collision = true
+size = Vector3(1, 14, 32)
+material = ExtResource("2_wall")
+
+[node name="Landing" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -41)
+use_collision = true
+size = Vector3(10, 1, 6)
+material = ExtResource("1_floor")
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="T1" parent="Props" instance=ExtResource("5_torch")]
+position = Vector3(-3.8, 3, -14)
+
+[node name="T2" parent="Props" instance=ExtResource("5_torch")]
+position = Vector3(3.8, 3, -14)
+
+[node name="T3" parent="Props" instance=ExtResource("5_torch")]
+position = Vector3(-3.8, 3, -30)
+
+[node name="T4" parent="Props" instance=ExtResource("5_torch")]
+position = Vector3(3.8, 3, -30)
+
+[node name="Glow" type="OmniLight3D" parent="Props"]
+position = Vector3(0, 6, -22)
+light_color = Color(0.4, 0.5, 1, 1)
+light_energy = 1.2
+omni_range = 25.0

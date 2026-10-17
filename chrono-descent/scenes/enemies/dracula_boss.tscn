@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/dracula_boss.gd" id="1_boss"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="2_hc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(16, 18)
+
+[node name="DraculaBoss" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_boss")
+directional = true
+move_speed = 46.0
+hurt_stun_time = 0.0
+knockback_resistance = 0.9
+melee_damage = 15
+melee_knockback = 280.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+scale = Vector2(0.36, 0.36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hc")
+max_health = 900

@@ -1,0 +1,171 @@
+[gd_scene load_steps=13 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.04, 0.04, 0.06, 1)
+metallic = 0.6
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.82, 0.85, 0.9, 1)
+metallic = 0.5
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.4, 0.85, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 3.8
+
+[sub_resource type="CylinderMesh" id="mesh_grip"]
+material = SubResource("mat_dark")
+top_radius = 0.022
+bottom_radius = 0.02
+height = 0.22
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="mesh_guard"]
+material = SubResource("mat_armor")
+size = Vector3(0.08, 0.025, 0.12)
+
+[sub_resource type="BoxMesh" id="mesh_blade_core"]
+material = SubResource("mat_dark")
+size = Vector3(0.014, 0.72, 0.035)
+
+[sub_resource type="PrismMesh" id="mesh_blade_edge"]
+material = SubResource("mat_glow")
+left_to_right = 0.5
+size = Vector3(0.01, 0.78, 0.045)
+
+[sub_resource type="BoxShape3D" id="shape_hitbox"]
+size = Vector3(0.18, 0.95, 0.25)
+
+; 3-hit combo. The blade is held pointing forward: local Y = forward, local X = right,
+; local Z = up, so turning around Z sweeps it sideways and moving along Y thrusts it.
+[sub_resource type="Animation" id="anim_slash_left"]
+resource_name = "slash_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.2),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0.2, 0, -1.2), Vector3(-0.1, 0, 1.2), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPivot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_slash_right"]
+resource_name = "slash_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.2),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0.2, 0, 1.2), Vector3(-0.1, 0, -1.2), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPivot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_poke"]
+resource_name = "poke"
+length = 0.22
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.22),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.12, 0), Vector3(0, 0.4, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.22),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_edge"]
+_data = {
+&"poke": SubResource("anim_poke"),
+&"slash_left": SubResource("anim_slash_left"),
+&"slash_right": SubResource("anim_slash_right")
+}
+
+[node name="Edge" type="Node3D"]
+
+[node name="WeaponPivot" type="Node3D" parent="."]
+
+[node name="Grip" type="MeshInstance3D" parent="WeaponPivot"]
+mesh = SubResource("mesh_grip")
+
+[node name="Guard" type="MeshInstance3D" parent="WeaponPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+mesh = SubResource("mesh_guard")
+
+[node name="BladeCore" type="MeshInstance3D" parent="WeaponPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49, 0.01)
+mesh = SubResource("mesh_blade_core")
+
+[node name="BladeEdge" type="MeshInstance3D" parent="WeaponPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, -0.015)
+mesh = SubResource("mesh_blade_edge")
+
+[node name="Hitbox" type="Area3D" parent="WeaponPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponPivot/Hitbox"]
+shape = SubResource("shape_hitbox")
+
+[node name="BladeLight" type="OmniLight3D" parent="WeaponPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.05)
+light_color = Color(0.3, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 1.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_edge")
+}

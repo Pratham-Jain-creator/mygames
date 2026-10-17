@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "blast"
+display_name = "Blast"
+category = "WEAPON"
+color = Color(1, 0.5, 0.15, 1)
+weight = 2.0
+script_path = "res://scripts/modules/blast_module.gd"
+hud_meta_template = "EXPLOSIVE · {cost} FLUX"
+description_template = "Slow explosive, {cost} Flux, {damage} dmg in {radius} m. Crushes Aegis. Shoves you too (rocket-jump)."
+cost = 24.0
+cooldown = 1.4
+damage = 70.0
+tuning = {
+"gravity": 12.0,
+"lob": 0.2,
+"radius": 5.0,
+"speed": 22.0
+}

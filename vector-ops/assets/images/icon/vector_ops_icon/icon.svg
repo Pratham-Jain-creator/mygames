@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="75%"><stop offset="0" stop-color="#16232a"/><stop offset="1" stop-color="#080d10"/></radialGradient>
+    <linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cf0e2"/><stop offset="1" stop-color="#2fc4b2"/></linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M0 .5H64M.5 0V64" stroke="#1c2a31" stroke-width="2" fill="none"/></pattern>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#grid)" opacity=".55"/>
+  <!-- Flux ring: active (teal) with a fractured gap (red) -->
+  <g fill="none" stroke-width="46" transform="rotate(-90 512 512)">
+    <circle cx="512" cy="512" r="368" stroke="#3fd8c6" stroke-dasharray="1620 692" stroke-dashoffset="-170" filter="url(#glow)" stroke-linecap="butt"/>
+    <circle cx="512" cy="512" r="368" stroke="#ee4b63" stroke-dasharray="64 44 28 2176" stroke-dashoffset="-1850" stroke-linecap="butt"/>
+  </g>
+  <!-- tactical ticks -->
+  <g stroke="#7f949d" stroke-width="10" stroke-linecap="butt" opacity=".8">
+    <path d="M512 70V120M512 904V954M70 512H120M904 512H954"/>
+  </g>
+  <!-- V vector -->
+  <g filter="url(#glow)">
+    <path d="M262 318 H378 L512 586 L646 318 H762 L564 742 H460 Z" fill="url(#v)"/>
+  </g>
+  <path d="M512 586 L646 318 H762 L564 742 Z" fill="#000" opacity=".16"/>
+  <!-- flux core -->
+  <rect x="482" y="262" width="60" height="60" fill="#dbe6ea" transform="rotate(45 512 292)"/>
+</svg>

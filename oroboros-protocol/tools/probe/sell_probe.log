@@ -1,0 +1,7 @@
+phase=1 order=vip_pass,smuggler,seed_capital
+rects [P: (317.0, 572.0), S: (128.0, 128.0)] [P: (589.0, 572.0), S: (128.0, 128.0)] vp=(1346.0, 720.0)
+hover=Layout:<VBoxContainer#95277811408> pressed=false
+after drag order=vip_pass,smuggler,seed_capital
+popup open=true
+sold: daemons 3->2 money 30->31 popup open=false
+SELL DONE

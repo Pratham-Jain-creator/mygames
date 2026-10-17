@@ -1,0 +1,48 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/bat.gd" id="1_bat"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="2_hc"]
+[ext_resource type="Script" uid="uid://dpodcefemw4ey" path="res://scripts/hitbox.gd" id="3_hb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_atk"]
+radius = 9.0
+
+[node name="Bat" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_bat")
+move_speed = 78.0
+flying = true
+directional = true
+sprite_kind = "bat"
+standoff_distance = 8.0
+attack_range = 24.0
+windup_time = 0.35
+attack_time = 0.25
+recover_time = 0.45
+attack_cooldown = 0.8
+dash_speed = 190.0
+melee_damage = 5
+melee_knockback = 110.0
+hurt_stun_time = 0.15
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hc")
+max_health = 8
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("3_hb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("CircleShape2D_atk")

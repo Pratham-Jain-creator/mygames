@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-64 -64 384 384" width="384" height="384">
+  <defs>
+    <radialGradient id="base" cx="0.4" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#6f7a8f"/>
+      <stop offset="0.7" stop-color="#363d4b"/>
+      <stop offset="1" stop-color="#1f232c"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8996ad"/>
+      <stop offset="0.5" stop-color="#4a5365"/>
+      <stop offset="1" stop-color="#2a303c"/>
+    </linearGradient>
+    <linearGradient id="barrel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#20242d"/>
+      <stop offset="0.35" stop-color="#8d99ae"/>
+      <stop offset="0.7" stop-color="#4a5365"/>
+      <stop offset="1" stop-color="#1b1f27"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e8fcff"/>
+      <stop offset="0.4" stop-color="#19d3ff"/>
+      <stop offset="1" stop-color="#0a6a85"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <!-- Top-down view, barrels point UP. Pivot is the exact centre (128,128): rotate around the image centre to aim. -->
+  <g transform="translate(128,128) scale(0.94) translate(-128,-140)">
+  <!-- base ring -->
+  <circle cx="128" cy="140" r="92" fill="#1b1f27" stroke="#10131a" stroke-width="4" filter="url(#shadow)"/>
+  <circle cx="128" cy="140" r="84" fill="url(#base)" stroke="#8d99ae" stroke-opacity="0.5" stroke-width="2"/>
+  <circle cx="128" cy="140" r="70" fill="none" stroke="#10131a" stroke-width="3" stroke-dasharray="9 7"/>
+
+  <!-- rotating body -->
+  <path d="M82,96 H174 L196,128 V170 L172,202 H84 L60,170 V128 Z" fill="url(#body)" stroke="#10131a" stroke-width="3.5"/>
+  <path d="M86,102 H170 L190,130 V168 L168,196 H88 L66,168 V130 Z" fill="none" stroke="#c0cadb" stroke-opacity="0.35" stroke-width="2"/>
+  <!-- armor plates -->
+  <g stroke="#10131a" stroke-width="2.5" fill="none">
+    <path d="M100,96 V120 M156,96 V120"/>
+    <path d="M70,150 H96 M186,150 H160"/>
+    <path d="M96,202 V180 M160,202 V180"/>
+  </g>
+  <!-- barrels -->
+  <g filter="url(#shadow)">
+    <rect x="96" y="-18" width="20" height="126" rx="4" fill="url(#barrel)" stroke="#10131a" stroke-width="2.5"/>
+    <rect x="140" y="-18" width="20" height="126" rx="4" fill="url(#barrel)" stroke="#10131a" stroke-width="2.5"/>
+    <!-- muzzle brakes -->
+    <rect x="92" y="-28" width="28" height="22" rx="4" fill="#3b4251" stroke="#10131a" stroke-width="2.5"/>
+    <rect x="136" y="-28" width="28" height="22" rx="4" fill="#3b4251" stroke="#10131a" stroke-width="2.5"/>
+    <g stroke="#10131a" stroke-width="2">
+      <path d="M92,-20 H120 M92,-14 H120 M136,-20 H164 M136,-14 H164"/>
+    </g>
+    <!-- cooling rings -->
+    <g stroke="#10131a" stroke-width="2" fill="#5d687c">
+      <rect x="94" y="14" width="24" height="7"/><rect x="138" y="14" width="24" height="7"/><rect x="94" y="38" width="24" height="7"/><rect x="138" y="38" width="24" height="7"/><rect x="94" y="62" width="24" height="7"/><rect x="138" y="62" width="24" height="7"/>
+      <rect x="94" y="84" width="24" height="7"/><rect x="138" y="84" width="24" height="7"/>
+    </g>
+  </g>
+
+  <!-- glowing core -->
+  <circle cx="128" cy="150" r="24" fill="#12161d" stroke="#10131a" stroke-width="3"/>
+  <circle cx="128" cy="150" r="17" fill="url(#core)" filter="url(#glow)"/>
+  <!-- side lights -->
+  <rect x="70" y="132" width="5" height="14" fill="#ff4d4d" filter="url(#glow)"/>
+  <rect x="181" y="132" width="5" height="14" fill="#ff4d4d" filter="url(#glow)"/>
+  <!-- rivets -->
+  <g fill="#a8b3c7" stroke="#10131a" stroke-width="1">
+    <circle cx="90" cy="108" r="3.5"/><circle cx="166" cy="108" r="3.5"/>
+    <circle cx="80" cy="170" r="3.5"/><circle cx="176" cy="170" r="3.5"/>
+    <circle cx="100" cy="192" r="3.5"/><circle cx="156" cy="192" r="3.5"/>
+  </g>
+  </g>
+</svg>

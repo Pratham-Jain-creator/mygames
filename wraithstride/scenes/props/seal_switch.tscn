@@ -1,0 +1,153 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/seal_switch.gd" id="e0"]
+
+[sub_resource type="SphereShape3D" id="SS_1"]
+radius = 1.1
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0.45
+bottom_radius = 0.6
+height = 0.9
+
+[sub_resource type="StandardMaterial3D" id="M_3"]
+albedo_color = Color(0.2, 0.19, 0.22, 1)
+metallic = 0.4
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SM_4"]
+radius = 0.4
+height = 0.8
+
+[sub_resource type="StandardMaterial3D" id="M_5"]
+shading_mode = 0
+albedo_color = Color(1, 0.3, 0.9, 1)
+roughness = 0.7
+emission_enabled = true
+emission = Color(1, 0.2, 0.9, 1)
+emission_energy_multiplier = 4
+
+[sub_resource type="Animation" id="A_6"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orb:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.4, 0), Vector3(0, 1.65, 0), Vector3(0, 1.4, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 4.0, 2.0]
+}
+
+[sub_resource type="Animation" id="A_7"]
+resource_name = "press"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orb:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.7, 1.7, 1.7), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [6.0, 0.4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Light:light_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Color(0.3, 1, 0.4, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Label:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="L_8"]
+_data = {
+&"idle": SubResource("A_6"),
+&"press": SubResource("A_7")
+}
+
+[node name="SealSwitch" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e0")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.3, 0)
+shape = SubResource("SS_1")
+
+[node name="Pedestal" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.45, 0)
+mesh = SubResource("CM_2")
+surface_material_override/0 = SubResource("M_3")
+
+[node name="Orb" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.4, 0)
+mesh = SubResource("SM_4")
+surface_material_override/0 = SubResource("M_5")
+
+[node name="Light" type="OmniLight3D" parent="."]
+position = Vector3(0, 1.4, 0)
+light_color = Color(1, 0.3, 0.9, 1)
+light_energy = 3.0
+omni_range = 7.0
+
+[node name="Label" type="Label3D" parent="."]
+position = Vector3(0, 2.4, 0)
+pixel_size = 0.01
+billboard = 1
+modulate = Color(1, 0.5, 1, 1)
+text = "SEAL"
+font_size = 64
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("L_8")
+}

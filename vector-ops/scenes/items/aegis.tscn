@@ -1,0 +1,314 @@
+[gd_scene load_steps=38 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_plasma"]
+albedo_color = Color(0.150, 0.550, 1.000, 0.280)
+transparency = 1
+roughness = 0.20
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.100, 0.500, 1.000, 1)
+emission_energy_multiplier = 1.20
+shading_mode = 0
+cull_mode = 2
+blend_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="mat_rim"]
+albedo_color = Color(0.600, 0.900, 1.000, 1.000)
+roughness = 0.20
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.400, 0.850, 1.000, 1)
+emission_energy_multiplier = 4.00
+
+[sub_resource type="StandardMaterial3D" id="mat_hardware"]
+albedo_color = Color(0.100, 0.110, 0.130, 1.000)
+roughness = 0.40
+metallic = 0.80
+
+[sub_resource type="BoxMesh" id="mesh_0"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_1"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_2"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_3"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_5"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_6"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_7"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_8"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_9"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_10"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_11"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_12"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_13"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_14"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_15"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_16"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_17"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_18"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_19"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_20"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_21"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_22"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_23"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_24"]
+size = Vector3(0.1117, 1.9000, 0.0200)
+material = SubResource("mat_plasma")
+
+[sub_resource type="BoxMesh" id="mesh_25"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_26"]
+size = Vector3(0.1117, 0.0350, 0.0450)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_27"]
+size = Vector3(0.0400, 1.9350, 0.0500)
+material = SubResource("mat_rim")
+
+[sub_resource type="BoxMesh" id="mesh_28"]
+size = Vector3(0.0400, 1.9350, 0.0500)
+material = SubResource("mat_rim")
+
+[sub_resource type="CylinderMesh" id="mesh_29"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.14
+radial_segments = 12
+rings = 1
+material = SubResource("mat_hardware")
+
+[sub_resource type="BoxMesh" id="mesh_30"]
+size = Vector3(0.0350, 0.0350, 0.3300)
+material = SubResource("mat_hardware")
+
+[sub_resource type="BoxMesh" id="mesh_31"]
+size = Vector3(0.0350, 0.0350, 0.3300)
+material = SubResource("mat_hardware")
+
+[sub_resource type="BoxMesh" id="mesh_32"]
+size = Vector3(0.1000, 0.2200, 0.0800)
+material = SubResource("mat_hardware")
+
+[sub_resource type="CylinderMesh" id="mesh_33"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.02
+radial_segments = 12
+rings = 1
+material = SubResource("mat_rim")
+
+[node name="PlasmaShield" type="Node3D"]
+
+[node name="Panel0" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, -0.58149, 0.00000, 1.00000, 0.00000, 0.58149, 0.00000, 0.81355, -0.4070, 0.0000, -0.2195)
+mesh = SubResource("mesh_0")
+
+[node name="RimTop0" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, -0.58149, 0.00000, 1.00000, 0.00000, 0.58149, 0.00000, 0.81355, -0.4070, 0.9500, -0.2195)
+mesh = SubResource("mesh_1")
+
+[node name="RimBottom0" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, -0.58149, 0.00000, 1.00000, 0.00000, 0.58149, 0.00000, 0.81355, -0.4070, -0.9500, -0.2195)
+mesh = SubResource("mesh_2")
+
+[node name="Panel1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, -0.44880, 0.00000, 1.00000, 0.00000, 0.44880, 0.00000, 0.89363, -0.3142, 0.0000, -0.2755)
+mesh = SubResource("mesh_3")
+
+[node name="RimTop1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, -0.44880, 0.00000, 1.00000, 0.00000, 0.44880, 0.00000, 0.89363, -0.3142, 0.9500, -0.2755)
+mesh = SubResource("mesh_4")
+
+[node name="RimBottom1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, -0.44880, 0.00000, 1.00000, 0.00000, 0.44880, 0.00000, 0.89363, -0.3142, -0.9500, -0.2755)
+mesh = SubResource("mesh_5")
+
+[node name="Panel2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, -0.30533, 0.00000, 1.00000, 0.00000, 0.30533, 0.00000, 0.95225, -0.2137, 0.0000, -0.3166)
+mesh = SubResource("mesh_6")
+
+[node name="RimTop2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, -0.30533, 0.00000, 1.00000, 0.00000, 0.30533, 0.00000, 0.95225, -0.2137, 0.9500, -0.3166)
+mesh = SubResource("mesh_7")
+
+[node name="RimBottom2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, -0.30533, 0.00000, 1.00000, 0.00000, 0.30533, 0.00000, 0.95225, -0.2137, -0.9500, -0.3166)
+mesh = SubResource("mesh_8")
+
+[node name="Panel3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, -0.15452, 0.00000, 1.00000, 0.00000, 0.15452, 0.00000, 0.98799, -0.1082, 0.0000, -0.3416)
+mesh = SubResource("mesh_9")
+
+[node name="RimTop3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, -0.15452, 0.00000, 1.00000, 0.00000, 0.15452, 0.00000, 0.98799, -0.1082, 0.9500, -0.3416)
+mesh = SubResource("mesh_10")
+
+[node name="RimBottom3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, -0.15452, 0.00000, 1.00000, 0.00000, 0.15452, 0.00000, 0.98799, -0.1082, -0.9500, -0.3416)
+mesh = SubResource("mesh_11")
+
+[node name="Panel4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, -0.3500)
+mesh = SubResource("mesh_12")
+
+[node name="RimTop4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.9500, -0.3500)
+mesh = SubResource("mesh_13")
+
+[node name="RimBottom4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.9500, -0.3500)
+mesh = SubResource("mesh_14")
+
+[node name="Panel5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, 0.15452, 0.00000, 1.00000, 0.00000, -0.15452, 0.00000, 0.98799, 0.1082, 0.0000, -0.3416)
+mesh = SubResource("mesh_15")
+
+[node name="RimTop5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, 0.15452, 0.00000, 1.00000, 0.00000, -0.15452, 0.00000, 0.98799, 0.1082, 0.9500, -0.3416)
+mesh = SubResource("mesh_16")
+
+[node name="RimBottom5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98799, 0.00000, 0.15452, 0.00000, 1.00000, 0.00000, -0.15452, 0.00000, 0.98799, 0.1082, -0.9500, -0.3416)
+mesh = SubResource("mesh_17")
+
+[node name="Panel6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, 0.30533, 0.00000, 1.00000, 0.00000, -0.30533, 0.00000, 0.95225, 0.2137, 0.0000, -0.3166)
+mesh = SubResource("mesh_18")
+
+[node name="RimTop6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, 0.30533, 0.00000, 1.00000, 0.00000, -0.30533, 0.00000, 0.95225, 0.2137, 0.9500, -0.3166)
+mesh = SubResource("mesh_19")
+
+[node name="RimBottom6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95225, 0.00000, 0.30533, 0.00000, 1.00000, 0.00000, -0.30533, 0.00000, 0.95225, 0.2137, -0.9500, -0.3166)
+mesh = SubResource("mesh_20")
+
+[node name="Panel7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, 0.44880, 0.00000, 1.00000, 0.00000, -0.44880, 0.00000, 0.89363, 0.3142, 0.0000, -0.2755)
+mesh = SubResource("mesh_21")
+
+[node name="RimTop7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, 0.44880, 0.00000, 1.00000, 0.00000, -0.44880, 0.00000, 0.89363, 0.3142, 0.9500, -0.2755)
+mesh = SubResource("mesh_22")
+
+[node name="RimBottom7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.89363, 0.00000, 0.44880, 0.00000, 1.00000, 0.00000, -0.44880, 0.00000, 0.89363, 0.3142, -0.9500, -0.2755)
+mesh = SubResource("mesh_23")
+
+[node name="Panel8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, 0.58149, 0.00000, 1.00000, 0.00000, -0.58149, 0.00000, 0.81355, 0.4070, 0.0000, -0.2195)
+mesh = SubResource("mesh_24")
+
+[node name="RimTop8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, 0.58149, 0.00000, 1.00000, 0.00000, -0.58149, 0.00000, 0.81355, 0.4070, 0.9500, -0.2195)
+mesh = SubResource("mesh_25")
+
+[node name="RimBottom8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.81355, 0.00000, 0.58149, 0.00000, 1.00000, 0.00000, -0.58149, 0.00000, 0.81355, 0.4070, -0.9500, -0.2195)
+mesh = SubResource("mesh_26")
+
+[node name="EdgePostL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.76604, 0.00000, -0.64279, 0.00000, 1.00000, 0.00000, 0.64279, 0.00000, 0.76604, -0.4500, 0.0000, -0.1862)
+mesh = SubResource("mesh_27")
+
+[node name="EdgePostR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.76604, 0.00000, 0.64279, 0.00000, 1.00000, 0.00000, -0.64279, 0.00000, 0.76604, 0.4500, 0.0000, -0.1862)
+mesh = SubResource("mesh_28")
+
+[node name="Handle" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, 0.0000)
+mesh = SubResource("mesh_29")
+
+[node name="StrutTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0800, -0.1750)
+mesh = SubResource("mesh_30")
+
+[node name="StrutBottom" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0800, -0.1750)
+mesh = SubResource("mesh_31")
+
+[node name="EmitterCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, -0.0400)
+mesh = SubResource("mesh_32")
+
+[node name="EmitterGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -0.0850)
+mesh = SubResource("mesh_33")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, -0.5000)
+light_color = Color(0.2, 0.6, 1, 1)
+light_energy = 1.5
+omni_range = 3.5

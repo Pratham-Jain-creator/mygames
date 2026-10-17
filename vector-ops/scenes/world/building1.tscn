@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_plaza"]
+albedo_color = Color(0.18, 0.21, 0.26, 1)
+roughness = 0.85
+metallic = 0.15
+
+[sub_resource type="StandardMaterial3D" id="mat_tower_dark"]
+albedo_color = Color(0.07, 0.09, 0.12, 1)
+roughness = 0.5
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="mat_armor_wall"]
+albedo_color = Color(0.75, 0.8, 0.86, 1)
+roughness = 0.35
+metallic = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_cyan_glow"]
+albedo_color = Color(0.3, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.85, 1, 1)
+emission_energy_multiplier = 3.5
+
+[sub_resource type="StandardMaterial3D" id="mat_container_orange"]
+albedo_color = Color(0.55, 0.32, 0.08, 1)
+roughness = 0.55
+metallic = 0.35
+
+[node name="Building1_Spire" type="Node3D"]
+
+[node name="PlazaFoundation" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(160, 1, 160)
+material = SubResource("mat_plaza")
+
+[node name="PodiumBase" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+use_collision = true
+size = Vector3(110, 12, 110)
+material = SubResource("mat_tower_dark")
+
+[node name="UnderpassTunnelNS" type="CSGBox3D" parent="PodiumBase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+operation = 2
+size = Vector3(22, 8, 114)
+material = SubResource("mat_armor_wall")
+
+[node name="UnderpassTunnelEW" type="CSGBox3D" parent="PodiumBase"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+operation = 2
+size = Vector3(114, 8, 22)
+material = SubResource("mat_armor_wall")
+
+[node name="RampNorth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.948683, 0.316228, 0, -0.316228, 0.948683, 28, 5.8, -68)
+use_collision = true
+size = Vector3(12, 1, 38)
+material = SubResource("mat_armor_wall")
+
+[node name="RampSouth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.948683, -0.316228, 0, 0.316228, 0.948683, -28, 5.8, 68)
+use_collision = true
+size = Vector3(12, 1, 38)
+material = SubResource("mat_armor_wall")
+
+[node name="Tier2MidTower" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0)
+use_collision = true
+size = Vector3(74, 20, 74)
+material = SubResource("mat_armor_wall")
+
+[node name="Tier2GlowBand" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31.5, 0)
+size = Vector3(74.6, 0.6, 74.6)
+material = SubResource("mat_cyan_glow")
+
+[node name="Tier3HighTower" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44, 0)
+use_collision = true
+size = Vector3(46, 24, 46)
+material = SubResource("mat_tower_dark")
+
+[node name="Tier3LedgeNorth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44, -27)
+use_collision = true
+size = Vector3(30, 1.5, 8)
+material = SubResource("mat_armor_wall")
+
+[node name="Tier3LedgeSouth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44, 27)
+use_collision = true
+size = Vector3(30, 1.5, 8)
+material = SubResource("mat_armor_wall")
+
+[node name="Tier4ApexCore" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 68, 0)
+use_collision = true
+size = Vector3(24, 24, 24)
+material = SubResource("mat_tower_dark")
+
+[node name="SniperCrownDeck" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 80.5, 0)
+use_collision = true
+size = Vector3(30, 1, 30)
+material = SubResource("mat_armor_wall")
+
+[node name="ApexSpire" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 85, 0)
+size = Vector3(2, 9, 2)
+material = SubResource("mat_cyan_glow")
+
+[node name="RoofCoverNW" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 13.6, -42)
+use_collision = true
+size = Vector3(12, 3.2, 4.5)
+material = SubResource("mat_container_orange")
+
+[node name="RoofCoverSE" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 13.6, 42)
+use_collision = true
+size = Vector3(12, 3.2, 4.5)
+material = SubResource("mat_container_orange")

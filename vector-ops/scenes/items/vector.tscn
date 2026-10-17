@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.04, 0.04, 0.06, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.4, 0.85, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 3.5
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.82, 0.85, 0.9, 1)
+metallic = 0.5
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="mesh_core_cube"]
+material = SubResource("mat_glow")
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="BoxMesh" id="mesh_frame_plate"]
+material = SubResource("mat_dark")
+size = Vector3(0.13, 0.02, 0.13)
+
+[sub_resource type="TorusMesh" id="mesh_orbit_ring"]
+material = SubResource("mat_armor")
+inner_radius = 0.11
+outer_radius = 0.13
+rings = 16
+ring_segments = 8
+
+[sub_resource type="BoxMesh" id="mesh_sub_node"]
+material = SubResource("mat_glow")
+size = Vector3(0.035, 0.035, 0.035)
+
+[sub_resource type="Curve3D" id="curve_trajectory"]
+
+[sub_resource type="Animation" id="anim_hover"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EmitterHead/CoreCube:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(6.28319, 6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EmitterHead/OrbitRing:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.5708, 0, 0), Vector3(1.5708, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_vector"]
+_data = {
+&"hover": SubResource("anim_hover")
+}
+
+[node name="Vector" type="Node3D"]
+
+[node name="EmitterHead" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.12)
+
+[node name="CoreCube" type="MeshInstance3D" parent="EmitterHead"]
+mesh = SubResource("mesh_core_cube")
+
+[node name="TopPlate" type="MeshInstance3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.065, 0)
+mesh = SubResource("mesh_frame_plate")
+
+[node name="BottomPlate" type="MeshInstance3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.065, 0)
+mesh = SubResource("mesh_frame_plate")
+
+[node name="OrbitRing" type="MeshInstance3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("mesh_orbit_ring")
+
+[node name="SubNodeL" type="MeshInstance3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.08, -0.06)
+mesh = SubResource("mesh_sub_node")
+
+[node name="SubNodeR" type="MeshInstance3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.08, -0.06)
+mesh = SubResource("mesh_sub_node")
+
+[node name="MuzzlePoint" type="Marker3D" parent="EmitterHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.18)
+
+[node name="TrajectoryPath" type="Path3D" parent="."]
+curve = SubResource("curve_trajectory")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_vector")
+}
+autoplay = "hover"

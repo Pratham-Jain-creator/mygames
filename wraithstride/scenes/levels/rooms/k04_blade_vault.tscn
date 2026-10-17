@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="e0"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="e1"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="e2"]
+[ext_resource type="Material" path="res://scenes/levels/materials/rune.tres" id="e3"]
+[ext_resource type="Material" path="res://scenes/levels/materials/iron.tres" id="e4"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="e5"]
+[ext_resource type="PackedScene" path="res://scenes/props/spin_blade.tscn" id="e6"]
+[ext_resource type="PackedScene" path="res://scenes/props/seal_switch.tscn" id="e7"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="e8"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="e9"]
+
+[sub_resource type="StandardMaterial3D" id="M_1"]
+albedo_color = Color(0.55, 0.52, 0.56, 1)
+metallic = 0.8
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.7, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.45
+
+[sub_resource type="MultiMesh" id="MM_3"]
+transform_format = 1
+instance_count = 40
+mesh = SubResource("CM_2")
+buffer = PackedFloat32Array(0, -1, 0, 4.775, 1, 0, 0, 0.5625, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 0.5625, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 0.5625, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 0.5625, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 0.5625, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 1.6875, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 1.6875, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 1.6875, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 1.6875, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 1.6875, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 2.8125, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 2.8125, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 2.8125, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 2.8125, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 2.8125, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 3.9375, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 3.9375, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 3.9375, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 3.9375, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 3.9375, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 5.0625, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 5.0625, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 5.0625, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 5.0625, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 5.0625, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 6.1875, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 6.1875, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 6.1875, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 6.1875, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 6.1875, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 7.3125, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 7.3125, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 7.3125, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 7.3125, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 7.3125, 0, 0, 1, -20.6, 0, -1, 0, 4.775, 1, 0, 0, 8.4375, 0, 0, 1, -25.4, 0, -1, 0, 4.775, 1, 0, 0, 8.4375, 0, 0, 1, -24.2, 0, -1, 0, 4.775, 1, 0, 0, 8.4375, 0, 0, 1, -23, 0, -1, 0, 4.775, 1, 0, 0, 8.4375, 0, 0, 1, -21.8, 0, -1, 0, 4.775, 1, 0, 0, 8.4375, 0, 0, 1, -20.6)
+
+[sub_resource type="BoxShape3D" id="BS_4"]
+size = Vector3(0.5, 9, 6)
+
+[node name="Room" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="WallL1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-5.5, 1.5, -23)
+use_collision = true
+size = Vector3(1, 15, 46)
+material = ExtResource("e2")
+
+[node name="WallR1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(5.5, 1.5, -23)
+use_collision = true
+size = Vector3(1, 15, 46)
+material = ExtResource("e2")
+
+[node name="Ceiling1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8.5, -23)
+size = Vector3(12, 1, 46)
+material = ExtResource("e2")
+
+[node name="Floor1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -23)
+use_collision = true
+size = Vector3(10, 1, 46)
+material = ExtResource("e1")
+
+[node name="Lintel1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8, -45.5)
+use_collision = true
+size = Vector3(11, 2.5, 1)
+material = ExtResource("e2")
+
+[node name="T1" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -7)
+
+[node name="T2" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -7)
+
+[node name="T3" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -21)
+
+[node name="T4" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -21)
+
+[node name="T5" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -35)
+
+[node name="T6" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -35)
+
+[node name="Blade1" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(-2.5, 0.55, -12)
+
+[node name="Blade2" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(2.5, 0.55, -12)
+
+[node name="Seal1" parent="Props" instance=ExtResource("e7")]
+position = Vector3(-4, 0, -17)
+
+[node name="WallSpk1" type="Area3D" parent="Hazards"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e8")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/WallSpk1"]
+position = Vector3(4.75, 4.5, -23)
+shape = SubResource("BS_4")
+
+[node name="Visual" type="MultiMeshInstance3D" parent="Hazards/WallSpk1"]
+multimesh = SubResource("MM_3")
+material_override = SubResource("M_1")
+
+[node name="Blade3" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(0, 0.55, -23)
+
+[node name="Blade4" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(-3.5, 0.55, -30)
+
+[node name="Blade5" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(3.5, 0.55, -30)
+
+[node name="Seal2" parent="Props" instance=ExtResource("e7")]
+position = Vector3(4, 0, -35)
+
+[node name="Blade6" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(0, 0.55, -39)
+
+[node name="Door1" parent="Props" instance=ExtResource("e9")]
+position = Vector3(0, 0, -45.4)

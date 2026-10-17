@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ranged_enemy.gd" id="1_re"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="2_hc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(12, 10)
+
+[node name="SkeletonArcher" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_re")
+directional = true
+skeleton_sheet = "skeleton_archer.png"
+move_speed = 44.0
+attack_range = 190.0
+windup_time = 0.55
+attack_time = 0.15
+recover_time = 0.35
+attack_cooldown = 1.7
+projectile_style = 0
+projectile_speed = 175.0
+projectile_damage = 8
+projectile_knockback = 110.0
+keep_distance_min = 80.0
+muzzle_offset = Vector2(0, 2)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+scale = Vector2(0.65, 0.65)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hc")
+max_health = 20

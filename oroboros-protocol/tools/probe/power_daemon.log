@@ -1,0 +1,170 @@
+start daemon
+baseline (no daemons) mean score 2081   (quota of this Server 4200)
+x4.00  singularity            Singularity              LEGENDARY  deaths 12
+x3.00  ransomware             Ransomware               LEGENDARY  deaths 12
+x2.50  overdrive              Hypergiant               LEGENDARY  deaths 12
+x2.44  firewall               Shock Absorber           UNCOMMON  deaths 6
+x2.44  rust                   Rust                     RARE  deaths 12
+x2.20  overclocked_firmware   Bleeding Edge            RARE  deaths 12
+x2.20  proxy                  Proxy                    RARE  deaths 12
+x2.10  failsafe               Failsafe                 RARE  deaths 6
+x2.01  tempo                  Pulsar                   EPIC  deaths 12
+x2.00  poltergeist            Poltergeist              EPIC  deaths 12
+x1.91  buffer_overflow        Buffer Overflow          EPIC  deaths 8
+x1.77  variety_pack           Polyglot                 RARE  deaths 12
+x1.67  obelisk                Obelisk                  LEGENDARY  deaths 12
+x1.66  quarantine             Quarantine               UNCOMMON  deaths 6
+x1.60  macro                  Batch Script             COMMON  deaths 12
+x1.50  honeypot               Honeypot                 UNCOMMON  deaths 10
+x1.49  thick_skin             Backup Image             UNCOMMON  deaths 11
+x1.47  quantum_chip           Quantum Chip             RARE  deaths 12
+x1.43  diamond_chip           Diamond Chip             UNCOMMON  deaths 12
+x1.41  cooling_paste          Cooling Paste            EPIC  deaths 12
+x1.35  overheal               Buffer Surplus           RARE  deaths 12
+x1.35  redline                Edge Case                EPIC  deaths 12
+x1.31  echo                   Echo                     EPIC  deaths 12
+x1.31  scar_tissue            Error Log                UNCOMMON  deaths 12
+x1.27  blood_magic            Blood Magic              RARE  deaths 13
+x1.27  binary_zero            Binary Zero              COMMON  deaths 12
+x1.26  hard_line              Dedicated Channel        COMMON  deaths 12
+x1.26  steady_hand            Health Check             COMMON  deaths 12
+x1.25  shell_game             Persistent Shell         RARE  deaths 12
+x1.23  smuggler               Smuggler                 UNCOMMON  deaths 11
+x1.23  cycle                  Cron Job                 UNCOMMON  deaths 12
+x1.23  binary_one             Binary One               COMMON  deaths 12
+x1.21  memory_leak            Memory Leak              COMMON  deaths 12
+x1.20  gold_wire              Gold Wire                UNCOMMON  deaths 12
+x1.20  floppy_disk            Floppy Disk              COMMON  deaths 12
+x1.20  masochist              Masochist                EPIC  deaths 12
+x1.20  fibonacci              Fibonacci                UNCOMMON  deaths 12
+x1.19  benchmark              Benchmark                UNCOMMON  deaths 12
+x1.18  prime_directive        Prime Directive          UNCOMMON  deaths 12
+x1.18  logic_bomb             Logic Bomb               UNCOMMON  deaths 12
+x1.18  overcharge             Hash Rate                RARE  deaths 12
+x1.17  pocket_space           Hidden Partition         COMMON  deaths 12
+x1.17  the_core               The Core                 EPIC  deaths 12
+x1.16  spyware                Spyware                  EPIC  deaths 12
+x1.16  ram_check              RAM Check                UNCOMMON  deaths 12
+x1.15  brute_force            Brute Force              UNCOMMON  deaths 12
+x1.14  low_level_format       Low-Level Format         COMMON  deaths 12
+x1.14  keylogger              Keylogger                RARE  deaths 12
+x1.13  vampire                Vampire                  UNCOMMON  deaths 12
+x1.13  recycled_code          Recycled Code            UNCOMMON  deaths 12
+x1.12  stutter                Stutter                  COMMON  deaths 12
+x1.11  syringe                Syringe                  COMMON  deaths 12
+x1.11  bloatware              Bloatware                RARE  deaths 13
+x1.10  dead_drop              Cold Boot                COMMON  deaths 12
+x1.10  heat_sink              Heat-Sink                UNCOMMON  deaths 12
+x1.10  cutting_it_close       Race Condition           EPIC  deaths 12
+x1.10  panic_button           Kernel Panic             RARE  deaths 12
+x1.10  multi_thread           Multi-Thread             UNCOMMON  deaths 12
+x1.09  mirror_cache           Mirror Table             UNCOMMON  deaths 12
+x1.09  mainframe_access       Mainframe Access         COMMON  deaths 12
+x1.09  clean_sweep            Null Sweep               COMMON  deaths 12
+x1.09  safe_deposit           Cold Storage             COMMON  deaths 12
+x1.08  scrap_metal            Scrap Metal              UNCOMMON  deaths 12
+x1.08  reactive_patch         Watchdog Timer           UNCOMMON  deaths 11
+x1.08  antivirus              Antivirus                COMMON  deaths 11
+x1.08  streak_counter         Uptime Counter           UNCOMMON  deaths 12
+x1.07  black_hole             Black Hole               EPIC  deaths 12
+x1.07  habit                  Loop Counter             COMMON  deaths 12
+x1.07  iron_ledger            Immutable Ledger         EPIC  deaths 12
+x1.07  basic_overclock        Basic Overclock          COMMON  deaths 12
+x1.06  time_capsule           Retention Policy         UNCOMMON  deaths 12
+x1.06  mirror_plating         Parity Bit               COMMON  deaths 12
+x1.05  rebound                Reverse Shell            EPIC  deaths 12
+x1.05  trojan                 Trojan                   RARE  deaths 12
+x1.05  deflector              Reflection Attack        RARE  deaths 12
+x1.05  bottleneck             Bottleneck               UNCOMMON  deaths 12
+x1.04  infinity_loop          Infinity Loop            EPIC  deaths 12
+x1.03  cache_clear            Cache Clear              COMMON  deaths 12
+x1.03  scraper_script         Scraper Script           UNCOMMON  deaths 12
+x1.03  last_stand_protocol    Supernova                LEGENDARY  deaths 12
+x1.03  flash_drive            Flash Drive              COMMON  deaths 12
+x1.03  gamblers_eye           Monte Carlo              COMMON  deaths 12
+x1.02  overvolt               Overvolt                 UNCOMMON  deaths 12
+x1.02  glitch                 Ghost Write              COMMON  deaths 12
+x1.01  peek                   Rewind Buffer            UNCOMMON  deaths 12
+x1.01  escape_hatch           Exit Code                COMMON  deaths 12
+x1.01  overload               Overload                 COMMON  deaths 12
+x1.01  aegis_protocol         Air-Gap Protocol         RARE  deaths 12
+x1.01  cloud_sync             Cloud Sync               COMMON  deaths 12
+x1.00  spotless_record        Pristine Logs            EPIC  deaths 12
+x1.00  firmware_discount      Patch Notes              UNCOMMON  deaths 12
+x1.00  hotfix                 Zero-Day Patch           UNCOMMON  deaths 12
+x1.00  black_market           Darknet Deal             RARE  deaths 12
+x1.00  layaway                Escrow                   UNCOMMON  deaths 12
+x1.00  haggler                Price Oracle             UNCOMMON  deaths 12
+x1.00  dividend               Staking Rewards          UNCOMMON  deaths 12
+x1.00  pawn_shop              Fence Protocol           UNCOMMON  deaths 12
+x1.00  tip_jar                Donation Link            COMMON  deaths 12
+x1.00  coupon_book            Promo Code               COMMON  deaths 12
+x1.00  compound_interest      Yield Farm               LEGENDARY  deaths 12
+x1.00  ledger_of_souls        Ledger of Ghosts         LEGENDARY  deaths 12
+x1.00  hall_of_mirrors        Infinite Recursion       LEGENDARY  deaths 12
+x1.00  hollow_crown           Null Sovereign           LEGENDARY  deaths 12
+x1.00  hunch                  Heuristic                EPIC  deaths 12
+x1.00  blind_trust            Blind Injection          UNCOMMON  deaths 12
+x1.00  second_wind            Hot Standby              UNCOMMON  deaths 12
+x1.00  clean_exit             Graceful Shutdown        UNCOMMON  deaths 12
+x1.00  triage                 Boot Repair              UNCOMMON  deaths 12
+x1.00  lockbox                Encrypted Volume         RARE  deaths 12
+x1.00  dead_letter            Dead Letter Queue        UNCOMMON  deaths 12
+x1.00  double_dose            Dual Execute             RARE  deaths 12
+x1.00  vending_unit           Script Generator         UNCOMMON  deaths 12
+x1.00  recycler               Reusable Function        UNCOMMON  deaths 12
+x1.00  spare_slot             Swap Space               UNCOMMON  deaths 12
+x1.00  stockpile              Script Library           COMMON  deaths 12
+x1.00  power_user             Sudo                     COMMON  deaths 12
+x1.00  skeleton_crew          Stripped Binary          UNCOMMON  deaths 12
+x1.00  minimalist             Tree Shaking             UNCOMMON  deaths 12
+x1.00  lean_build             Minified Build           COMMON  deaths 12
+x1.00  hardened_core          Hardened Kernel          UNCOMMON  deaths 12
+x1.00  bounce_back            Ping Reply               UNCOMMON  deaths 12
+x1.00  duct_tape              Duct Tape                UNCOMMON  deaths 12
+x1.00  synergizer             Synergizer               RARE  deaths 12
+x1.00  blueprint              Blueprint                EPIC  deaths 12
+x1.00  neon_sign              Neon Sign                UNCOMMON  deaths 12
+x1.00  overwritten_file       Overwritten File         UNCOMMON  deaths 12
+x1.00  redundant_array        Redundant Array          UNCOMMON  deaths 12
+x1.00  seed_capital           Seed Capital             UNCOMMON  deaths 12
+x1.00  scalper                Scalper                  RARE  deaths 12
+x1.00  adware                 Adware                   COMMON  deaths 12
+x1.00  crypto_miner           Crypto-Miner             UNCOMMON  deaths 12
+x1.00  bounty_hunter          Bounty Hunter            COMMON  deaths 12
+x1.00  golden_ticket          Golden Ticket            UNCOMMON  deaths 12
+x1.00  delete_key             Delete Key               COMMON  deaths 12
+x1.00  packet_sniffer         Packet Sniffer           COMMON  deaths 12
+x1.00  spoofed_ip             Spoofed IP               COMMON  deaths 12
+x1.00  investment_bank        Investment Bank          UNCOMMON  deaths 12
+x1.00  mining_rig             Mining Rig               COMMON  deaths 12
+x1.00  vip_pass               VIP Pass                 UNCOMMON  deaths 12
+x1.00  loose_change           Micro-Transaction        COMMON  deaths 12
+x1.00  salvage                Core Dump                UNCOMMON  deaths 12
+x1.00  conductor              Orchestrator             RARE  deaths 12
+x1.00  full_house             Full Stack               RARE  deaths 12
+x1.00  understudy             Shadow Process           UNCOMMON  deaths 12
+x1.00  chain_link             Hash Chain               UNCOMMON  deaths 12
+x1.00  neighbour_watch        Mesh Network             UNCOMMON  deaths 12
+x1.00  odd_couple             Type Coercion            COMMON  deaths 12
+x1.00  anchor                 Kernel Pin               COMMON  deaths 12
+x1.00  duo                    Fork Pair                COMMON  deaths 12
+x1.00  burn_in                Overfit                  EPIC  deaths 12
+x1.00  pruning_shears         Garbage Collector        UNCOMMON  deaths 12
+x1.00  razor_deck             Occam's Compiler         RARE  deaths 12
+x1.00  zen_garden             Zero Point               EPIC  deaths 12
+x1.00  chrome_plating         Mod Layer                COMMON  deaths 12
+x1.00  hot_patch              Script Kiddie            UNCOMMON  deaths 12
+x1.00  custom_build           Total Conversion         UNCOMMON  deaths 12
+x1.00  showpiece              Cached Mod               UNCOMMON  deaths 12
+x1.00  collectors_edition     Mod Archive              RARE  deaths 12
+x0.98  spare_plating          Failover Rule            COMMON  deaths 13
+x0.98  ablative_coating       Rate Limiter             UNCOMMON  deaths 13
+x0.98  glass_cannon           Glass Cannon             EPIC  deaths 12
+x0.97  sharp_edge             Sharp Edge               COMMON  deaths 12
+x0.94  weld                   Handshake                COMMON  deaths 12
+x0.90  pain_tolerance         Fault Tolerance          UNCOMMON  deaths 12
+x0.81  heavy_gauge            Strict Policy            UNCOMMON  deaths 12
+x0.76  perfect_mirror         Recursive Reflection     EPIC  deaths 12
+x0.59  ironclad               Zero Trust               EPIC  deaths 12
+DONE

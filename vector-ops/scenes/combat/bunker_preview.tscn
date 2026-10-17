@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_line"]
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_fill"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.14)
+
+[sub_resource type="BoxMesh" id="mesh_fill"]
+material = SubResource("mat_fill")
+size = Vector3(2.4, 2.2, 0.4)
+
+[sub_resource type="BoxMesh" id="mesh_x"]
+material = SubResource("mat_line")
+size = Vector3(2.4, 0.04, 0.04)
+
+[sub_resource type="BoxMesh" id="mesh_y"]
+material = SubResource("mat_line")
+size = Vector3(0.04, 2.2, 0.04)
+
+[sub_resource type="BoxMesh" id="mesh_z"]
+material = SubResource("mat_line")
+size = Vector3(0.04, 0.04, 0.4)
+
+[node name="BunkerPreview" type="Node3D"]
+
+[node name="Fill" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("mesh_fill")
+
+[node name="EdgeX1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_x")
+
+[node name="EdgeX2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_x")
+
+[node name="EdgeX3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_x")
+
+[node name="EdgeX4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, -0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_x")
+
+[node name="EdgeY1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_y")
+
+[node name="EdgeY2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, -0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_y")
+
+[node name="EdgeY3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_y")
+
+[node name="EdgeY4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, -0.2)
+cast_shadow = 0
+mesh = SubResource("mesh_y")
+
+[node name="EdgeZ1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 1.1, 0)
+cast_shadow = 0
+mesh = SubResource("mesh_z")
+
+[node name="EdgeZ2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.1, 0)
+cast_shadow = 0
+mesh = SubResource("mesh_z")
+
+[node name="EdgeZ3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.1, 0)
+cast_shadow = 0
+mesh = SubResource("mesh_z")
+
+[node name="EdgeZ4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.1, 0)
+cast_shadow = 0
+mesh = SubResource("mesh_z")

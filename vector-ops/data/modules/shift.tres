@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "shift"
+display_name = "Blink"
+category = "MOBILITY"
+color = Color(0.7, 0.45, 1, 1)
+weight = 1.0
+script_path = "res://scripts/modules/shift_module.gd"
+hud_meta_template = "BLINK · {cost} FLUX"
+description_template = "Short-range teleport ({range} m) where you look. {cost} Flux."
+cost = 14.0
+cooldown = 0.8
+range_m = 8.0

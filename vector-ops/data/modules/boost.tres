@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "boost"
+display_name = "Boost"
+category = "MOBILITY"
+color = Color(1, 0.6, 0.15, 1)
+weight = 1.0
+script_path = "res://scripts/modules/boost_module.gd"
+hud_meta_template = "MOBILITY · {cost} FLUX"
+description_template = "Directional burst jump toward your move keys. {cost} Flux."
+cost = 9.0
+cooldown = 0.5
+tuning = {
+"lateral": 11.0,
+"vertical": 12.5
+}

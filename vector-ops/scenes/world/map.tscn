@@ -1,0 +1,515 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/map_builder.gd" id="1_map"]
+[ext_resource type="PackedScene" path="res://scenes/world/ground.tscn" id="2_ground"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_1.tscn" id="3_c1"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_2.tscn" id="4_c2"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_3.tscn" id="5_c3"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_4.tscn" id="6_c4"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_5.tscn" id="7_c5"]
+
+[sub_resource type="NavigationMesh" id="nav_mesh"]
+geometry_parsed_geometry_type = 0
+agent_height = 1.8
+agent_radius = 0.5
+agent_max_climb = 0.4
+
+[sub_resource type="StandardMaterial3D" id="m_wall"]
+albedo_color = Color(0.09, 0.1, 0.13, 1)
+metallic = 0.6
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="m_strip"]
+albedo_color = Color(0.3, 0.8, 1, 1)
+roughness = 0.9
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="StandardMaterial3D" id="m_plat"]
+albedo_color = Color(0.2, 0.24, 0.3, 1)
+metallic = 0.5
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="m_ladder"]
+albedo_color = Color(0.95, 0.85, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="ladder_shape"]
+size = Vector3(1.4, 4, 2)
+
+[node name="Map" type="Node3D"]
+script = ExtResource("1_map")
+
+[node name="Nav" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("nav_mesh")
+
+[node name="Geo" type="Node3D" parent="Nav"]
+
+[node name="Ground_-1_-1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
+
+[node name="Ground_-1_0" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 0)
+
+[node name="Ground_-1_1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 40)
+
+[node name="Ground_0_-1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
+
+[node name="Ground_0_0" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Ground_0_1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+
+[node name="Ground_1_-1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -40)
+
+[node name="Ground_1_0" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+
+[node name="Ground_1_1" parent="Nav/Geo" instance=ExtResource("2_ground")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
+
+[node name="WallN" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -60.5)
+use_collision = true
+size = Vector3(122, 6, 1)
+material = SubResource("m_wall")
+
+[node name="WallS" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 60.5)
+use_collision = true
+size = Vector3(122, 6, 1)
+material = SubResource("m_wall")
+
+[node name="WallW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.5, 3, 0)
+use_collision = true
+size = Vector3(1, 6, 122)
+material = SubResource("m_wall")
+
+[node name="WallE" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.5, 3, 0)
+use_collision = true
+size = Vector3(1, 6, 122)
+material = SubResource("m_wall")
+
+[node name="StripN" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -59.97)
+size = Vector3(120, 0.12, 0.06)
+material = SubResource("m_strip")
+
+[node name="StripS" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 59.97)
+size = Vector3(120, 0.12, 0.06)
+material = SubResource("m_strip")
+
+[node name="StripW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.97, 0.4, 0)
+size = Vector3(0.06, 0.12, 120)
+material = SubResource("m_strip")
+
+[node name="StripE" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.97, 0.4, 0)
+size = Vector3(0.06, 0.12, 120)
+material = SubResource("m_strip")
+
+[node name="PlatformCentre" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+use_collision = true
+size = Vector3(14, 3, 10)
+material = SubResource("m_plat")
+
+[node name="PlatformW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.5, 0)
+use_collision = true
+size = Vector3(8, 3, 14)
+material = SubResource("m_plat")
+
+[node name="LadderVisualW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.9, 1.5, 0)
+size = Vector3(0.1, 3, 1.2)
+material = SubResource("m_ladder")
+
+[node name="PlatformE" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 1.5, 0)
+use_collision = true
+size = Vector3(8, 3, 14)
+material = SubResource("m_plat")
+
+[node name="LadderVisualE" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.9, 1.5, 0)
+size = Vector3(0.1, 3, 1.2)
+material = SubResource("m_ladder")
+
+[node name="Container1_001" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
+
+[node name="Container1_002" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -25)
+
+[node name="Container1_003" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 25)
+
+[node name="Container1_004" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, -25)
+
+[node name="Container1_005" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6, 0, 25)
+
+[node name="Container1_006" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -25)
+
+[node name="Container1_007" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 16)
+
+[node name="Container1_008" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 11, 0, -16)
+
+[node name="Container1_009" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -11, 0, 16)
+
+[node name="Container1_010" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -16)
+
+[node name="Container1_011" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 16)
+
+[node name="Container1_012" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 17, 0, -16)
+
+[node name="Container1_013" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -17, 0, 16)
+
+[node name="Container1_014" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -16)
+
+[node name="Container1_015" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 22, 0, 12)
+
+[node name="Container1_016" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 22, 0, -12)
+
+[node name="Container1_017" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -22, 0, 12)
+
+[node name="Container1_018" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -22, 0, -12)
+
+[node name="Container1_019" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 36, 0, 19)
+
+[node name="Container1_020" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 36, 0, -19)
+
+[node name="Container1_021" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -36, 0, 19)
+
+[node name="Container1_022" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -36, 0, -19)
+
+[node name="Container1_023" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 36, 0, 25)
+
+[node name="Container1_024" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 36, 0, -25)
+
+[node name="Container1_025" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -36, 0, 25)
+
+[node name="Container1_026" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -36, 0, -25)
+
+[node name="Container1_027" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 42)
+
+[node name="Container1_028" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -42)
+
+[node name="Container2_029" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 44)
+
+[node name="Container2_030" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 10, 0, -44)
+
+[node name="Container2_031" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -10, 0, 44)
+
+[node name="Container2_032" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -44)
+
+[node name="Container5_033" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 14, 0, 50)
+
+[node name="Container5_034" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 14, 0, -50)
+
+[node name="Container5_035" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -14, 0, 50)
+
+[node name="Container5_036" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -14, 0, -50)
+
+[node name="Container3_037" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 8)
+
+[node name="Container3_038" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 7, 0, -8)
+
+[node name="Container3_039" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -7, 0, 8)
+
+[node name="Container3_040" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8)
+
+[node name="Container2_041" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 18)
+
+[node name="Container2_042" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 4, 0, -18)
+
+[node name="Container2_043" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -4, 0, 18)
+
+[node name="Container2_044" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -18)
+
+[node name="Container5_045" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 24, 0, 4)
+
+[node name="Container5_046" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 24, 0, -4)
+
+[node name="Container5_047" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -24, 0, 4)
+
+[node name="Container5_048" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -24, 0, -4)
+
+[node name="Container5_049" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 9, 0, 6)
+
+[node name="Container5_050" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 9, 0, -6)
+
+[node name="Container5_051" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -9, 0, 6)
+
+[node name="Container5_052" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9, 0, -6)
+
+[node name="Container2_053" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 31)
+
+[node name="Container2_054" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 22, 0, -31)
+
+[node name="Container2_055" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -22, 0, 31)
+
+[node name="Container2_056" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -31)
+
+[node name="Container3_057" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 34)
+
+[node name="Container3_058" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 16, 0, -34)
+
+[node name="Container3_059" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -16, 0, 34)
+
+[node name="Container3_060" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -34)
+
+[node name="Container4_061" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 34)
+
+[node name="Container4_062" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -34)
+
+[node name="Container4_063" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 38)
+
+[node name="Container4_064" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, -38)
+
+[node name="Container4_065" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -30, 0, 38)
+
+[node name="Container4_066" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -38)
+
+[node name="Container3_067" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 24)
+
+[node name="Container3_068" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, -24)
+
+[node name="Container3_069" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -30, 0, 24)
+
+[node name="Container3_070" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -24)
+
+[node name="Container3_071" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, 8)
+
+[node name="Container3_072" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 38, 0, -8)
+
+[node name="Container3_073" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -38, 0, 8)
+
+[node name="Container3_074" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 0, -8)
+
+[node name="Container2_075" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 4)
+
+[node name="Container2_076" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 46, 0, -4)
+
+[node name="Container2_077" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -46, 0, 4)
+
+[node name="Container2_078" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 0, -4)
+
+[node name="Container1_079" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 50)
+
+[node name="Container1_080" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 28, 0, -50)
+
+[node name="Container1_081" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -28, 0, 50)
+
+[node name="Container1_082" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -50)
+
+[node name="Container1_083" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 50, 0, 10)
+
+[node name="Container1_084" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 50, 0, -10)
+
+[node name="Container1_085" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -50, 0, 10)
+
+[node name="Container1_086" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -50, 0, -10)
+
+[node name="Container1_087" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 50, 0, 16)
+
+[node name="Container1_088" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 50, 0, -16)
+
+[node name="Container1_089" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -50, 0, 16)
+
+[node name="Container1_090" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -50, 0, -16)
+
+[node name="Container4_091" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 46, 0, 30)
+
+[node name="Container4_092" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 46, 0, -30)
+
+[node name="Container4_093" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -46, 0, 30)
+
+[node name="Container4_094" parent="Nav/Geo" instance=ExtResource("6_c4")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -46, 0, -30)
+
+[node name="Container2_095" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 40)
+
+[node name="Container2_096" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 52, 0, -40)
+
+[node name="Container2_097" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -52, 0, 40)
+
+[node name="Container2_098" parent="Nav/Geo" instance=ExtResource("4_c2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 0, -40)
+
+[node name="Container3_099" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 46)
+
+[node name="Container3_100" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 44, 0, -46)
+
+[node name="Container3_101" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -44, 0, 46)
+
+[node name="Container3_102" parent="Nav/Geo" instance=ExtResource("5_c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, -46)
+
+[node name="Container5_103" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 50)
+
+[node name="Container5_104" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 40, 0, -50)
+
+[node name="Container5_105" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -40, 0, 50)
+
+[node name="Container5_106" parent="Nav/Geo" instance=ExtResource("7_c5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -50)
+
+[node name="Container1_107" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 54, 0, 52)
+
+[node name="Container1_108" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 54, 0, -52)
+
+[node name="Container1_109" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -54, 0, 52)
+
+[node name="Container1_110" parent="Nav/Geo" instance=ExtResource("3_c1")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -54, 0, -52)
+
+[node name="Ladder_-1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.4, 1.9, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Ladder_-1"]
+shape = SubResource("ladder_shape")
+
+[node name="Ladder_1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.4, 1.9, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Ladder_1"]
+shape = SubResource("ladder_shape")
+
+[node name="Spawn_0_-8" type="Marker3D" parent="." groups=["spawn_0"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.15, -53)
+
+[node name="Spawn_0_0" type="Marker3D" parent="." groups=["spawn_0"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -53)
+
+[node name="Spawn_0_8" type="Marker3D" parent="." groups=["spawn_0"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -53)
+
+[node name="Spawn_1_-8" type="Marker3D" parent="." groups=["spawn_1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.15, 53)
+
+[node name="Spawn_1_0" type="Marker3D" parent="." groups=["spawn_1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 53)
+
+[node name="Spawn_1_8" type="Marker3D" parent="." groups=["spawn_1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 53)
+
+[connection signal="body_entered" from="Ladder_-1" to="." method="_on_ladder_entered"]
+[connection signal="body_exited" from="Ladder_-1" to="." method="_on_ladder_exited"]
+[connection signal="body_entered" from="Ladder_1" to="." method="_on_ladder_entered"]
+[connection signal="body_exited" from="Ladder_1" to="." method="_on_ladder_exited"]

@@ -1,0 +1,107 @@
+extends RefCounted
+## (No class_name on purpose: users preload this script, so a fresh checkout works
+##  without the editor having to rebuild the global class cache first.)
+## Pure data of the guided tutorial: the fixed card order and every bot step.
+## The TutorialDirector (scenes/tutorial) plays these; nothing here touches the UI.
+##
+## Step keys:
+##   text    bbcode shown by the bot. {score} / {quota} / {health} are filled at runtime.
+##   expect  what the player must do to continue:
+##             next        press NEXT (or Space)
+##             card        select the node given in `card` ([type, value])
+##             execute / skip / weapon (the FIREWALL toggle) / deck_open / deck_close / subs_open / subs_close
+##             turn_done   (bot hides) wait for the turn animation to finish
+##   target  UI element to spotlight (see ServerScreen.tut_target) or "card"
+##   card    [NodeType, value] of the card to spotlight / require
+##   dock    "top" | "bottom" bot position (auto from the spotlight otherwise)
+##   do      action when the step starts: deal | level_skirmish
+##   hide    hide the bot panel during this step
+
+const QUOTA := 600
+
+const C_DATA := "[color=#66FCF1]"
+const C_ICE := "[color=#FF003C]"
+const C_BREACH := "[color=#FFB400]"
+const C_COOL := "[color=#00FA9A]"
+const C_DAEMON := "[color=#FF00FF]"
+const C_MONEY := "[color=#FFD866]"
+const C_END := "[/color]"
+
+
+## Draw order of the whole tutorial (spec[0] is drawn first):
+##   Turn 1  : Siphon 8, Glitch 6, Firewall 4, Patch 5  (the Patch becomes the Stash)
+##   Turn 2  : Glitch 12/13/14 (+ Stash)  -> the player SKIPS this room
+##   Turn 2b : Firewall 10, Glitch 9, Glitch 7, Siphon 5   (Firewall + ceiling lesson)
+##   Turn 3  : Glitch 4, Patch 7, Siphon 12 (+ Stash Siphon 5)  (overclock lesson)
+static func deck_order() -> Array:
+	var D := Enums.NodeType.DATA
+	var I := Enums.NodeType.ICE
+	var B := Enums.NodeType.BREACH
+	var C := Enums.NodeType.COOLANT
+	return [
+		[D, 8], [I, 6], [B, 4], [C, 5],
+		[I, 12], [I, 13], [I, 14],
+		[B, 10], [I, 9], [I, 7], [D, 5],
+		[I, 4], [C, 7], [D, 12],
+	]
+
+
+static func steps() -> Array:
+	var D := Enums.NodeType.DATA
+	var I := Enums.NodeType.ICE
+	var B := Enums.NodeType.BREACH
+	var C := Enums.NodeType.COOLANT
+	return [
+		# ------------------------------------------------------------ welcome + story
+		{"text": "Welcome, Operator. I am [b]NODE-9[/b], your guide bot. In a few minutes you will know everything you need. Press NEXT to begin.", "target": "none", "dock": "bottom"},
+		{"text": "[b]THE STORY[/b]\nYou are breaking into Servers. The password to the next Server is hidden inside this one, so you planted your " + C_DAEMON + "OROBOROS PROTOCOL" + C_END + " in it to [b]siphon bytes[/b].\n\nBut the Protocol is a snake eating its own tail: it can drain the Server, or it can [b]corrupt and destroy[/b] it. While the Server stays online you keep siphoning. If it dies, the bytes are gone forever.", "target": "none", "dock": "bottom"},
+		{"text": "[b]THE GOAL[/b]\nThis is the [b]THRESHOLD[/b]: the number of [b]bytes[/b] you must siphon from this Server. The bar under it shows your progress. Clear Servers, earn money, buy upgrades and survive [b]8 Networks[/b] to win.", "target": "quota"},
+		{"text": "[b]THE BYTE ENGINE[/b]\nEvery turn you siphon  " + C_DATA + "BASE BYTES" + C_END + "  x  " + C_DAEMON + "OVERCLOCK" + C_END + ".\nThe left number is Base Bytes, the right number is Overclock. [b]Everything in this game either adds to one of them or multiplies them.[/b] Big numbers on BOTH sides win runs.", "target": "score"},
+		{"text": "[b]SERVER INTEGRITY[/b]\nThis is the health of the Server you are in: [b]20[/b] to start. Your own " + C_ICE + "Glitches" + C_END + " damage it. At [b]0 the Server crashes and the run ends[/b]. " + C_COOL + "Patches" + C_END + " repair it. But staying perfect is not the whole story: a little corruption is [b]useful[/b], you will see why.", "target": "rig"},
+		# ------------------------------------------------------------ the nodes
+		{"text": "[b]THE ROOM[/b]\nEach turn your Protocol is dealt [b]4 NODES[/b] from your [b]Tailbytes[/b] (your deck of Nodes). There are 4 kinds. Hover (or long-press on a phone) any card to read its full description. Let me introduce them.", "target": "room"},
+		{"text": C_DATA + "[b]SIPHON[/b]" + C_END + "\nThis is your byte fuel. Resolving it mines its value [b]x2[/b] as Base Bytes. This one is worth [b]8 x 2 = 16[/b].", "target": "card", "card": [D, 8]},
+		{"text": C_ICE + "[b]GLITCH[/b]" + C_END + "\nYour Protocol corrupting the Server. Resolving it damages Integrity by its value: this one deals [b]6[/b]. [b]Every time the Server takes damage it gets OVERCLOCKED: +1 OVERCLOCK for the rest of the Server.[/b] Corruption is power.", "target": "card", "card": [I, 6]},
+		{"text": C_BREACH + "[b]FIREWALL[/b]" + C_END + "\nA barrier. Resolving it [b]equips[/b] it. Its value is its [b]STRENGTH[/b]: it is subtracted from the damage of every Glitch you resolve afterwards. Strength 4 vs Glitch 6 means only 2 damage.", "target": "card", "card": [B, 4]},
+		{"text": C_COOL + "[b]PATCH[/b]" + C_END + "\nRepairs the Server's Integrity by its value. This one restores [b]5[/b] (never above the maximum).", "target": "card", "card": [C, 5]},
+		{"text": "[b]THE CORE RULE[/b]\nYou are dealt 4 Nodes but you must resolve [b]exactly 3[/b]. The one you leave behind goes into your [b]STASH[/b] and is [b]forced into the next room[/b]. Also: Nodes resolve in the [b]order you click them[/b], and order matters!", "target": "stash"},
+		# ------------------------------------------------------------ first play
+		{"text": "Let's play. Firewalls must be equipped [b]before[/b] the Glitches they should hold back. Click the " + C_BREACH + "FIREWALL" + C_END + " first.", "expect": "card", "target": "card", "card": [B, 4]},
+		{"text": "Now click the " + C_ICE + "GLITCH 6" + C_END + ". Your Firewall will cut its damage.", "expect": "card", "target": "card", "card": [I, 6]},
+		{"text": "Last, click the " + C_DATA + "SIPHON 8" + C_END + " to mine its Base Bytes. The Patch stays behind in your Stash.", "expect": "card", "target": "card", "card": [D, 8]},
+		{"text": "[b]SUBROUTINES[/b]\nLook at the equation: the 3 Nodes you chose form a combo called a [b]Subroutine[/b] (like a poker hand). This one is [b]Surgical Strike[/b] = 1 Firewall + 1 Glitch + 1 Siphon. Each Subroutine gives free Base Bytes [b]and[/b] Overclock, plus the Nodes' own values are added.", "target": "score"},
+		{"text": "[b]DAEMONS[/b]\nThese slots hold your [b]Daemons[/b]: permanent passive upgrades (max 5) you buy in the Black Market. You own " + C_DAEMON + "FLOPPY DISK" + C_END + ": [b]+4 Base Bytes for every Node you resolve[/b]. Daemons fire left to right while bytes are counted, so their order matters: outside the tutorial you can [b]drag a Daemon onto another slot[/b] to reorder them. Hover one to read it.", "target": "daemons"},
+		{"text": "Everything is ready: Firewall first, then Glitch, then Siphon. Press [b]EXECUTE[/b] to run your 3 Nodes!", "expect": "execute", "target": "execute"},
+		{"expect": "turn_done", "hide": true, "text": ""},
+		# ------------------------------------------------------------ after turn 1
+		{"text": "[b]WHAT JUST HAPPENED[/b]\nThe Firewall (4) cut Glitch 6 down to [b]2 damage[/b]. That hit [b]overclocked the Server: +1 Overclock for the rest of this Server[/b] (see the +OVERCLOCK counter). Your bytes went toward the threshold. Server Integrity: {health}.", "target": "progress", "dock": "bottom"},
+		{"text": "[b]THE FIREWALL BAY[/b]\nYour Firewall keeps its [b]STRENGTH[/b] forever, but its [b]TARGET CEILING[/b] drops to (Glitch value - 1) after each use. It can only hold back Glitches up to the ceiling, so a Firewall is good for [i]weaker and weaker[/i] Glitches. The ceiling is 5 now.", "target": "weapon", "dock": "bottom"},
+		{"text": "[b]THE STASH[/b]\nThe " + C_COOL + "Patch 5" + C_END + " you did not use is parked in your Stash. It will be [b]forced into your next room[/b], whether you like it or not.", "target": "stash", "dock": "bottom"},
+		{"text": "[b]THE TAILBYTES[/b]\nYour Tailbytes holds 52 Nodes: 4 types x values 2 to 14. Nodes you play are gone until the next Server. Press the [b]TAILBYTES[/b] button to open the tracker.", "expect": "deck_open", "target": "deck"},
+		{"text": "This is the [b]Tailbytes Tracker[/b]. Dimmed Nodes are already played. Count what is left to plan ahead (essential when Nodes come face-down). Close it with the [b]CLOSE[/b] button.", "expect": "deck_close", "target": "none", "dock": "top"},
+		# ------------------------------------------------------------ the skip
+		{"do": "deal", "text": "Uh-oh. A new room: " + C_ICE + "GLITCH 12, 13 and 14" + C_END + " plus your Patch. Your Firewall (ceiling 5) cannot hold back any of them, and you must resolve 3 Nodes: taking two raw would nearly crash the Server.\n\n[b]THE SKIP[/b]: when you have selected nothing you can press [b]SKIP[/b]. The whole room is [b]discarded for the rest of this Server[/b] (even the Stash!) and a fresh room is dealt. It costs no turn, but those cards are gone and you cannot Skip twice in a row. Press [b]SKIP[/b].", "expect": "skip", "target": "skip"},
+		# ------------------------------------------------------------ subroutine list
+		{"text": "Much better: a strong Firewall and two Glitches. Before playing, let me show you the [b]SUBROUTINES[/b] button. It shows what every combo is worth [i]right now[/i]. Press it.", "expect": "subs_open", "target": "subs"},
+		{"do": "level_skirmish", "text": "Every Subroutine and what it yields [b]at this moment[/b]. The [b]Firmware Updates[/b] you buy in the Black Market level a Subroutine up permanently, and this list updates. I just installed one on [b]Skirmish[/b] for you: see it flash and rise.\n\nTip: if you have upgraded a Subroutine, build your turns around it! Close the window.", "expect": "subs_close", "target": "none", "dock": "bottom"},
+		# ------------------------------------------------------------ firewall + ceiling
+		{"text": "This room is perfect. " + C_BREACH + "Firewall 10" + C_END + " is stronger than both Glitches, so they will deal [b]no damage[/b].\n\nBut mind the [b]ceiling[/b]: after holding back Glitch 9 the ceiling drops to 8, so Glitch 7 still works. [b]Always take your biggest Glitch first.[/b] Select the Firewall.", "expect": "card", "target": "card", "card": [B, 10]},
+		{"text": "Now the " + C_ICE + "GLITCH 9" + C_END + " (the bigger one first).", "expect": "card", "target": "card", "card": [I, 9]},
+		{"text": "Then the " + C_ICE + "GLITCH 7" + C_END + ". The Siphon stays in your Stash. This combo is [b]Skirmish[/b] (1 Firewall + 2 Glitches).", "expect": "card", "target": "card", "card": [I, 7]},
+		{"text": "Press [b]EXECUTE[/b].", "expect": "execute", "target": "execute"},
+		{"expect": "turn_done", "hide": true, "text": ""},
+		{"text": "Safe, but did you notice? The Server took [b]no damage[/b], so it got [b]no Overclock[/b]. A Firewall protects Integrity, but corruption is what fuels your multiplier. Next turn I will show you how experts play.", "target": "progress", "dock": "bottom"},
+		# ------------------------------------------------------------ harvest corruption
+		{"do": "deal", "text": "[b]LET IT GLITCH[/b]\nYour Siphon 5 came back from the Stash. There is a weak " + C_ICE + "GLITCH 4" + C_END + " here and a " + C_COOL + "PATCH 7" + C_END + ". Your Firewall would erase the Glitch's damage. Instead switch the Firewall [b]OFF[/b]: the Server takes the full hit (+1 Overclock!) and the Firewall does not wear down. Press [b]FIREWALL: AUTO[/b].", "expect": "weapon", "target": "weapon_toggle"},
+		{"text": "With the Firewall off, a Glitch deals its full value. Take the hit first: select the " + C_ICE + "GLITCH 4" + C_END + ".", "expect": "card", "target": "card", "card": [I, 4]},
+		{"text": "Now repair it with the " + C_COOL + "PATCH 7" + C_END + ". [b]Damage first, repair after[/b]: that order is the secret of the engine.", "expect": "card", "target": "card", "card": [C, 7]},
+		{"text": "Finish with the " + C_DATA + "SIPHON 12" + C_END + " (the big one). Siphon + Glitch + Patch makes [b]Full Spectrum[/b].", "expect": "card", "target": "card", "card": [D, 12]},
+		{"text": "Press [b]EXECUTE[/b] and watch the bytes cascade!", "expect": "execute", "target": "execute"},
+		{"expect": "turn_done", "hide": true, "text": ""},
+		# ------------------------------------------------------------ wrap up
+		{"text": "Bytes {score} / {quota}. You have just done what winning runs do: [b]let the Server take damage on purpose to raise Overclock, repaired it, and siphoned the bytes[/b].\n\nWhen your bytes reach the threshold the Server is [b]CLEARED[/b]. Finish within 4 turns for a cash bonus (unused turns pay).", "target": "quota", "dock": "bottom"},
+		{"text": "[b]THE RUN[/b]\nA Network has 3 Servers: a [b]Proxy[/b], a [b]Mainframe[/b] (1.5x threshold) and a [b]Sentinel[/b] (2x threshold plus a nasty special rule). Clear all 3, repeat for 8 Networks. You lose if Server Integrity reaches 0 or if you run out of Nodes without reaching the threshold.", "target": "none", "dock": "bottom"},
+		{"text": "[b]THE BLACK MARKET[/b]\nAfter every Server you can spend your " + C_MONEY + "money" + C_END + " on Daemons, Firmware Updates (level Subroutines), Executables (one-use tools in these slots) and permanent Root Access upgrades. You can also sell Daemons you do not need.", "target": "consumables", "dock": "top"},
+		{"text": "[b]CHEAT SHEET[/b]\n- Resolve exactly 3 of 4 Nodes; the 4th is Stashed.\n- Firewall first, biggest Glitch first.\n- Damage raises Overclock; Patches keep the Server alive.\n- Read your Daemons, and drag them into the best order.\n- Use the TAILBYTES and SUBROUTINES buttons often.\n- The [b]?[/b] button on the title screen has all rules.", "target": "none", "dock": "bottom"},
+		{"text": "That is everything, Operator. Returning you to the main menu. Hit [b]INITIATE NEW RUN[/b] when you are ready. Good luck out there.", "target": "none", "dock": "bottom"},
+	]

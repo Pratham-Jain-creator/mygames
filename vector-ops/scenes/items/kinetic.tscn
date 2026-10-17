@@ -1,0 +1,201 @@
+[gd_scene load_steps=25 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_gunmetal"]
+albedo_color = Color(0.130, 0.140, 0.170, 1.000)
+roughness = 0.35
+metallic = 0.85
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.820, 0.850, 0.900, 1.000)
+roughness = 0.35
+metallic = 0.50
+
+[sub_resource type="StandardMaterial3D" id="mat_polymer"]
+albedo_color = Color(0.060, 0.060, 0.080, 1.000)
+roughness = 0.85
+metallic = 0.00
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.400, 0.850, 1.000, 1.000)
+roughness = 0.20
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.300, 0.800, 1.000, 1)
+emission_energy_multiplier = 3.50
+
+[sub_resource type="StandardMaterial3D" id="mat_glass"]
+albedo_color = Color(0.200, 0.700, 1.000, 0.450)
+transparency = 1
+roughness = 0.10
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.200, 0.700, 1.000, 1)
+emission_energy_multiplier = 1.50
+cull_mode = 2
+
+[sub_resource type="BoxMesh" id="mesh_0"]
+size = Vector3(0.0400, 0.0550, 0.2000)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_1"]
+size = Vector3(0.0200, 0.0140, 0.1800)
+material = SubResource("mat_armor")
+
+[sub_resource type="BoxMesh" id="mesh_2"]
+size = Vector3(0.0440, 0.0180, 0.1000)
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_3"]
+size = Vector3(0.0340, 0.0400, 0.0700)
+material = SubResource("mat_armor")
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+size = Vector3(0.0500, 0.0500, 0.0080)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_5"]
+size = Vector3(0.0500, 0.0500, 0.0080)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_6"]
+size = Vector3(0.0500, 0.0500, 0.0080)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="CylinderMesh" id="mesh_7"]
+top_radius = 0.016
+bottom_radius = 0.016
+height = 0.05
+radial_segments = 12
+rings = 1
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="TorusMesh" id="mesh_8"]
+inner_radius = 0.014
+outer_radius = 0.026
+rings = 24
+ring_segments = 10
+material = SubResource("mat_glow")
+
+[sub_resource type="SphereMesh" id="mesh_9"]
+radius = 0.009
+height = 0.018
+radial_segments = 10
+rings = 5
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_10"]
+size = Vector3(0.0360, 0.1200, 0.0550)
+material = SubResource("mat_polymer")
+
+[sub_resource type="BoxMesh" id="mesh_11"]
+size = Vector3(0.0380, 0.0700, 0.0100)
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_12"]
+size = Vector3(0.0340, 0.0140, 0.0620)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_13"]
+size = Vector3(0.0300, 0.0100, 0.0500)
+material = SubResource("mat_glass")
+
+[sub_resource type="BoxMesh" id="mesh_14"]
+size = Vector3(0.0180, 0.0120, 0.0700)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_15"]
+size = Vector3(0.0180, 0.0300, 0.0120)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_16"]
+size = Vector3(0.0100, 0.0250, 0.0100)
+material = SubResource("mat_armor")
+
+[sub_resource type="BoxMesh" id="mesh_17"]
+size = Vector3(0.0200, 0.0120, 0.0100)
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_18"]
+size = Vector3(0.0080, 0.0120, 0.0100)
+material = SubResource("mat_glow")
+
+[node name="PlasmaGun" type="Node3D"]
+
+[node name="Housing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.0600)
+mesh = SubResource("mesh_0")
+
+[node name="TopRail" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0750, -0.0600)
+mesh = SubResource("mesh_1")
+
+[node name="GlowPanels" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.0500)
+mesh = SubResource("mesh_2")
+
+[node name="Shroud" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.1600)
+mesh = SubResource("mesh_3")
+
+[node name="CoilFin0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.1100)
+mesh = SubResource("mesh_4")
+
+[node name="CoilFin1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.1350)
+mesh = SubResource("mesh_5")
+
+[node name="CoilFin2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.1600)
+mesh = SubResource("mesh_6")
+
+[node name="Emitter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0400, -0.2050)
+mesh = SubResource("mesh_7")
+
+[node name="EmitterRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0400, -0.2300)
+mesh = SubResource("mesh_8")
+
+[node name="EmitterTip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.2250)
+mesh = SubResource("mesh_9")
+
+[node name="Grip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.97815, -0.20791, 0.00000, 0.20791, 0.97815, 0.0000, -0.0500, 0.0350)
+mesh = SubResource("mesh_10")
+
+[node name="GripStrip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.97815, -0.20791, 0.00000, 0.20791, 0.97815, 0.0000, -0.0500, 0.0120)
+mesh = SubResource("mesh_11")
+
+[node name="CellBase" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.97815, -0.20791, 0.00000, 0.20791, 0.97815, 0.0000, -0.1130, 0.0620)
+mesh = SubResource("mesh_12")
+
+[node name="CellGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.97815, -0.20791, 0.00000, 0.20791, 0.97815, 0.0000, -0.1200, 0.0650)
+mesh = SubResource("mesh_13")
+
+[node name="TriggerGuard" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0120, -0.0450)
+mesh = SubResource("mesh_14")
+
+[node name="TriggerGuardFront" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, -0.0780)
+mesh = SubResource("mesh_15")
+
+[node name="Trigger" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0020, -0.0280)
+mesh = SubResource("mesh_16")
+
+[node name="RearSight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0850, 0.0200)
+mesh = SubResource("mesh_17")
+
+[node name="FrontSight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0850, -0.1500)
+mesh = SubResource("mesh_18")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0400, -0.2500)

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "kinetic"
+display_name = "Kinetic"
+category = "WEAPON"
+color = Color(1, 0.82, 0.35, 1)
+weight = 1.0
+script_path = "res://scripts/modules/kinetic_module.gd"
+hud_meta_template = "RIFLE · {cost} FLUX/SHOT"
+description_template = "Rifle (hold). {cost} Flux/shot, {damage} dmg. Spread grows when moving/firing. Head x1.5, leg slows, arm disables a hand. Damage fades between {falloff_start} m and {falloff_end} m, reach {range} m."
+cost = 1.5
+cooldown = 0.17
+damage = 9.0
+range_m = 70.0
+tuning = {
+"base_spread": 0.2,
+"falloff_end": 60.0,
+"falloff_start": 25.0,
+"max_bloom": 1.8
+}

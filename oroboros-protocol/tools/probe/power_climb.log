@@ -1,0 +1,10 @@
+start climb
+Hill climb at Network 8 Mainframe (quota 375000), Firmware lvl 4, 12 paired Servers per evaluation
+restart 0: mean 17383  best turn 14800  deaths 21/40  bad 0  ["blood_magic", "ransomware", "poltergeist", "hard_line", "rust"]
+restart 1: mean 9097  best turn 10412  deaths 15/40  bad 0  ["proxy", "diamond_chip", "full_house", "variety_pack", "anchor"]
+restart 2: mean 15281  best turn 15660  deaths 15/40  bad 0  ["macro", "the_core", "hall_of_mirrors", "overclocked_firmware", "singularity"]
+restart 3: mean 6851  best turn 4725  deaths 7/40  bad 0  ["cycle", "thick_skin", "scar_tissue", "overdrive", "steady_hand"]
+restart 4: mean 21951  best turn 35404  deaths 15/40  bad 0  ["tempo", "ransomware", "poltergeist", "quantum_chip", "rust"]
+restart 5: mean 166712  best turn 146400  deaths 15/40  bad 0  ["overdrive", "steady_hand", "ransomware", "blueprint", "singularity"]
+restart 6: mean 13883  best turn 7488  deaths 5/40  bad 0  ["blood_magic", "duo", "failsafe", "ransomware", "macro"]
+restart 7: mean 10538  best turn 10860  deaths 15/40  bad 0  ["overclocked_firmware", "benchmark", "hunch", "poltergeist", "floppy_disk"]

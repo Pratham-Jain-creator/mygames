@@ -1,0 +1,120 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/bunker.gd" id="1_bunker"]
+
+[sub_resource type="StandardMaterial3D" id="mat_suit"]
+albedo_color = Color(0.08, 0.09, 0.12, 1)
+metallic = 0.3
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.82, 0.85, 0.9, 1)
+metallic = 0.5
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.04, 0.04, 0.06, 1)
+metallic = 0.6
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.4, 0.85, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 3.2
+
+[sub_resource type="BoxMesh" id="mesh_base_anchor"]
+material = SubResource("mat_dark")
+size = Vector3(2.4, 0.25, 0.45)
+
+[sub_resource type="BoxMesh" id="mesh_main_slab"]
+material = SubResource("mat_suit")
+size = Vector3(2.2, 2.1, 0.28)
+
+[sub_resource type="BoxMesh" id="mesh_pillar"]
+material = SubResource("mat_armor")
+size = Vector3(0.28, 2.2, 0.36)
+
+[sub_resource type="BoxMesh" id="mesh_glow_seam_v"]
+material = SubResource("mat_glow")
+size = Vector3(0.03, 1.9, 0.31)
+
+[sub_resource type="BoxMesh" id="mesh_glow_seam_h"]
+material = SubResource("mat_glow")
+size = Vector3(2.22, 0.04, 0.31)
+
+[sub_resource type="BoxShape3D" id="shape_wall"]
+size = Vector3(2.4, 2.2, 0.4)
+
+[sub_resource type="Animation" id="anim_erupt"]
+resource_name = "erupt"
+length = 0.18
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(0.35, 1),
+"update": 0,
+"values": [Vector3(0, -3.3, 0), Vector3(0, -1.1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_bunker"]
+_data = {
+&"erupt": SubResource("anim_erupt")
+}
+
+[node name="Bunker" type="StaticBody3D" groups=["bunkers"]]
+collision_mask = 0
+script = ExtResource("1_bunker")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("shape_wall")
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0)
+
+[node name="BaseAnchor" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("mesh_base_anchor")
+
+[node name="MainSlab" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("mesh_main_slab")
+
+[node name="PillarLeft" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02, 1.1, 0)
+mesh = SubResource("mesh_pillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02, 1.1, 0)
+mesh = SubResource("mesh_pillar")
+
+[node name="CenterPillar" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("mesh_pillar")
+
+[node name="SeamLeft" type="MeshInstance3D" parent="Visual"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.05, 0)
+mesh = SubResource("mesh_glow_seam_v")
+
+[node name="SeamRight" type="MeshInstance3D" parent="Visual"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.05, 0)
+mesh = SubResource("mesh_glow_seam_v")
+
+[node name="SeamTop" type="MeshInstance3D" parent="Visual"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
+mesh = SubResource("mesh_glow_seam_h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_bunker")
+}
+autoplay = "erupt"

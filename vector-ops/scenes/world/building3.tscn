@@ -1,0 +1,108 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_plaza"]
+albedo_color = Color(0.18, 0.21, 0.26, 1)
+roughness = 0.85
+metallic = 0.15
+
+[sub_resource type="StandardMaterial3D" id="mat_wall_dark"]
+albedo_color = Color(0.08, 0.1, 0.13, 1)
+roughness = 0.55
+metallic = 0.4
+
+[sub_resource type="StandardMaterial3D" id="mat_platform"]
+albedo_color = Color(0.75, 0.8, 0.86, 1)
+roughness = 0.4
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="mat_cyan_glow"]
+albedo_color = Color(0.3, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.85, 1, 1)
+emission_energy_multiplier = 3.2
+
+[sub_resource type="StandardMaterial3D" id="mat_tank_silver"]
+albedo_color = Color(0.82, 0.86, 0.9, 1)
+roughness = 0.25
+metallic = 0.7
+
+[node name="Building3_Atrium" type="Node3D"]
+
+[node name="GroundSlab" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(160, 1, 160)
+material = SubResource("mat_plaza")
+
+[node name="OuterFortressRing" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 0)
+use_collision = true
+size = Vector3(124, 32, 124)
+material = SubResource("mat_wall_dark")
+
+[node name="InnerCourtyardVoid" type="CSGBox3D" parent="OuterFortressRing"]
+operation = 2
+size = Vector3(80, 36, 80)
+material = SubResource("mat_platform")
+
+[node name="GateCutoutNS" type="CSGBox3D" parent="OuterFortressRing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, 0)
+operation = 2
+size = Vector3(24, 14, 130)
+material = SubResource("mat_platform")
+
+[node name="GateCutoutEW" type="CSGBox3D" parent="OuterFortressRing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, 0)
+operation = 2
+size = Vector3(130, 14, 24)
+material = SubResource("mat_platform")
+
+[node name="InnerBalconyRing" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
+use_collision = true
+size = Vector3(84, 1.2, 84)
+material = SubResource("mat_platform")
+
+[node name="BalconyHole" type="CSGBox3D" parent="InnerBalconyRing"]
+operation = 2
+size = Vector3(64, 4, 64)
+material = SubResource("mat_platform")
+
+[node name="CenterReactorHub" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+use_collision = true
+radius = 12.0
+height = 24.0
+sides = 16
+material = SubResource("mat_tank_silver")
+
+[node name="ReactorGlowRing" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+radius = 12.4
+height = 1.2
+sides = 16
+material = SubResource("mat_cyan_glow")
+
+[node name="BastionNW" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 36, -52)
+use_collision = true
+size = Vector3(26, 8, 26)
+material = SubResource("mat_platform")
+
+[node name="BastionNE" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 36, -52)
+use_collision = true
+size = Vector3(26, 8, 26)
+material = SubResource("mat_platform")
+
+[node name="BastionSW" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 36, 52)
+use_collision = true
+size = Vector3(26, 8, 26)
+material = SubResource("mat_platform")
+
+[node name="BastionSE" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 36, 52)
+use_collision = true
+size = Vector3(26, 8, 26)
+material = SubResource("mat_platform")

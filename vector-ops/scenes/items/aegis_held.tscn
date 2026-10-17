@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.04, 0.04, 0.06, 1)
+metallic = 0.6
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_glow_frame"]
+albedo_color = Color(0.4, 0.85, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 3.5
+
+[sub_resource type="StandardMaterial3D" id="mat_energy_field"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.15, 0.7, 1, 0.35)
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.2, 0.75, 1, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="CylinderMesh" id="mesh_emitter"]
+material = SubResource("mat_dark")
+top_radius = 0.06
+bottom_radius = 0.08
+height = 0.04
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="mesh_energy_pane"]
+material = SubResource("mat_energy_field")
+size = Vector3(0.85, 1.25, 0.015)
+
+[sub_resource type="BoxMesh" id="mesh_border_v"]
+material = SubResource("mat_glow_frame")
+size = Vector3(0.025, 1.27, 0.025)
+
+[sub_resource type="BoxMesh" id="mesh_border_h"]
+material = SubResource("mat_glow_frame")
+size = Vector3(0.88, 0.025, 0.025)
+
+[sub_resource type="Animation" id="anim_deploy"]
+resource_name = "deploy"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnergyField:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 1), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_shield"]
+_data = {
+&"deploy": SubResource("anim_deploy")
+}
+
+[node name="AegisShield" type="Node3D"]
+
+[node name="EmitterCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("mesh_emitter")
+
+[node name="EnergyField" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+
+[node name="Pane" type="MeshInstance3D" parent="EnergyField"]
+mesh = SubResource("mesh_energy_pane")
+
+[node name="BorderLeft" type="MeshInstance3D" parent="EnergyField"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43, 0, 0)
+mesh = SubResource("mesh_border_v")
+
+[node name="BorderRight" type="MeshInstance3D" parent="EnergyField"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43, 0, 0)
+mesh = SubResource("mesh_border_v")
+
+[node name="BorderTop" type="MeshInstance3D" parent="EnergyField"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
+mesh = SubResource("mesh_border_h")
+
+[node name="BorderBottom" type="MeshInstance3D" parent="EnergyField"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.625, 0)
+mesh = SubResource("mesh_border_h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_shield")
+}
+autoplay = "deploy"

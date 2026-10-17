@@ -1,0 +1,496 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scenes/server/server_screen.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/hex_backdrop/hex_backdrop.tscn" id="2_hex"]
+[ext_resource type="Script" path="res://scenes/components/safe_area/safe_area_container.gd" id="3_safe"]
+[ext_resource type="PackedScene" path="res://scenes/components/action_button/action_button.tscn" id="4_btn"]
+[ext_resource type="PackedScene" path="res://scenes/components/score_display/score_display.tscn" id="5_score"]
+[ext_resource type="PackedScene" path="res://scenes/components/led_health_bar/led_health_bar.tscn" id="6_led"]
+[ext_resource type="PackedScene" path="res://scenes/components/weapon_bay/weapon_bay.tscn" id="7_weapon"]
+[ext_resource type="PackedScene" path="res://scenes/components/deck_viewer/deck_viewer.tscn" id="8_deck"]
+[ext_resource type="PackedScene" path="res://scenes/components/type_picker/type_picker.tscn" id="9_type"]
+[ext_resource type="PackedScene" path="res://scenes/components/toast/toast.tscn" id="10_toast"]
+[ext_resource type="PackedScene" path="res://scenes/components/sub_panel/sub_panel.tscn" id="11_subs"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ClearedPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BossBanner:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SafeArea/Layout/MiddleZone/StashRow/StashPanel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_banner"]
+resource_name = "banner"
+length = 2.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BossBanner:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BossBanner:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 2.0, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BossBanner:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25, 2.4),
+"transitions": PackedFloat32Array(0.4, 1, 1),
+"update": 0,
+"values": [Vector2(1.3, 1.3), Vector2(1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cleared_show"]
+resource_name = "cleared_show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ClearedPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ClearedPanel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ClearedPanel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_stash_lock"]
+resource_name = "stash_lock"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SafeArea/Layout/MiddleZone/StashRow/StashPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(2.4, 1.8, 0.6, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_server"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"banner": SubResource("Animation_banner"),
+&"cleared_show": SubResource("Animation_cleared_show"),
+&"stash_lock": SubResource("Animation_stash_lock")
+}
+
+[node name="ServerScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.043, 0.047, 0.063, 1)
+
+[node name="HexBackdrop" parent="." instance=ExtResource("2_hex")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_safe")
+base_margin = 10
+
+[node name="Layout" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TopBar" type="PanelContainer" parent="SafeArea/Layout"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="TopRow" type="HBoxContainer" parent="SafeArea/Layout/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="QuotaBlock" type="VBoxContainer" parent="SafeArea/Layout/TopBar/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="ServerNameLabel" type="Label" parent="SafeArea/Layout/TopBar/TopRow/QuotaBlock"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 15
+text = "NETWORK 1 // PROXY SERVER"
+
+[node name="QuotaLabel" type="Label" parent="SafeArea/Layout/TopBar/TopRow/QuotaBlock"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 52
+text = "300"
+
+[node name="QuotaBar" type="ProgressBar" parent="SafeArea/Layout/TopBar/TopRow/QuotaBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+max_value = 300.0
+show_percentage = false
+
+[node name="ProgressLabel" type="Label" parent="SafeArea/Layout/TopBar/TopRow/QuotaBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "BYTES 0"
+autowrap_mode = 3
+
+[node name="BossButton" parent="SafeArea/Layout/TopBar/TopRow/QuotaBlock" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "BOSS"
+accent = Color(1, 0, 0.235, 1)
+
+[node name="ScoreDisplay" parent="SafeArea/Layout/TopBar/TopRow" instance=ExtResource("5_score")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="RigBlock" type="VBoxContainer" parent="SafeArea/Layout/TopBar/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="RigLabel" type="Label" parent="SafeArea/Layout/TopBar/TopRow/RigBlock"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.98, 0.604, 1)
+theme_override_font_sizes/font_size = 18
+text = "SERVER INTEGRITY 20 / 20"
+horizontal_alignment = 2
+
+[node name="HealthBar" parent="SafeArea/Layout/TopBar/TopRow/RigBlock" instance=ExtResource("6_led")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="MiddleZone" type="VBoxContainer" parent="SafeArea/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="RoomCenter" type="CenterContainer" parent="SafeArea/Layout/MiddleZone"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Room" type="HFlowContainer" parent="SafeArea/Layout/MiddleZone/RoomCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 18
+alignment = 1
+
+[node name="StashRow" type="HBoxContainer" parent="SafeArea/Layout/MiddleZone"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="StashLabel" type="Label" parent="SafeArea/Layout/MiddleZone/StashRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 16
+text = "STASH BAY"
+
+[node name="StashPanel" type="PanelContainer" parent="SafeArea/Layout/MiddleZone/StashRow"]
+custom_minimum_size = Vector2(130, 66)
+layout_mode = 2
+pivot_offset = Vector2(65, 33)
+
+[node name="StashBay" type="HBoxContainer" parent="SafeArea/Layout/MiddleZone/StashRow/StashPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponBay" parent="SafeArea/Layout/MiddleZone/StashRow" instance=ExtResource("7_weapon")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ActionRow" type="HBoxContainer" parent="SafeArea/Layout/MiddleZone"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="ClearButton" parent="SafeArea/Layout/MiddleZone/ActionRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CLEAR [ESC]"
+accent = Color(0.36, 0.4, 0.44, 1)
+
+[node name="WeaponToggleButton" parent="SafeArea/Layout/MiddleZone/ActionRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FIREWALL: AUTO"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="FleeButton" parent="SafeArea/Layout/MiddleZone/ActionRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 56)
+layout_mode = 2
+text = "SKIP [F]"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="ExecuteButton" parent="SafeArea/Layout/MiddleZone/ActionRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "EXECUTE [SPACE]"
+accent = Color(0.4, 0.99, 0.945, 1)
+
+[node name="BottomZone" type="PanelContainer" parent="SafeArea/Layout"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+
+[node name="BottomRow" type="HBoxContainer" parent="SafeArea/Layout/BottomZone"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LeftCol" type="VBoxContainer" parent="SafeArea/Layout/BottomZone/BottomRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CreditsLabel" type="Label" parent="SafeArea/Layout/BottomZone/BottomRow/LeftCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.847, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "$4"
+
+[node name="DeckButton" parent="SafeArea/Layout/BottomZone/BottomRow/LeftCol" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+text = "TAILBYTES 52 [D]"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="SubsButton" parent="SafeArea/Layout/BottomZone/BottomRow/LeftCol" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "SUBROUTINES"
+accent = Color(1, 0, 1, 1)
+
+[node name="DaemonRack" type="HBoxContainer" parent="SafeArea/Layout/BottomZone/BottomRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="ConsumableBox" type="VBoxContainer" parent="SafeArea/Layout/BottomZone/BottomRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ClearedPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -190.0
+offset_right = 260.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(260, 190)
+
+[node name="VBox" type="VBoxContainer" parent="ClearedPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="ClearedPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.98, 0.604, 1)
+theme_override_font_sizes/font_size = 34
+text = "SERVER BREACHED"
+horizontal_alignment = 1
+
+[node name="Lines" type="RichTextLabel" parent="ClearedPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+
+[node name="ContinueButton" parent="ClearedPanel/VBox" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "OPEN BLACK MARKET"
+accent = Color(0, 0.98, 0.604, 1)
+
+[node name="BossBanner" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -90.0
+offset_right = 380.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(380, 90)
+
+[node name="VBox" type="VBoxContainer" parent="BossBanner"]
+layout_mode = 2
+alignment = 1
+
+[node name="Tag" type="Label" parent="BossBanner/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0.235, 1)
+theme_override_font_sizes/font_size = 18
+text = "SENTINEL DETECTED"
+horizontal_alignment = 1
+
+[node name="BossName" type="Label" parent="BossBanner/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0.235, 1)
+theme_override_font_sizes/font_size = 52
+text = "THE WALL"
+horizontal_alignment = 1
+
+[node name="BossDesc" type="Label" parent="BossBanner/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "desc"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DeckViewer" parent="." instance=ExtResource("8_deck")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="SubPanel" parent="." instance=ExtResource("11_subs")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="TypePicker" parent="." instance=ExtResource("9_type")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Toast" parent="." instance=ExtResource("10_toast")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_server")
+}

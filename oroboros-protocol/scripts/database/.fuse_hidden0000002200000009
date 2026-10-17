@@ -1,0 +1,123 @@
+class_name DaemonDB
+extends RefCounted
+## Static definitions for all 75 Daemons. Behaviour lives in DaemonLogic.
+## Row: [id, name, rarity(0-3), description]
+
+const RARITY_COST := [4, 6, 8, 10]
+
+const RAW := [
+	# --- Economy & Meta (1-15) ---
+	["vip_pass", "VIP Pass", 1, "Shop items are 25% cheaper."],
+	["mining_rig", "Mining Rig", 0, "Earn $1 at the end of the turn for every Siphon resolved."],
+	["investment_bank", "Investment Bank", 1, "Gain $2 interest per $5 held when a Server is cleared (max $10)."],
+	["spoofed_ip", "Spoofed IP", 0, "The first shop reroll each visit is free."],
+	["packet_sniffer", "Packet Sniffer", 0, "Gain 1 extra Skip per Server."],
+	["delete_key", "Delete Key", 0, "Purging Nodes in the shop has no scaling fee."],
+	["glitch", "Ghost Write", 0, "When a Siphon is bypassed (left unresolved), a random Firewall is spawned on top of your Tailbytes."],
+	["smuggler", "Smuggler", 1, "Bypassing a Node (leaving it unresolved) permanently increases its value by +1."],
+	["golden_ticket", "Golden Ticket", 1, "Resolving a Gold Node grants $3 instead of $1."],
+	["bounty_hunter", "Bounty Hunter", 0, "Containing a Glitch valued 12+ grants $1."],
+	["crypto_miner", "Crypto-Miner", 1, "Sell value of this Daemon increases by $1 every turn."],
+	["adware", "Adware", 0, "Receive a free random Executable when you enter the shop."],
+	["ransomware", "Ransomware", 2, "x3 Overclock, but you earn $0 from this Server upon victory (no clear reward, no interest)."],
+	["scalper", "Scalper", 2, "Firmware Updates cost double but level up twice."],
+	["seed_capital", "Seed Capital", 1, "Start your next run with $10 extra."],
+	# --- Base Bytes additions (16-35) ---
+	["floppy_disk", "Floppy Disk", 0, "+4 Base Bytes for every Node resolved."],
+	["binary_zero", "Binary Zero", 0, "+10 Base Bytes for each Even-valued Node resolved."],
+	["binary_one", "Binary One", 0, "+10 Base Bytes for each Odd-valued Node resolved."],
+	["overload", "Overload", 0, "+20 Base Bytes if you play Bulk Siphon."],
+	["cache_clear", "Cache Clear", 0, "+25 Base Bytes on the first turn of a new Server."],
+	["cloud_sync", "Cloud Sync", 0, "+10 Base Bytes if the Node held in your Stash is a Siphon."],
+	["scraper_script", "Scraper Script", 1, "+5 Base Bytes every time the Server takes Integrity damage this turn."],
+	["redundant_array", "Redundant Array", 1, "+10 Base Bytes for each resolved Node identical to a Stashed Node."],
+	["low_level_format", "Low-Level Format", 0, "+8 Base Bytes for Nodes valued 2-5."],
+	["mainframe_access", "Mainframe Access", 0, "+6 Base Bytes for Nodes valued 11-14."],
+	["memory_leak", "Memory Leak", 0, "+0 to +23 random Base Bytes per turn."],
+	["overwritten_file", "Overwritten File", 1, "Permanently gains +2 Base Bytes every time you delete a Node."],
+	["scrap_metal", "Scrap Metal", 1, "Containing a Glitch adds its value to your Base Bytes."],
+	["bloatware", "Bloatware", 2, "+50 Base Bytes, but maximum Stash size is 0."],
+	["syringe", "Syringe", 0, "+10 Base Bytes for every Patch resolved."],
+	["heat_sink", "Heat-Sink", 1, "+15 Base Bytes if Integrity is below 5."],
+	["flash_drive", "Flash Drive", 0, "+30 Base Bytes on the final turn of the Server."],
+	["fibonacci", "Fibonacci", 2, "+10 Base Bytes for every resolved Node that is a Fibonacci number (2, 3, 5, 8, or 13)."],
+	["prime_directive", "Prime Directive", 1, "+8 Base Bytes for each Prime-valued Node."],
+	["ram_check", "RAM Check", 1, "+20 Base Bytes if all 4 Node types were in the room."],
+	# --- Overclock additions (36-55) ---
+	["basic_overclock", "Basic Overclock", 0, "+3 Overclock at the start of every Server."],
+	["masochist", "Masochist", 2, "+1 Overclock permanently every time the Server takes 4+ unmitigated damage in one hit."],
+	["diamond_chip", "Diamond Chip", 1, "+4 Overclock if you resolve exactly one Siphon."],
+	["gold_wire", "Gold Wire", 1, "+5 Overclock if you resolve zero Siphons."],
+	["multi_thread", "Multi-Thread", 1, "+2 Overclock for every Firewall currently held in Stash."],
+	["trojan", "Trojan", 2, "Permanently gains +0.5 Overclock every time you Skip."],
+	["keylogger", "Keylogger", 1, "+10 Overclock on the final turn."],
+	["logic_bomb", "Logic Bomb", 1, "+4 Overclock if you resolve the Surgical Strike subroutine."],
+	["proxy", "Proxy", 1, "+1 Overclock for every $5 you hold."],
+	["vampire", "Vampire", 1, "+1 Overclock for every Patch used this turn."],
+	["rust", "Rust", 2, "-1 Overclock more every turn (resets each Server), but +50 Base Bytes."],
+	["echo", "Echo", 2, "Re-triggers the flat Overclock bonus of the previous turn."],
+	["stutter", "Stutter", 0, "+3 Overclock if you resolve two Nodes of the exact same value."],
+	["benchmark", "Benchmark", 1, "+2 Overclock if the turn's bytes are already above 500 at this point."],
+	["cooling_paste", "Cooling Paste", 0, "+3 Overclock if Integrity is exactly at Max."],
+	["blood_magic", "Blood Magic", 1, "+5 Overclock, but the Server loses 1 Integrity per turn."],
+	["neon_sign", "Neon Sign", 1, "+2 Overclock for every modified / upgraded Node resolved."],
+	["blueprint", "Blueprint", 2, "Copies the ability of the Daemon to its right."],
+	["synergizer", "Synergizer", 2, "+1 Overclock for every Daemon you own of a different rarity."],
+	["overvolt", "Overvolt", 1, "+2 Overclock when a Firewall degrades to 0."],
+	# --- Overclock multipliers (56-65) ---
+	["bottleneck", "Bottleneck", 1, "x1.5 Overclock if all 3 resolved Nodes are 6 or lower."],
+	["spyware", "Spyware", 2, "Gains x0.1 Overclock permanently every time you resolve a 14-value Node."],
+	["glass_cannon", "Glass Cannon", 2, "x2 Overclock. Your Maximum Integrity is permanently capped at 10 (overrides all other Max Integrity modifiers)."],
+	["the_core", "The Core", 2, "x3 Overclock if you only play 1 Subroutine type the entire Server."],
+	["black_hole", "Black Hole", 3, "x2 Overclock if Integrity is exactly 1."],
+	["infinity_loop", "Infinity Loop", 2, "Skip on the first turn to gain x1.5 Overclock on every turn of this Server."],
+	["quantum_chip", "Quantum Chip", 2, "x0.5, x1, x1.5 or x2 Overclock at random each turn."],
+	["obelisk", "Obelisk", 3, "x0.2 Overclock per consecutive turn you DO NOT play your most used Subroutine."],
+	["poltergeist", "Poltergeist", 3, "x2 Overclock, but all drawn Nodes are face down."],
+	["singularity", "Singularity", 3, "x4 Overclock. Costs $10 at the start of each Server. If you cannot pay, the x4 becomes x1 for that Server."],
+	# --- Firewall & Integrity (66-75) ---
+	["firewall", "Shock Absorber", 0, "Ignore the first 3 points of Glitch damage each turn."],
+	["brute_force", "Brute Force", 1, "Firewalls degrade by a flat -2 instead of adopting the contained Glitch's value."],
+	["sharp_edge", "Sharp Edge", 0, "Newly equipped Firewalls gain +3 Base Strength."],
+	["duct_tape", "Duct Tape", 1, "Each Firewall can contain one Glitch equal to its current Ceiling without degrading."],
+	["antivirus", "Antivirus", 0, "Patch Nodes repair double their printed value."],
+	["quarantine", "Quarantine", 1, "A Stashed Glitch's value is halved when it reappears."],
+	["honeypot", "Honeypot", 1, "If two Glitches appear in a room, the weakest destroys itself."],
+	["buffer_overflow", "Buffer Overflow", 2, "Fatal damage leaves the Server at 1 Integrity and destroys this Daemon."],
+	["recycled_code", "Recycled Code", 1, "When a Firewall degrades to 0, repair 5 Integrity."],
+	["failsafe", "Failsafe", 2, "+10 Max Integrity, but Firewalls degrade twice as fast."],
+]
+
+static var _defs: Dictionary = {}
+static var _order: Array = []
+
+
+static func _ensure() -> void:
+	if not _defs.is_empty():
+		return
+	for row in RAW:
+		_defs[row[0]] = {
+			"id": row[0], "name": row[1], "rarity": row[2],
+			"desc": row[3], "cost": RARITY_COST[row[2]],
+		}
+		_order.append(row[0])
+
+
+static func get_def(id: String) -> Dictionary:
+	_ensure()
+	return _defs.get(id, {})
+
+
+static func all_ids() -> Array:
+	_ensure()
+	return _order.duplicate()
+
+
+static func ids_with_rarity(min_rarity: int, max_rarity: int) -> Array:
+	_ensure()
+	var out: Array = []
+	for id in _order:
+		var r: int = _defs[id].rarity
+		if r >= min_rarity and r <= max_rarity:
+			out.append(id)
+	return out

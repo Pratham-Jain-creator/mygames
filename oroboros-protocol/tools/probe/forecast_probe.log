@@ -1,0 +1,6 @@
+FW10,G9,G7  -> G9 { "dmg": 0, "raw": false }  G7 { "dmg": 0, "raw": false } (expect 0 / 0)
+G9,FW10,G7  -> G9 { "dmg": 9, "raw": true }  G7 { "dmg": 0, "raw": false } (expect raw 9 / 0)
+none        -> G9 { "dmg": 9, "raw": true }  G7 { "dmg": 7, "raw": true } (expect raw 9 / raw 7)
+FIREWALL OFF FW10,G9,G7 -> G9 { "dmg": 9, "raw": true }  G7 { "dmg": 7, "raw": true } (expect raw 9 / raw 7)
+FW10,G9,G8,G6 -> G9 { "dmg": 0, "raw": false } G8 { "dmg": 0, "raw": false } G6 { "dmg": 0, "raw": false } (ceiling 8 then 7: expect 0 / raw 8 / 0)
+DONE

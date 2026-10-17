@@ -1,0 +1,824 @@
+extends BaseScreen
+## The Server screen: deal -> draft (select 3) -> execute -> cascade -> repeat.
+## Game rules live in ServerLogic / TurnResolver. This script only presents the
+## results: it replays `events` and the scoring `breakdown` with animations.
+
+const DAEMON_CARD := preload("res://scenes/components/daemon_card/daemon_card.tscn")
+const LISTING := preload("res://scenes/components/shop_listing/shop_listing.tscn")
+const TUTORIAL_SCENE := preload("res://scenes/tutorial/tutorial_overlay.tscn")
+const TutorialDirectorScript := preload("res://scenes/tutorial/tutorial_director.gd")
+const SubPanelScript := preload("res://scenes/components/sub_panel/sub_panel.gd")
+
+enum Phase { INTRO, DRAFT, RESOLVING, ENDED }
+
+var phase := Phase.INTRO
+var _cards: Array = []            # NodeCard in the room
+var _selected: Array = []         # NodeCard in selection order
+var _stash_cards: Array = []
+var _daemon_cards: Array = []
+var _required := 3        # minimum Nodes to resolve
+var _max_select := 4      # maximum (all of the room: empties the Stash)
+var _preview_mult := 1.0
+var _preview_bw := 0
+var _shown_score := 0      # score shown in the HUD (updated after the cascade)
+var _shown_turn := 1
+var _shown_money := 0      # $ shown in the HUD while a turn replays
+var tutorial: TutorialDirectorScript = null   # set only during the guided tutorial
+
+@onready var _hex: HexBackdrop = %HexBackdrop
+@onready var _server_name: Label = %ServerNameLabel
+@onready var _quota_label: Label = %QuotaLabel
+@onready var _quota_bar: ProgressBar = %QuotaBar
+@onready var _progress: Label = %ProgressLabel
+@onready var _boss_button: ActionButton = %BossButton
+@onready var _score: ScoreDisplay = %ScoreDisplay
+@onready var _rig_label: Label = %RigLabel
+@onready var _health_bar: LedHealthBar = %HealthBar
+@onready var _room: Container = %Room
+@onready var _stash_bay: HBoxContainer = %StashBay
+@onready var _weapon_bay: WeaponBay = %WeaponBay
+
+const ROOM_CARD_SCALE := 1.25     # Room Nodes are drawn this much bigger than CARD_SIZE
+const WEAPON_BAY_SCALE := 0.7     # Equipped Firewall panel is shown smaller
+var _weapon_wrap: Control
+@onready var _clear: ActionButton = %ClearButton
+@onready var _weapon_toggle: ActionButton = %WeaponToggleButton
+@onready var _execute: ActionButton = %ExecuteButton
+@onready var _credits: Label = %CreditsLabel
+@onready var _deck_button: ActionButton = %DeckButton
+@onready var _subs_button: ActionButton = %SubsButton
+@onready var _sub_panel: SubPanelScript = %SubPanel
+@onready var _flee: ActionButton = %FleeButton
+@onready var _daemon_rack: HBoxContainer = %DaemonRack
+@onready var _consumable_box: VBoxContainer = %ConsumableBox
+@onready var _cleared_panel: PanelContainer = %ClearedPanel
+@onready var _cleared_lines: RichTextLabel = %Lines
+@onready var _continue: ActionButton = %ContinueButton
+@onready var _boss_name: Label = %BossName
+@onready var _boss_desc: RichTextLabel = %BossDesc
+@onready var _anim: AnimationPlayer = $AnimationPlayer
+
+
+func _ready() -> void:
+	_shrink_bays()
+	super()
+	# Servers are red: the falling hex numbers and the waveform glow crimson here.
+	_hex.tint = Color(1.0, 0.18, 0.26)
+	_hex.wave_tint = Color(1.0, 0.1, 0.2)
+	_hex.base_alpha = 0.1
+	_clear.activated.connect(func(_s): _clear_selection())
+	_weapon_toggle.activated.connect(_on_weapon_toggle)
+	_execute.activated.connect(func(_s): _on_execute())
+	_deck_button.activated.connect(func(_s): _open_deck())
+	_subs_button.activated.connect(func(_s): _open_subs())
+	_subs_button.set_tip("SUBROUTINES [S]", "What every Subroutine (combo of the 3 Nodes you resolve) is worth right now: Base Bytes and Overclock, including your Firmware Update levels.")
+	_sub_panel.close_requested.connect(_on_subs_close_requested)
+	_sub_panel.closed.connect(func(): _tut_notify(&"subs_close"))
+	deck_viewer.closed.connect(func(_r): _tut_notify(&"deck_close"))
+	_flee.activated.connect(func(_s): _on_flee())
+	_continue.activated.connect(_on_continue)
+	_execute.set_tip("EXECUTE", "Resolve the selected Nodes in the order you picked them. Firewalls first, then Glitch!")
+	_clear.set_tip("CLEAR SELECTION", "Deselect everything. Not allowed under The Lock.")
+	_weapon_toggle.set_tip("FIREWALL MODE", "AUTO: your equipped Firewall is used on Glitch whenever its Target Ceiling allows.\nOFF: the Server takes the full Glitch value (+1 Overclock per hit) and the Firewall is not degraded.")
+	_deck_button.set_tip("TAILBYTES TRACKER", "Inspect every Node in your Tailbytes. Dimmed Nodes were already played this Server. Essential against face-down Nodes.")
+	EventBus.health_changed.connect(_on_health_changed)
+	EventBus.money_changed.connect(func(_v): _update_hud())
+	EventBus.daemons_changed.connect(_build_daemon_rack)
+	EventBus.consumables_changed.connect(_build_consumables)
+	EventBus.daemon_popup.connect(_on_daemon_popup)
+	EventBus.deck_changed.connect(_on_deck_changed)
+	_build_daemon_rack()
+	_build_consumables()
+	if pause_menu != null:
+		pause_menu.tutorial_mode = RunState.tutorial
+	if RunState.tutorial:
+		tutorial = TUTORIAL_SCENE.instantiate()
+		add_child(tutorial)
+		tutorial.setup(self)
+
+	var sv := ServerLogic.begin_server()
+	_server_name.text = Progression.server_title(sv.network, sv.kind)
+	_quota_label.text = Fmt.big(sv.quota)
+	_quota_bar.max_value = sv.quota
+	if sv.boss_id != "":
+		_boss_button.visible = true
+		_boss_button.text = "SENTINEL: %s" % BossDB.name_of(sv.boss_id).to_upper()
+		_boss_button.set_tip(BossDB.name_of(sv.boss_id).to_upper(), BossDB.desc_of(sv.boss_id))
+	if sv.boss_id != "":
+		_apply_boss_look()
+	_health_bar.set_health(RunState.health, RunState.get_max_health(), false)
+	_set_health_label()
+	_weapon_bay.show_empty()
+	_update_hud()
+	_update_buttons()
+	await _play_intro()
+	_deal()
+	if tutorial != null:
+		tutorial.start()
+
+
+# ------------------------------------------------------------------ tutorial hooks
+func _tut_allows(action: StringName, arg: Variant = null) -> bool:
+	return tutorial == null or tutorial.allows(action, arg)
+
+
+func _tut_notify(action: StringName, arg: Variant = null) -> void:
+	if tutorial != null:
+		tutorial.notify(action, arg)
+
+
+## Controls the tutorial bot can spotlight.
+func tut_target(key: String) -> Control:
+	match key:
+		"quota": return $SafeArea/Layout/TopBar/TopRow/QuotaBlock
+		"score": return _score
+		"rig": return $SafeArea/Layout/TopBar/TopRow/RigBlock
+		"progress": return _progress
+		"room": return _room
+		"stash": return $SafeArea/Layout/MiddleZone/StashRow/StashPanel
+		"weapon": return _weapon_wrap if _weapon_wrap != null else _weapon_bay
+		"execute": return _execute
+		"skip": return _flee
+		"clear": return _clear
+		"weapon_toggle": return _weapon_toggle
+		"credits": return _credits
+		"deck": return _deck_button
+		"subs": return _subs_button
+		"daemons": return _daemon_rack
+		"consumables": return _consumable_box
+	return null
+
+
+func tut_card(type: int, value: int) -> NodeCard:
+	for c in _cards:
+		if is_instance_valid(c) and c.data != null and c.data.type == type and c.data.base_value == value:
+			return c
+	return null
+
+
+func tut_deal() -> void:
+	_deal()
+
+
+func tut_refresh_subs(flash_id: String) -> void:
+	_sub_panel.refresh(flash_id)
+
+
+# ------------------------------------------------------------------ flow
+## Sentinel (boss) Servers: blood-red, louder, more menacing.
+func _apply_boss_look() -> void:
+	$Background.color = Color(0.1, 0.012, 0.02)
+	_hex.set_columns(44)
+	_hex.tint = Color(1.0, 0.1, 0.16)
+	_hex.wave_tint = Color(1.0, 0.05, 0.15)
+	_hex.base_alpha = 0.34
+	_hex.speed_scale = 1.9
+	_hex.font_size = 20
+	var v := ColorRect.new()
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.set_anchors_preset(Control.PRESET_FULL_RECT)
+	v.color = Color.WHITE
+	var m := ShaderMaterial.new()
+	m.shader = preload("res://shaders/boss_vignette.gdshader")
+	v.material = m
+	add_child(v)
+	move_child(v, _hex.get_index() + 1)   # above the numbers, below every control
+	$SafeArea/Layout/TopBar.self_modulate = Color(1.0, 0.45, 0.45)
+	$SafeArea/Layout/BottomZone.self_modulate = Color(1.0, 0.5, 0.5)
+	_server_name.add_theme_color_override("font_color", Enums.COL_ICE)
+
+
+func _play_intro() -> void:
+	phase = Phase.INTRO
+	var sv := RunState.server
+	if sv.boss_id != "":
+		_boss_name.text = BossDB.name_of(sv.boss_id).to_upper()
+		_boss_desc.text = "[center]%s[/center]" % Fmt.rich(BossDB.desc_of(sv.boss_id))
+		PostFX.impact()
+		AudioService.play("slam", 0.5)
+		_anim.play(&"banner")
+		await _anim.animation_finished
+	else:
+		await _wait(0.35)
+
+
+func _deal() -> void:
+	var d := ServerLogic.deal_room()
+	if d.room.size() < RunState.RESOLVE_COUNT:
+		# E.g. Memory Wipe / Shred thinned the deck below 3 playable Nodes.
+		_game_over("TAILBYTES EXHAUSTED - THRESHOLD NOT MET")
+		return
+	_shown_score = RunState.server.score
+	_shown_turn = RunState.server.turn_number
+	_required = d.required
+	_max_select = d.max
+	for note in d.notes:
+		show_toast(String(note), Enums.COL_DAEMON)
+	_build_room_cards(true)
+	_update_stash_bay(false)
+	phase = Phase.DRAFT
+	_refresh_preview()
+	_update_hud()
+	_update_buttons()
+
+
+func _build_room_cards(animate: bool) -> void:
+	_clear_room_cards()
+	var sv := RunState.server
+	# The whole room stays on ONE row at a fixed bigger size (ROOM_CARD_SCALE). When the
+	# Nodes do not fit (e.g. a bigger Stash = more Nodes) OverlapRow overlaps them evenly.
+	var rs := ROOM_CARD_SCALE
+	for n: NodeData in sv.room:
+		var card := NodeCardFactory.spawn(_room, n, rs)
+		card.activated.connect(_on_card_activated)
+		card.on_weapon_changed(sv.weapon, sv.weapon_enabled)
+		_cards.append(card)
+		if animate:
+			card.begin_deal()
+	if animate:
+		_animate_deal()
+
+
+func _animate_deal() -> void:
+	var list := _cards.duplicate()
+	for i in list.size():
+		var c: NodeCard = list[i]
+		await _wait(0.07)
+		if is_instance_valid(c) and _cards.has(c):
+			c.play_deal_in()
+			AudioService.play("thunk", 1.0 + i * 0.1)
+
+
+func _clear_room_cards() -> void:
+	for c in _cards:
+		NodeCardFactory.dispose(c)
+	_cards.clear()
+	_selected.clear()
+
+
+func _update_stash_bay(animate: bool) -> void:
+	for c in _stash_cards:
+		NodeCardFactory.dispose(c)
+	_stash_cards.clear()
+	var sv := RunState.server
+	for n: NodeData in sv.stash:
+		var c := NodeCardFactory.spawn(_stash_bay, n, 0.34)
+		_stash_cards.append(c)
+	if animate and not sv.stash.is_empty():
+		_anim.play(&"stash_lock")
+		AudioService.play("slam")
+
+
+func _card_for(node: NodeData) -> NodeCard:
+	for c in _cards:
+		if c.data == node:
+			return c
+	return null
+
+
+# ------------------------------------------------------------- selection
+func _on_card_activated(src: InteractiveControl) -> void:
+	if phase != Phase.DRAFT or is_overlay_open():
+		return
+	var card := src as NodeCard
+	if not _tut_allows(&"card", card):
+		return
+	if _selected.has(card):
+		if RunState.is_boss("lock"):
+			card.deny()
+			show_toast("THE LOCK: choices are final", Enums.COL_ICE)
+			return
+		_selected.erase(card)
+		card.set_selected(false)
+		for i in _selected.size():
+			(_selected[i] as NodeCard).set_order(i + 1)
+	else:
+		if _selected.size() >= _max_select:
+			card.deny()
+			show_toast("RESOLVE %s NODES" % (str(_required) if _required == _max_select else "%d OR %d" % [_required, _max_select]), Enums.COL_BREACH)
+			return
+		_selected.append(card)
+		card.set_selected(true, _selected.size())
+	_refresh_preview()
+	_update_buttons()
+	_tut_notify(&"card", card)
+
+
+func _clear_selection() -> void:
+	if phase != Phase.DRAFT or RunState.is_boss("lock"):
+		return
+	if not _tut_allows(&"clear"):
+		return
+	for c in _selected:
+		(c as NodeCard).set_selected(false)
+	_selected.clear()
+	_refresh_preview()
+	_update_buttons()
+
+
+func _refresh_preview() -> void:
+	var sv := RunState.server
+	_preview_bw = sv.bandwidth_bonus
+	var blind := _selected.any(func(c): return c.face_down)
+	if _selected.is_empty():
+		_preview_mult = 1.0 + sv.bandwidth_bonus
+		_score.set_static(0.0, _preview_mult, "SELECT %s NODES" % (str(_required) if _required == _max_select else "%d-%d" % [_required, _max_select]), "The unplayed Node is carried in your Stash. Daemons are applied when the turn resolves.")
+	elif blind:
+		_preview_mult = 1.0 + sv.bandwidth_bonus
+		_score.set_static(0.0, _preview_mult, "FACE-DOWN NODES: UNKNOWN", "Check the Tailbytes tracker...")
+	else:
+		var nodes: Array = _selected.map(func(c): return c.data)
+		var p := ServerLogic.preview(nodes)
+		_preview_mult = p.mult
+		var label: String = p.sub if p.sub != "" else "%d / %d SELECTED" % [_selected.size(), _required]
+		if _selected.size() == _max_select and _max_select > _required:
+			label += " (STASH EMPTY)"
+		_score.set_static(p.chips, p.mult, label.to_upper())
+	_hex.intensity = clampf(_preview_mult / 24.0, 0.0, 1.0)
+	_refresh_ice_cards()
+
+
+func _refresh_ice_cards() -> void:
+	var sv := RunState.server
+	for c in _cards:
+		(c as NodeCard).on_weapon_changed(sv.weapon, sv.weapon_enabled)
+
+
+func _on_weapon_toggle(_s: InteractiveControl) -> void:
+	if not _tut_allows(&"weapon"):
+		return
+	var sv := RunState.server
+	sv.weapon_enabled = not sv.weapon_enabled
+	_weapon_toggle.text = "FIREWALL: AUTO" if sv.weapon_enabled else "FIREWALL: OFF"
+	_refresh_ice_cards()
+	_tut_notify(&"weapon")
+
+
+# ------------------------------------------------------------------ buttons
+func _update_buttons() -> void:
+	var drafting := phase == Phase.DRAFT
+	_execute.disabled = not (drafting and _selected.size() >= _required and _selected.size() <= _max_select)
+	_clear.disabled = not (drafting and not _selected.is_empty() and not RunState.is_boss("lock"))
+	var reason := ServerLogic.can_flee()
+	_flee.disabled = not (drafting and _selected.is_empty() and reason == "")
+	if reason != "":
+		_flee.set_tip("EJECT LOCKED", reason)
+	elif not _selected.is_empty():
+		_flee.set_tip("EJECT", "You can only Eject if you interact with 0 Nodes. Clear your selection first.")
+	else:
+		_flee.set_tip("EJECT", "Discard this whole room for the rest of the Server and draw a fresh one. Costs no turn, but the Nodes are gone (you may run out of Tailbytes!) and you cannot Eject twice in a row.%s" % ("\n[color=#FF003C]THE NEEDLE: 5 unmitigated damage![/color]" if RunState.is_boss("needle") else ""))
+	_weapon_toggle.disabled = not drafting
+
+
+func _update_hud() -> void:
+	var sv := RunState.server
+	if sv == null:
+		return
+	_quota_bar.value = _shown_score
+	_progress.text = "BYTES %s / %s\nTURN %d (bonus to %d)  |  +%d OVERCLOCK  |  %d NODES LEFT" % [
+		Fmt.big(_shown_score), Fmt.big(sv.quota), _shown_turn, sv.turns_total,
+		sv.bandwidth_bonus, RunState.deck.draw_pile.size()]
+	_deck_button.text = "TAILBYTES %d [D]" % RunState.deck.draw_pile.size()
+	_flee.text = "EJECT [F]"
+	_credits.text = "$%d" % (_shown_money if phase == Phase.RESOLVING else RunState.money)
+	if phase != Phase.RESOLVING and _health_bar != null:
+		_health_bar.set_health(RunState.health, RunState.get_max_health(), false)
+		_set_health_label()
+	for dc in _daemon_cards:
+		(dc as DaemonCard).refresh_state()
+
+
+func _open_deck() -> void:
+	if phase == Phase.RESOLVING or is_overlay_open():
+		return
+	if not _tut_allows(&"deck_open"):
+		return
+	open_deck_tracker()
+	_tut_notify(&"deck_open")
+
+
+func _open_subs() -> void:
+	if phase != Phase.DRAFT or is_overlay_open():
+		return
+	if not _tut_allows(&"subs_open"):
+		return
+	_sub_panel.open_view()
+	_tut_notify(&"subs_open")
+
+
+func _on_subs_close_requested() -> void:
+	if _tut_allows(&"subs_close"):
+		_sub_panel.close_view()
+
+
+func is_overlay_open() -> bool:
+	return super() or _sub_panel.visible
+
+
+func can_open_settings() -> bool:
+	# Never mid-animation: leaving the scene while a turn replays would break the replay.
+	return super() and not _sub_panel.visible and phase != Phase.RESOLVING and phase != Phase.INTRO
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if tutorial != null and tutorial.handle_key(event):
+		return
+	if event.is_action_pressed("clear_selection"):
+		if deck_viewer.visible:
+			deck_viewer._finish([])
+		elif _sub_panel.visible:
+			_on_subs_close_requested()
+		else:
+			_clear_selection()
+	elif is_overlay_open():
+		return
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_S:
+		_open_subs()
+	elif event.is_action_pressed("execute_turn"):
+		_on_execute()
+	elif event.is_action_pressed("flee_room"):
+		_on_flee()
+	elif event.is_action_pressed("toggle_deck"):
+		_open_deck()
+	elif OS.is_debug_build() and event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F1:
+			RunState.money += 50
+			show_toast("DEBUG: +$50", Enums.COL_DIM)
+		elif event.keycode == KEY_F2 and phase == Phase.DRAFT:
+			RunState.server.score = RunState.server.quota
+			phase = Phase.RESOLVING
+			_server_cleared()
+
+
+# ----------------------------------------------------------------- execute
+func _on_execute() -> void:
+	if _sell_popup != null:
+		_sell_popup.close()
+	if phase != Phase.DRAFT or _selected.size() < _required or _selected.size() > _max_select:
+		return
+	if not _tut_allows(&"execute"):
+		return
+	phase = Phase.RESOLVING
+	_tut_notify(&"execute")
+	_update_buttons()
+	var selected_cards := _selected.duplicate()
+	var selected_data: Array = selected_cards.map(func(c): return c.data)
+	var leftover: Array = []
+	for c in _cards:
+		if not selected_cards.has(c):
+			leftover.append(c.data)
+	_shown_money = RunState.money
+	var result := TurnResolver.resolve(selected_data, leftover)
+	await _play_events(result.events)
+	if result.died:
+		await _play_events(result.end_events)
+		_set_health_label()
+		_game_over("SERVER DESTROYED")
+		return
+	await _play_cascade(result)
+	await _play_events(result.end_events)
+	await _finish_turn(result)
+
+
+func _finish_turn(result: Dictionary) -> void:
+	var sv := RunState.server
+	_shown_score = sv.score
+	_shown_money = RunState.money
+	_set_health(RunState.health)
+	_update_hud()
+	_clear_room_cards()
+	_update_stash_bay(true)
+	_score.set_static(float(result.chips), float(result.mult), SubroutineDB.name_of(result.sub_id).to_upper(), "+%s bytes siphoned this turn" % Fmt.big(int(result.score)))
+	await _wait(0.4)
+	if tutorial != null:
+		# Guided tutorial: the bot decides what happens next (never ends the Server itself).
+		phase = Phase.DRAFT
+		_update_hud()
+		_update_buttons()
+		_tut_notify(&"turn_done")
+		return
+	if sv.score >= sv.quota:
+		_server_cleared()
+	elif RunState.health <= 0:
+		_game_over("SERVER DESTROYED")
+	elif RunState.deck.draw_pile.size() + sv.stash.size() < RunState.RESOLVE_COUNT:
+		# Not enough Nodes left (deck + stash) to resolve the 3 required per turn.
+		_game_over("TAILBYTES EXHAUSTED - THRESHOLD NOT MET")
+	else:
+		_deal()
+
+
+# ------------------------------------------------------------------- flee
+func _on_flee() -> void:
+	if phase != Phase.DRAFT or not _selected.is_empty():
+		return
+	var reason := ServerLogic.can_flee()
+	if reason != "":
+		show_toast(reason, Enums.COL_ICE)
+		AudioService.play("deny")
+		return
+	if not _tut_allows(&"skip"):
+		return
+	phase = Phase.RESOLVING
+	_shown_money = RunState.money
+	_update_buttons()
+	for c in _cards:
+		(c as NodeCard).play_resolve()
+	AudioService.play("slam", 1.4)
+	var res := ServerLogic.flee()
+	await _wait(0.3)
+	await _play_events(res.events)
+	_shown_money = RunState.money
+	_update_hud()
+	_set_health(RunState.health)
+	if res.died:
+		_game_over("SERVER DESTROYED")
+		return
+	_clear_room_cards()
+	_deal()
+	_tut_notify(&"skip")
+
+
+# ---------------------------------------------------------- event playback
+func _play_events(events: Array) -> void:
+	for ev in events:
+		match ev.t:
+			"equip":
+				var c := _card_for(ev.node)
+				if c:
+					c.reveal()
+					c.play_resolve()
+				_weapon_bay.show_weapon(int(ev.strength), "INF")
+				await _wait(0.34)
+			"fight":
+				var c := _card_for(ev.node)
+				if c:
+					c.reveal()
+					c.play_hit_then_resolve()
+				if ev.weapon_used and int(ev.ceiling_new) != int(ev.ceiling_old):
+					_weapon_bay.set_ceiling(Fmt.ceiling(int(ev.ceiling_new)))
+				await _wait(0.32)
+			"leech":
+				var c := _card_for(ev.node)
+				if c:
+					c.reveal()
+					c.play_resolve()
+				show_toast("THE LEECH: PATCH DRAINED, NO REPAIR", Enums.COL_ICE)
+				await _wait(0.3)
+			"heal":
+				var c := _card_for(ev.node)
+				if c:
+					c.reveal()
+					c.play_resolve()
+				_set_health(int(ev.health))
+				AudioService.play("heal")
+				FloatingText.spawn(self, "+%d" % int(ev.amount), Enums.COL_COOLANT, _health_bar.global_position + Vector2(120, 10))
+				await _wait(0.34)
+			"data":
+				var c := _card_for(ev.node)
+				if c:
+					c.reveal()
+					c.play_resolve()
+				await _wait(0.22)
+			"damage":
+				_set_health(int(ev.health))
+				PostFX.impact()
+				AudioService.play("hit")
+				FloatingText.spawn(self, "-%d" % int(ev.amount), Enums.COL_ICE, _health_bar.global_position + Vector2(120, 10))
+				_score.bump_mult(_preview_mult + (int(ev.bw) - _preview_bw))
+				_hex.intensity = clampf((_preview_mult + (int(ev.bw) - _preview_bw)) / 24.0, 0.0, 1.0)
+				_update_hud()
+				await _wait(0.4)
+			"firewall":
+				FloatingText.spawn(self, "ABSORBED -%d" % int(ev.absorbed), Enums.COL_DATA, _health_bar.global_position + Vector2(40, 40))
+				await _wait(0.2)
+			"money":
+				var c := _card_for(ev.node)
+				var at := (c.global_position + c.size * c.scale * 0.5) if c else Vector2(640, 300)
+				FloatingText.spawn(self, "+$%d" % int(ev.amount), Enums.COL_MONEY, at)
+				_shown_money += int(ev.amount)
+				_credits.text = "$%d" % _shown_money
+				await _wait(0.2)
+			"weapon_break":
+				_weapon_bay.shatter()
+				PostFX.glitch_small()
+				await _wait(0.45)
+			"buffer_overflow":
+				_set_health(int(ev.health))
+				show_toast("BUFFER OVERFLOW: Server held at 1 INT", Enums.COL_DAEMON)
+				await _wait(0.4)
+			"heal_sync":
+				_set_health(int(ev.health))
+			"pop":
+				_on_daemon_popup(int(ev.uid), String(ev.text))
+				if int(ev.get("money", 0)) != 0:
+					_shown_money += int(ev.money)
+					_credits.text = "$%d" % _shown_money
+				await _wait(0.18)
+
+
+func _play_cascade(result: Dictionary) -> void:
+	var bd: Array = result.breakdown
+	_score.begin_cascade(String(bd[0].name).to_upper())
+	# Start exactly where the live preview was (the Subroutine's values): no reset to 0.
+	_score.set_static(float(bd[0].chips), float(bd[0].mult), String(bd[0].name).to_upper())
+	var pace := clampf(0.34 - 0.012 * bd.size(), 0.07, 0.3)
+	for e in bd:
+		var kind: String = e.kind
+		if kind == "sub":
+			continue
+		var note := "%s  %s" % [e.name, e.text]
+		if kind == "node" and e.has("node"):
+			var nc := _card_for(e.node)
+			if nc:
+				nc.play_anim(&"pulse")
+		if int(e.uid) >= 0:
+			_on_daemon_popup(int(e.uid), String(e.text))
+		await _score.animate_to(float(e.chips), float(e.mult), note, kind == "chips" or kind == "node" or kind == "sub", kind == "mult" or kind == "xmult")
+		await _wait(pace)
+	_score.pop_total()
+	_hex.intensity = clampf(float(result.mult) / 24.0, 0.0, 1.0)
+	var at := _score.global_position + Vector2(_score.size.x * 0.5, 20)
+	FloatingText.spawn(self, "+%s" % Fmt.big(int(result.score)), Enums.COL_MONEY, at)
+	_shown_score = RunState.server.score
+	_update_hud()
+	await _wait(0.7)
+
+
+# ------------------------------------------------------------------- HUD
+func _on_health_changed(_old: int, new_value: int, max_value: int) -> void:
+	if phase == Phase.RESOLVING:
+		return
+	_health_bar.set_health(new_value, max_value, true)
+	_set_health_label()
+
+
+func _set_health(h: int) -> void:
+	_health_bar.set_health(maxi(h, 0), RunState.get_max_health(), true)
+	_rig_label.text = "SERVER INTEGRITY %d / %d" % [maxi(h, 0), RunState.get_max_health()]
+
+
+func _set_health_label() -> void:
+	_rig_label.text = "SERVER INTEGRITY %d / %d" % [maxi(RunState.health, 0), RunState.get_max_health()]
+
+
+func _on_daemon_popup(uid: int, text: String) -> void:
+	for dc in _daemon_cards:
+		if (dc as DaemonCard).inst.get("uid", -1) == uid:
+			dc.flash()
+			FloatingText.spawn(self, text, Enums.COL_DAEMON, dc.global_position + Vector2(75, 6))
+			AudioService.play("tick", 1.4)
+			return
+
+
+func _build_daemon_rack() -> void:
+	if _sell_popup != null:
+		_sell_popup.close()
+	for c in _daemon_rack.get_children():
+		c.queue_free()
+	_daemon_cards.clear()
+	for i in RunState.MAX_DAEMONS:
+		var dc: DaemonCard = DAEMON_CARD.instantiate()
+		dc.slot_index = i
+		dc.drag_allowed = func(): return phase == Phase.DRAFT and tutorial == null and not is_overlay_open()
+		_daemon_rack.add_child(dc)
+		if i < RunState.daemons.size():
+			dc.bind(RunState.daemons[i])
+			dc.activated.connect(_on_daemon_activated)
+		_daemon_cards.append(dc)
+	if is_node_ready():
+		_set_health_label()
+
+
+const SELL_POPUP := preload("res://scenes/daemon_sell_popup/daemon_sell_popup.tscn")
+var _sell_popup: PanelContainer   # duck-typed scene: open_for / close / is_open / current_uid
+
+
+## Clicking a Daemon opens a small SELL bubble beside it (half its Black Market price).
+## Dragging still reorders; the bubble only appears on a plain click.
+func _on_daemon_activated(src: InteractiveControl) -> void:
+	var dc := src as DaemonCard
+	if dc == null or dc.inst.is_empty():
+		return
+	if phase != Phase.DRAFT or tutorial != null or is_overlay_open():
+		return
+	if _sell_popup == null:
+		_sell_popup = SELL_POPUP.instantiate()
+		add_child(_sell_popup)
+		_sell_popup.sell_requested.connect(_on_sell_confirmed)
+	var uid := int(dc.inst.get("uid", -1))
+	if _sell_popup.is_open() and _sell_popup.current_uid() == uid:
+		_sell_popup.close()
+		return
+	_sell_popup.open_for(dc, uid, String(DaemonDB.get_def(dc.inst.id).name), RunState.field_sell_value(dc.inst))
+
+
+func _on_sell_confirmed() -> void:
+	if _sell_popup == null or phase != Phase.DRAFT:
+		return
+	var uid: int = _sell_popup.current_uid()
+	_sell_popup.close()
+	for inst in RunState.daemons:
+		if int(inst.get("uid", -1)) == uid:
+			var price := RunState.field_sell_value(inst)
+			var nm: String = DaemonDB.get_def(inst.id).name
+			RunState.sell_daemon_in_run(inst)
+			show_toast("SOLD %s FOR $%d" % [nm.to_upper(), price], Enums.COL_MONEY)
+			AudioService.play("buy", 0.8)
+			_update_hud()
+			return
+
+
+func _build_consumables() -> void:
+	for c in _consumable_box.get_children():
+		c.queue_free()
+	for i in RunState.MAX_CONSUMABLES:
+		var row: ShopListing = LISTING.instantiate()
+		row.compact = true
+		_consumable_box.add_child(row)
+		if i < RunState.consumables.size():
+			var item: Dictionary = RunState.consumables[i]
+			var info := ItemDB.get_item(item.kind, item.id)
+			var col: Color = Enums.KIND_COLORS[item.kind]
+			row.setup(Enums.KIND_NAMES[item.kind], info.name, "USE", col,
+				{"title": info.name, "body": info.desc, "color": col})
+			row.activated.connect(func(_s): _on_consumable(item))
+		else:
+			row.set_empty("[ EMPTY SOFTWARE SLOT ]")
+
+
+func _on_consumable(item: Dictionary) -> void:
+	if phase != Phase.DRAFT or is_overlay_open():
+		return
+	if not _tut_allows(&"consumable"):
+		return
+	await use_consumable(item)
+
+
+func _on_deck_changed() -> void:
+	if phase != Phase.DRAFT:
+		return
+	_build_room_cards(false)
+	_refresh_preview()
+	_update_hud()
+	_update_buttons()
+
+
+# ------------------------------------------------------------------ endings
+func _server_cleared() -> void:
+	phase = Phase.ENDED
+	_update_buttons()
+	var sv := RunState.server
+	var pay := ServerLogic.payout()
+	var text := ""
+	for l in pay.lines:
+		text += "%s   [color=#FFD866]+$%d[/color]\n" % [l[0], int(l[1])]
+	text += "\n[b]TOTAL  +$%d[/b]\n[color=#5B6470]BYTES %s / %s[/color]" % [int(pay.total), Fmt.big(sv.score), Fmt.big(sv.quota)]
+	_cleared_lines.text = text
+	var last := RunState.network >= RunState.FINAL_NETWORK and sv.kind == Enums.ServerKind.BLACK_ICE
+	_continue.text = "ENTER THE CORE" if last else "OPEN BLACK MARKET"
+	_credits.text = "$%d" % RunState.money
+	_anim.play(&"cleared_show")
+	AudioService.play("buy")
+
+
+func _on_continue(_s: InteractiveControl) -> void:
+	if RunState.advance_server():
+		RunState.end_run(true, "ALL 8 NETWORKS BREACHED")
+		SceneManager.go(SceneManager.GAME_OVER)
+	else:
+		SceneManager.go(SceneManager.SHOP)
+
+
+func _game_over(reason: String) -> void:
+	phase = Phase.ENDED
+	_update_buttons()
+	RunState.end_run(false, reason)
+	PostFX.impact()
+	AudioService.play("break")
+	await _wait(1.1)
+	SceneManager.go(SceneManager.GAME_OVER)
+
+
+func _wait(t: float) -> void:
+	await get_tree().create_timer(t).timeout
+
+
+## Makes the Stash panel and the Equipped Firewall panel smaller so the Room Nodes can be bigger.
+func _shrink_bays() -> void:
+	var stash_panel: Control = $SafeArea/Layout/MiddleZone/StashRow/StashPanel
+	stash_panel.custom_minimum_size = Vector2(104, 54)
+	stash_panel.pivot_offset = Vector2(52, 27)
+	var row := _weapon_bay.get_parent()
+	var idx := _weapon_bay.get_index()
+	var full := _weapon_bay.custom_minimum_size
+	_weapon_wrap = Control.new()
+	_weapon_wrap.custom_minimum_size = full * WEAPON_BAY_SCALE
+	_weapon_wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(_weapon_wrap)
+	row.move_child(_weapon_wrap, idx)
+	_weapon_bay.reparent(_weapon_wrap, false)
+	_weapon_bay.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_weapon_bay.position = Vector2.ZERO
+	_weapon_bay.size = full
+	_weapon_bay.scale = Vector2(WEAPON_BAY_SCALE, WEAPON_BAY_SCALE)

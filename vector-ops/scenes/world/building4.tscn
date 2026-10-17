@@ -1,0 +1,104 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_plaza"]
+albedo_color = Color(0.18, 0.21, 0.26, 1)
+roughness = 0.85
+metallic = 0.15
+
+[sub_resource type="StandardMaterial3D" id="mat_tank_silver"]
+albedo_color = Color(0.82, 0.86, 0.9, 1)
+roughness = 0.25
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="mat_tower_dark"]
+albedo_color = Color(0.08, 0.11, 0.14, 1)
+roughness = 0.55
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="mat_orange_glow"]
+albedo_color = Color(1, 0.55, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.45, 0.1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="mat_container_orange"]
+albedo_color = Color(0.55, 0.32, 0.08, 1)
+roughness = 0.55
+metallic = 0.35
+
+[node name="Building4_Refinery" type="Node3D"]
+
+[node name="GroundSlab" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(160, 1, 160)
+material = SubResource("mat_plaza")
+
+[node name="MainProcessingHall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 14, 0)
+use_collision = true
+size = Vector3(56, 28, 110)
+material = SubResource("mat_tower_dark")
+
+[node name="ControlTower" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 38, -32)
+use_collision = true
+size = Vector3(32, 20, 32)
+material = SubResource("mat_tower_dark")
+
+[node name="MegaSilo1" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 18, -36)
+use_collision = true
+radius = 16.0
+height = 36.0
+sides = 20
+material = SubResource("mat_tank_silver")
+
+[node name="MegaSilo2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 18, 4)
+use_collision = true
+radius = 16.0
+height = 36.0
+sides = 20
+material = SubResource("mat_tank_silver")
+
+[node name="MegaSilo3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 18, 44)
+use_collision = true
+radius = 16.0
+height = 36.0
+sides = 20
+material = SubResource("mat_tank_silver")
+
+[node name="SiloCatwalk" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 36.5, 4)
+use_collision = true
+size = Vector3(14, 1, 106)
+material = SubResource("mat_tower_dark")
+
+[node name="CrossGantryBridge" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 28.5, 4)
+use_collision = true
+size = Vector3(64, 1.2, 10)
+material = SubResource("mat_container_orange")
+
+[node name="SiloGlowBand1" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 30, -36)
+radius = 16.3
+height = 0.8
+sides = 20
+material = SubResource("mat_orange_glow")
+
+[node name="SiloGlowBand2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 30, 4)
+radius = 16.3
+height = 0.8
+sides = 20
+material = SubResource("mat_orange_glow")
+
+[node name="SiloGlowBand3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 30, 44)
+radius = 16.3
+height = 0.8
+sides = 20
+material = SubResource("mat_orange_glow")

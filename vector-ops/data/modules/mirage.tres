@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "mirage"
+display_name = "Mirage"
+category = "STEALTH"
+color = Color(0.85, 0.35, 0.95, 1)
+weight = 2.0
+script_path = "res://scripts/modules/mirage_module.gd"
+hud_meta_template = "CLOAK · 1 FLUX/s"
+description_template = "Toggle: near-invisible body, 1 Flux/s (regen continues). Still on radar. Attacking drops the cloak. Not with Ghost."

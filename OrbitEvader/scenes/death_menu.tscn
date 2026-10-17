@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://wxiedcf8r87u"]
+
+[ext_resource type="Script" uid="uid://chcvjtlcuoptf" path="res://scripts/death_menu.gd" id="1_latkk"]
+[ext_resource type="AudioStream" uid="uid://b65q65ok8sfw8" path="res://assets/music/alphix-game-over.mp3" id="2_gm7js"]
+
+[sub_resource type="Animation" id="Animation_n87rw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_myx47"]
+resource_name = "blur"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kukqi"]
+_data = {
+&"RESET": SubResource("Animation_n87rw"),
+&"blur": SubResource("Animation_myx47")
+}
+
+[sub_resource type="Animation" id="Animation_ox6ks"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("soundPlayer/AlphixGameOver:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_vqs20"]
+resource_name = "sound"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("soundPlayer/AlphixGameOver:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20fbl"]
+_data = {
+&"RESET": SubResource("Animation_ox6ks"),
+&"sound": SubResource("Animation_vqs20")
+}
+
+[node name="DeathMenu" type="Control" unique_id=823799271]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_latkk")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1651555815]
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 215.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1431094066]
+layout_mode = 2
+alignment = 1
+
+[node name="Start" type="Button" parent="PanelContainer/VBoxContainer" unique_id=627181087]
+layout_mode = 2
+text = "Start"
+
+[node name="Quit" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1492642889]
+layout_mode = 2
+text = "Quit"
+
+[node name="deathMessage" type="Label" parent="." unique_id=1964849287]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 7.0
+offset_right = 271.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.27058825, 0.07058824, 0.03137255, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "You Died !!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="deathMessage2" type="Label" parent="." unique_id=1137581427]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 30.0
+offset_right = 271.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0.011764706, 0.21176471, 0.7529412, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "Score: x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=865688030]
+libraries/ = SubResource("AnimationLibrary_kukqi")
+
+[node name="soundPlayer" type="AnimationPlayer" parent="." unique_id=583402285]
+libraries/ = SubResource("AnimationLibrary_20fbl")
+
+[node name="AlphixGameOver" type="AudioStreamPlayer" parent="soundPlayer" unique_id=1806686262]
+stream = ExtResource("2_gm7js")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Start" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

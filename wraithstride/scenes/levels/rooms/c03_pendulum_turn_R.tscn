@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="e0"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="e1"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="e2"]
+[ext_resource type="Material" path="res://scenes/levels/materials/rune.tres" id="e3"]
+[ext_resource type="Material" path="res://scenes/levels/materials/iron.tres" id="e4"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="e5"]
+[ext_resource type="PackedScene" path="res://scenes/props/pendulum_axe.tscn" id="e6"]
+[ext_resource type="PackedScene" path="res://scenes/props/spin_blade.tscn" id="e7"]
+[ext_resource type="PackedScene" path="res://scenes/props/seal_switch.tscn" id="e8"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="e9"]
+
+[sub_resource type="StandardMaterial3D" id="M_1"]
+albedo_color = Color(0.55, 0.52, 0.56, 1)
+metallic = 0.8
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.7, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.45
+
+[node name="Room" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="WallR1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-6.5, 1.5, -6)
+use_collision = true
+size = Vector3(1, 15, 12)
+material = ExtResource("e2")
+
+[node name="WallB1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 1.5, -12.5)
+use_collision = true
+size = Vector3(14, 15, 1)
+material = ExtResource("e2")
+
+[node name="Ceiling1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8.5, -6)
+size = Vector3(14, 1, 12)
+material = ExtResource("e2")
+
+[node name="PostA1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 1.5, -0.5)
+use_collision = true
+size = Vector3(1, 15, 1)
+material = ExtResource("e2")
+
+[node name="PostB1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 1.5, -11.5)
+use_collision = true
+size = Vector3(1, 15, 1)
+material = ExtResource("e2")
+
+[node name="Lintel1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 8, -6)
+use_collision = true
+size = Vector3(1, 2.5, 12)
+material = ExtResource("e2")
+
+[node name="Floor1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -6)
+use_collision = true
+size = Vector3(12, 1, 12)
+material = ExtResource("e1")
+
+[node name="T1" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-5.8, 3, -3.5)
+
+[node name="T2" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-5.8, 3, -9.5)
+
+[node name="T3" parent="Props" instance=ExtResource("e5")]
+position = Vector3(2.5, 3, -11.6)
+
+[node name="Axe1" parent="Hazards" instance=ExtResource("e6")]
+position = Vector3(1, 6, -5)
+
+[node name="Blade1" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(-3, 0.55, -9)
+
+[node name="Seal1" parent="Props" instance=ExtResource("e8")]
+position = Vector3(-4.5, 0, -10.5)
+
+[node name="Door1" parent="Props" instance=ExtResource("e9")]
+position = Vector3(5.4, 0, -6)
+rotation = Vector3(0, -1.5708, 0)

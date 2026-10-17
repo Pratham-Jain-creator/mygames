@@ -1,0 +1,13 @@
+start theory
+Hand-built 'theory' builds at Network 8 Mainframe, quota 375000, Firmware lvl 4, 40 Servers each
+mean    157058  best turn     160800  deaths 16/40  bad 0  ["overdrive", "steady_hand", "ransomware", "blueprint", "singularity"]
+mean     20814  best turn     161280  deaths 16/40  bad 0  ["black_hole", "redline", "last_stand_protocol", "singularity", "ransomware"]
+mean     60637  best turn     162000  deaths 23/40  bad 0  ["glass_cannon", "overdrive", "singularity", "ransomware", "the_core"]
+mean    141333  best turn     226080  deaths 23/40  bad 0  ["blueprint", "singularity", "ransomware", "overdrive", "glass_cannon"]
+mean      1463  best turn       1460  deaths 16/40  bad 0  ["floppy_disk", "hard_line", "clean_sweep", "iron_ledger", "deflector"]
+mean      1732  best turn       2198  deaths 16/40  bad 0  ["tempo", "razor_deck", "zen_garden", "minimalist", "lean_build"]
+mean      8340  best turn       8550  deaths 16/40  bad 0  ["hollow_crown", "razor_deck", "overdrive", "singularity", "lean_build"]
+mean     16818  best turn      18216  deaths 16/40  bad 0  ["poltergeist", "hunch", "blind_trust", "gamblers_eye", "singularity"]
+mean      3250  best turn       3990  deaths 16/40  bad 0  ["spyware", "trojan", "masochist", "panic_button", "overdrive"]
+mean     35333  best turn      56520  deaths 23/40  bad 0  ["compound_interest", "overdrive", "singularity", "glass_cannon", "ransomware"]
+DONE

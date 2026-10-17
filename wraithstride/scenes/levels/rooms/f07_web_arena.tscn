@@ -1,0 +1,183 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="e0"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="e1"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="e2"]
+[ext_resource type="Material" path="res://scenes/levels/materials/rune.tres" id="e3"]
+[ext_resource type="Material" path="res://scenes/levels/materials/iron.tres" id="e4"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="e5"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="e6"]
+[ext_resource type="PackedScene" path="res://scenes/props/web.tscn" id="e7"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/spider.tscn" id="e8"]
+[ext_resource type="PackedScene" path="res://scenes/props/seal_switch.tscn" id="e9"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="e10"]
+
+[sub_resource type="StandardMaterial3D" id="M_1"]
+albedo_color = Color(0.55, 0.52, 0.56, 1)
+metallic = 0.8
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.7, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.45
+
+[sub_resource type="MultiMesh" id="MM_3"]
+transform_format = 1
+instance_count = 20
+mesh = SubResource("CM_2")
+buffer = PackedFloat32Array(1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -17.44, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -16.72, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -16, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -15.28, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -14.56, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -17.44, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -16.72, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -16, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -15.28, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -14.56, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -17.44, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -16.72, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -16, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -15.28, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -14.56, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -17.44, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -16.72, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -16, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -15.28, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -14.56)
+
+[sub_resource type="BoxShape3D" id="BS_4"]
+size = Vector3(3.6, 0.5, 3.6)
+
+[sub_resource type="MultiMesh" id="MM_5"]
+transform_format = 1
+instance_count = 20
+mesh = SubResource("CM_2")
+buffer = PackedFloat32Array(1, 0, 0, 1.65, 0, 1, 0, 0.225, 0, 0, 1, -25.44, 1, 0, 0, 1.65, 0, 1, 0, 0.225, 0, 0, 1, -24.72, 1, 0, 0, 1.65, 0, 1, 0, 0.225, 0, 0, 1, -24, 1, 0, 0, 1.65, 0, 1, 0, 0.225, 0, 0, 1, -23.28, 1, 0, 0, 1.65, 0, 1, 0, 0.225, 0, 0, 1, -22.56, 1, 0, 0, 2.55, 0, 1, 0, 0.225, 0, 0, 1, -25.44, 1, 0, 0, 2.55, 0, 1, 0, 0.225, 0, 0, 1, -24.72, 1, 0, 0, 2.55, 0, 1, 0, 0.225, 0, 0, 1, -24, 1, 0, 0, 2.55, 0, 1, 0, 0.225, 0, 0, 1, -23.28, 1, 0, 0, 2.55, 0, 1, 0, 0.225, 0, 0, 1, -22.56, 1, 0, 0, 3.45, 0, 1, 0, 0.225, 0, 0, 1, -25.44, 1, 0, 0, 3.45, 0, 1, 0, 0.225, 0, 0, 1, -24.72, 1, 0, 0, 3.45, 0, 1, 0, 0.225, 0, 0, 1, -24, 1, 0, 0, 3.45, 0, 1, 0, 0.225, 0, 0, 1, -23.28, 1, 0, 0, 3.45, 0, 1, 0, 0.225, 0, 0, 1, -22.56, 1, 0, 0, 4.35, 0, 1, 0, 0.225, 0, 0, 1, -25.44, 1, 0, 0, 4.35, 0, 1, 0, 0.225, 0, 0, 1, -24.72, 1, 0, 0, 4.35, 0, 1, 0, 0.225, 0, 0, 1, -24, 1, 0, 0, 4.35, 0, 1, 0, 0.225, 0, 0, 1, -23.28, 1, 0, 0, 4.35, 0, 1, 0, 0.225, 0, 0, 1, -22.56)
+
+[sub_resource type="BoxShape3D" id="BS_6"]
+size = Vector3(3.6, 0.5, 3.6)
+
+[sub_resource type="MultiMesh" id="MM_7"]
+transform_format = 1
+instance_count = 16
+mesh = SubResource("CM_2")
+buffer = PackedFloat32Array(1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -33.35, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -32.45, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -31.55, 1, 0, 0, -4.35, 0, 1, 0, 0.225, 0, 0, 1, -30.65, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -33.35, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -32.45, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -31.55, 1, 0, 0, -3.45, 0, 1, 0, 0.225, 0, 0, 1, -30.65, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -33.35, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -32.45, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -31.55, 1, 0, 0, -2.55, 0, 1, 0, 0.225, 0, 0, 1, -30.65, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -33.35, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -32.45, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -31.55, 1, 0, 0, -1.65, 0, 1, 0, 0.225, 0, 0, 1, -30.65)
+
+[sub_resource type="BoxShape3D" id="BS_8"]
+size = Vector3(3.6, 0.5, 3.6)
+
+[node name="Room" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="WallL1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-5.5, 1.5, -22)
+use_collision = true
+size = Vector3(1, 15, 44)
+material = ExtResource("e2")
+
+[node name="WallR1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(5.5, 1.5, -22)
+use_collision = true
+size = Vector3(1, 15, 44)
+material = ExtResource("e2")
+
+[node name="Ceiling1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8.5, -22)
+size = Vector3(12, 1, 44)
+material = ExtResource("e2")
+
+[node name="Floor1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -22)
+use_collision = true
+size = Vector3(10, 1, 44)
+material = ExtResource("e1")
+
+[node name="Lintel1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8, -43.5)
+use_collision = true
+size = Vector3(11, 2.5, 1)
+material = ExtResource("e2")
+
+[node name="T1" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -7)
+
+[node name="T2" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -7)
+
+[node name="T3" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -21)
+
+[node name="T4" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -21)
+
+[node name="T5" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -35)
+
+[node name="T6" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -35)
+
+[node name="Tile1" type="Area3D" parent="Hazards"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/Tile1"]
+position = Vector3(-3, 0.25, -16)
+shape = SubResource("BS_4")
+
+[node name="Visual" type="MultiMeshInstance3D" parent="Hazards/Tile1"]
+multimesh = SubResource("MM_3")
+material_override = SubResource("M_1")
+
+[node name="Tile2" type="Area3D" parent="Hazards"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/Tile2"]
+position = Vector3(3, 0.25, -24)
+shape = SubResource("BS_6")
+
+[node name="Visual" type="MultiMeshInstance3D" parent="Hazards/Tile2"]
+multimesh = SubResource("MM_5")
+material_override = SubResource("M_1")
+
+[node name="Tile3" type="Area3D" parent="Hazards"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/Tile3"]
+position = Vector3(-3, 0.25, -32)
+shape = SubResource("BS_8")
+
+[node name="Visual" type="MultiMeshInstance3D" parent="Hazards/Tile3"]
+multimesh = SubResource("MM_7")
+material_override = SubResource("M_1")
+
+[node name="Web1" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(0, 0, -12)
+
+[node name="Web2" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(-3.4, 0, -20)
+
+[node name="Web3" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(3.4, 0, -20)
+
+[node name="Web4" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(0, 0, -28)
+
+[node name="Web5" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(-3.4, 0, -36)
+
+[node name="Web6" parent="Hazards" instance=ExtResource("e7")]
+position = Vector3(3.4, 0, -36)
+
+[node name="Spider1" parent="Enemies" instance=ExtResource("e8")]
+position = Vector3(3, 0.1, -18)
+
+[node name="Spider2" parent="Enemies" instance=ExtResource("e8")]
+position = Vector3(-3, 0.1, -26)
+
+[node name="Spider3" parent="Enemies" instance=ExtResource("e8")]
+position = Vector3(0, 0.1, -34)
+
+[node name="Seal1" parent="Props" instance=ExtResource("e9")]
+position = Vector3(0, 0, -41)
+
+[node name="Door1" parent="Props" instance=ExtResource("e10")]
+position = Vector3(0, 0, -43.4)

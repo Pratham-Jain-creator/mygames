@@ -1,0 +1,1090 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_melee"]
+size = Vector3(2.6, 2.2, 3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_steel"]
+albedo_color = Color(0.78, 0.8, 0.88, 1)
+metallic = 0.9
+roughness = 0.28
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.32, 0.2, 0.12, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(0.9, 0.72, 0.3, 1)
+metallic = 0.9
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.75, 0.6, 0.45, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_glow_white"]
+albedo_color = Color(0.7, 1, 0.8, 1)
+emission_enabled = true
+emission = Color(0.4, 1, 0.6, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_glow_black"]
+albedo_color = Color(0.7, 0.4, 1, 1)
+emission_enabled = true
+emission = Color(0.6, 0.2, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_spark"]
+shading_mode = 0
+albedo_color = Color(1, 0.85, 0.45, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_shock"]
+shading_mode = 0
+albedo_color = Color(1, 0.9, 0.6, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.4, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_mote"]
+shading_mode = 0
+albedo_color = Color(0.5, 1, 0.65, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sword_blade"]
+size = Vector3(0.05, 0.8, 0.012)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sword_guard"]
+size = Vector3(0.22, 0.035, 0.05)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_grip"]
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.24
+
+[sub_resource type="BoxMesh" id="BoxMesh_dagger_blade"]
+size = Vector3(0.04, 0.35, 0.01)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dagger_guard"]
+size = Vector3(0.12, 0.03, 0.04)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_spear_shaft"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 1.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_spear_tip"]
+top_radius = 0.0
+bottom_radius = 0.05
+height = 0.28
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_staff_shaft"]
+top_radius = 0.025
+bottom_radius = 0.025
+height = 1.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_staff_orb"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rod_shaft"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_rod_orb"]
+radius = 0.07
+height = 0.14
+
+[sub_resource type="SphereMesh" id="SphereMesh_fist"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bracer"]
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.12
+
+[sub_resource type="SphereMesh" id="SphereMesh_spark"]
+material = SubResource("Mat_spark")
+radius = 0.015
+height = 0.03
+radial_segments = 6
+rings = 3
+
+[sub_resource type="SphereMesh" id="SphereMesh_mote"]
+material = SubResource("Mat_mote")
+radius = 0.03
+height = 0.06
+radial_segments = 6
+rings = 3
+
+[sub_resource type="TorusMesh" id="TorusMesh_shock"]
+inner_radius = 0.9
+outer_radius = 1.0
+rings = 24
+ring_segments = 8
+
+[sub_resource type="Animation" id="H_idle"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.012, 0.005), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.02, 0, 0.015), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_equip"]
+resource_name = "equip"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0, -0.5, 0.1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0.8, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_swing_a"]
+resource_name = "swing_a"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.18, 0.5),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.15, 0.1, 0.1), Vector3(-0.35, -0.05, -0.3), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.18, 0.5),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.3, 0, -0.9), Vector3(-0.9, 0, 1.1), Vector3(0, 0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.18),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_swing_hit"
+}]
+}
+
+[sub_resource type="Animation" id="H_swing_b"]
+resource_name = "swing_b"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.18, 0.5),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.2, -0.1, 0.1), Vector3(0.3, 0.05, -0.3), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.18, 0.5),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.2, 0, 1.2), Vector3(-0.9, 0, -0.8), Vector3(0, 0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.18),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_swing_hit"
+}]
+}
+
+[sub_resource type="Animation" id="H_deflect"]
+resource_name = "deflect"
+length = 0.08
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.2, 0.1, -0.12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.3, 0.4, 1.35)]
+}
+
+[sub_resource type="Animation" id="H_deflect_hold"]
+resource_name = "deflect_hold"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0.1, -0.12), Vector3(-0.2, 0.11, -0.12), Vector3(-0.2, 0.1, -0.12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.3, 0.4, 1.35), Vector3(-0.3, 0.4, 1.37), Vector3(-0.3, 0.4, 1.35)]
+}
+
+[sub_resource type="Animation" id="H_deflect_perfect"]
+resource_name = "deflect_perfect"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25),
+"transitions": PackedFloat32Array(0.4, 1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0.1, -0.12), Vector3(-0.1, 0.15, -0.3), Vector3(-0.2, 0.1, -0.12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25),
+"transitions": PackedFloat32Array(0.4, 1, 1),
+"update": 0,
+"values": [Vector3(-0.3, 0.4, 1.35), Vector3(-0.6, 0.7, 1.8), Vector3(-0.3, 0.4, 1.35)]
+}
+
+[sub_resource type="Animation" id="H_block_hit"]
+resource_name = "block_hit"
+length = 0.18
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0.1, -0.12), Vector3(-0.2, 0.1, -0.03), Vector3(-0.2, 0.1, -0.12)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.3, 0.4, 1.35), Vector3(-0.3, 0.4, 1.55), Vector3(-0.3, 0.4, 1.35)]
+}
+
+[sub_resource type="Animation" id="H_guard_drop"]
+resource_name = "guard_drop"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0.1, -0.12), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.3, 0.4, 1.35), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_cast"]
+resource_name = "cast"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.05, 0), Vector3(0, 0.15, -0.05), Vector3(0, 0.05, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.5, 0, 0), Vector3(-0.65, 0.05, 0.05), Vector3(-0.5, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_cast_release"]
+resource_name = "cast_release"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Vector3(0, 0.15, -0.05), Vector3(0, 0, -0.45), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Vector3(-0.65, 0, 0), Vector3(-1.1, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_ability_quick"]
+resource_name = "ability_quick"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.05, -0.35), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1, 0, 0.2), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_deathblow"]
+resource_name = "deathblow"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.35, 0.8),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.3, 0.1), Vector3(0, -0.25, -0.5), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.35, 0.8),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.6, 0, 0), Vector3(-1.2, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="H_hurt"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.12, 0.1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake/Camera/Viewmodel/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.4, 0, 0.1), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_hand"]
+_data = {
+&"ability_quick": SubResource("H_ability_quick"),
+&"block_hit": SubResource("H_block_hit"),
+&"cast": SubResource("H_cast"),
+&"cast_release": SubResource("H_cast_release"),
+&"deathblow": SubResource("H_deathblow"),
+&"deflect": SubResource("H_deflect"),
+&"deflect_hold": SubResource("H_deflect_hold"),
+&"deflect_perfect": SubResource("H_deflect_perfect"),
+&"equip": SubResource("H_equip"),
+&"guard_drop": SubResource("H_guard_drop"),
+&"hurt": SubResource("H_hurt"),
+&"idle": SubResource("H_idle"),
+&"swing_a": SubResource("H_swing_a"),
+&"swing_b": SubResource("H_swing_b")
+}
+
+[sub_resource type="Animation" id="R_wallrun_left"]
+resource_name = "wallrun_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.14)]
+}
+
+[sub_resource type="Animation" id="R_wallrun_right"]
+resource_name = "wallrun_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.14)]
+}
+
+[sub_resource type="Animation" id="R_slide_in"]
+resource_name = "slide_in"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.75, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.04)]
+}
+
+[sub_resource type="Animation" id="R_roll_reset"]
+resource_name = "roll_reset"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_roll"]
+_data = {
+&"roll_reset": SubResource("R_roll_reset"),
+&"slide_in": SubResource("R_slide_in"),
+&"wallrun_left": SubResource("R_wallrun_left"),
+&"wallrun_right": SubResource("R_wallrun_right")
+}
+
+[sub_resource type="Animation" id="F_dash"]
+resource_name = "dash"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera:fov")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.35),
+"transitions": PackedFloat32Array(0.4, 1, 1),
+"update": 0,
+"values": [80.0, 102.0, 80.0]
+}
+
+[sub_resource type="Animation" id="F_respawn"]
+resource_name = "respawn"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake/Camera:fov")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [60.0, 80.0]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_fov"]
+_data = {
+&"dash": SubResource("F_dash"),
+&"respawn": SubResource("F_respawn")
+}
+
+[sub_resource type="Animation" id="S_land"]
+resource_name = "land"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.3),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.14, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="S_hurt"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.12, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.05, 0, 0.07), Vector3(-0.03, 0, -0.05), Vector3(0.01, 0, 0.02), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="S_jolt"]
+resource_name = "jolt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.06), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.02, 0, 0.02), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="S_slam"]
+resource_name = "slam"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Rig/Shake:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.45),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.28, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Rig/Shake:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.08, 0, 0.04), Vector3(-0.03, 0, -0.03), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_shake"]
+_data = {
+&"hurt": SubResource("S_hurt"),
+&"jolt": SubResource("S_jolt"),
+&"land": SubResource("S_land"),
+&"slam": SubResource("S_slam")
+}
+
+[sub_resource type="Animation" id="X_heal"]
+resource_name = "heal"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/HealMotes:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="X_shockwave"]
+resource_name = "shockwave"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fx/Shockwave:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.44),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fx/Shockwave:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector3(0.5, 1, 0.5), Vector3(7, 1, 7)]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_fx"]
+_data = {
+&"heal": SubResource("X_heal"),
+&"shockwave": SubResource("X_shockwave")
+}
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+floor_snap_length = 0.4
+script = ExtResource("1_player")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Head" type="Node3D" parent="."]
+position = Vector3(0, 1.62, 0)
+
+[node name="MeleeArea" type="Area3D" parent="Head"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Shape" type="CollisionShape3D" parent="Head/MeleeArea"]
+position = Vector3(0, 0, -1.9)
+shape = SubResource("BoxShape3D_melee")
+
+[node name="Rig" type="Node3D" parent="Head"]
+
+[node name="Shake" type="Node3D" parent="Head/Rig"]
+
+[node name="Camera" type="Camera3D" parent="Head/Rig/Shake"]
+current = true
+fov = 80.0
+near = 0.03
+
+[node name="AimRay" type="RayCast3D" parent="Head/Rig/Shake/Camera"]
+target_position = Vector3(0, 0, -60)
+collision_mask = 5
+
+[node name="Sparks" type="CPUParticles3D" parent="Head/Rig/Shake/Camera"]
+position = Vector3(0, -0.05, -1.3)
+emitting = false
+amount = 14
+lifetime = 0.35
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_spark")
+direction = Vector3(0, 0, 1)
+spread = 70.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+
+[node name="Viewmodel" type="Node3D" parent="Head/Rig/Shake/Camera"]
+position = Vector3(0.3, -0.32, -0.55)
+rotation = Vector3(-0.5, 0, 0.15)
+
+[node name="Hand" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel"]
+
+[node name="Weapons" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand"]
+
+[node name="Sword" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+
+[node name="Blade" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Sword"]
+position = Vector3(0, 0.55, 0)
+mesh = SubResource("BoxMesh_sword_blade")
+surface_material_override/0 = SubResource("Mat_steel")
+
+[node name="Guard" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Sword"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("BoxMesh_sword_guard")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Grip" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Sword"]
+position = Vector3(0, 0.02, 0)
+mesh = SubResource("CylinderMesh_grip")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Staff" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+visible = false
+
+[node name="Shaft" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Staff"]
+position = Vector3(0, 0.4, 0)
+mesh = SubResource("CylinderMesh_staff_shaft")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Orb" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Staff"]
+position = Vector3(0, 1.05, 0)
+mesh = SubResource("SphereMesh_staff_orb")
+surface_material_override/0 = SubResource("Mat_glow_white")
+
+[node name="Rod" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+visible = false
+
+[node name="Shaft" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Rod"]
+position = Vector3(0, 0.2, 0)
+mesh = SubResource("CylinderMesh_rod_shaft")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Orb" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Rod"]
+position = Vector3(0, 0.6, 0)
+mesh = SubResource("SphereMesh_rod_orb")
+surface_material_override/0 = SubResource("Mat_glow_black")
+
+[node name="Dagger" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+visible = false
+
+[node name="Blade" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Dagger"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("BoxMesh_dagger_blade")
+surface_material_override/0 = SubResource("Mat_steel")
+
+[node name="Guard" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Dagger"]
+position = Vector3(0, 0.12, 0)
+mesh = SubResource("BoxMesh_dagger_guard")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Grip" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Dagger"]
+position = Vector3(0, 0.0, 0)
+mesh = SubResource("CylinderMesh_grip")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Spear" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+visible = false
+
+[node name="Shaft" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Spear"]
+position = Vector3(0, 0.5, 0)
+mesh = SubResource("CylinderMesh_spear_shaft")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Tip" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Spear"]
+position = Vector3(0, 1.4, 0)
+mesh = SubResource("CylinderMesh_spear_tip")
+surface_material_override/0 = SubResource("Mat_steel")
+
+[node name="Fists" type="Node3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons"]
+visible = false
+
+[node name="Fist" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Fists"]
+position = Vector3(0, 0.05, 0)
+mesh = SubResource("SphereMesh_fist")
+surface_material_override/0 = SubResource("Mat_cloth")
+
+[node name="Bracer" type="MeshInstance3D" parent="Head/Rig/Shake/Camera/Viewmodel/Hand/Weapons/Fists"]
+position = Vector3(0, -0.08, 0)
+mesh = SubResource("CylinderMesh_bracer")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Fx" type="Node3D" parent="."]
+
+[node name="Shockwave" type="MeshInstance3D" parent="Fx"]
+visible = false
+top_level = true
+mesh = SubResource("TorusMesh_shock")
+surface_material_override/0 = SubResource("Mat_shock")
+
+[node name="HealMotes" type="CPUParticles3D" parent="Fx"]
+position = Vector3(0, 1.2, 0)
+emitting = false
+amount = 36
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.3
+mesh = SubResource("SphereMesh_mote")
+emission_shape = 1
+emission_sphere_radius = 0.7
+direction = Vector3(0, 1, 0)
+spread = 20.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+
+[node name="HandAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_hand")
+}
+autoplay = "idle"
+
+[node name="RollAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_roll")
+}
+
+[node name="FovAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_fov")
+}
+
+[node name="ShakeAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_shake")
+}
+
+[node name="FxAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_fx")
+}

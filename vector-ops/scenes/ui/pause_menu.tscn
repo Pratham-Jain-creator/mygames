@@ -1,0 +1,222 @@
+[gd_scene format=3 uid="uid://blyvaa4x2ttcn"]
+
+[ext_resource type="Script" uid="uid://dvgl0sugwpyyu" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_dialog.tscn" id="2_settings"]
+
+[sub_resource type="StyleBoxFlat" id="style_panel"]
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+bg_color = Color(0.066, 0.098, 0.122, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.168, 0.278, 0.318, 1)
+
+[sub_resource type="LabelSettings" id="lbl_pause_white"]
+font_size = 28
+font_color = Color(0.95, 0.97, 0.98, 1)
+
+[sub_resource type="LabelSettings" id="lbl_pause_cyan"]
+font_size = 28
+font_color = Color(0.263, 0.878, 0.776, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_primary"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.263, 0.878, 0.776, 1)
+border_width_right = 4
+border_color = Color(0.18, 0.65, 0.58, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_primary_hover"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.35, 0.94, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_dark"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.078, 0.118, 0.145, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.3, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_dark_hover"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.11, 0.17, 0.21, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.263, 0.878, 0.776, 1)
+
+[node name="PauseMenu" type="Control" unique_id=1356247892]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pause")
+
+[node name="DimOverlay" type="ColorRect" parent="." unique_id=772982351]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.06, 0.78)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=699434920]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsDialog" parent="." instance=ExtResource("2_settings")]
+unique_name_in_owner = true
+
+[node name="MainCard" type="PanelContainer" parent="CenterContainer" unique_id=1736601765]
+custom_minimum_size = Vector2(680, 420)
+layout_mode = 2
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/MainCard" unique_id=1001863955]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="HeaderHBox" type="HBoxContainer" parent="CenterContainer/MainCard/VBox" unique_id=726799553]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LblTactical" type="Label" parent="CenterContainer/MainCard/VBox/HeaderHBox" unique_id=746793940]
+layout_mode = 2
+text = "T A C T I C A L"
+label_settings = SubResource("lbl_pause_white")
+
+[node name="LblPause" type="Label" parent="CenterContainer/MainCard/VBox/HeaderHBox" unique_id=1310144490]
+layout_mode = 2
+text = "P A U S E"
+label_settings = SubResource("lbl_pause_cyan")
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainCard/VBox/HeaderHBox" unique_id=1320814743]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/MainCard/VBox/HeaderHBox" unique_id=1394075929]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.6, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "SIMULATION SUSPENDED"
+
+[node name="ColumnsHBox" type="HBoxContainer" parent="CenterContainer/MainCard/VBox" unique_id=1264079771]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="LeftButtons" type="VBoxContainer" parent="CenterContainer/MainCard/VBox/ColumnsHBox" unique_id=1678215081]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BtnResume" type="Button" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=1458995320]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.08, 0.09, 1)
+theme_override_colors/font_hover_color = Color(0.04, 0.08, 0.09, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("style_btn_primary")
+theme_override_styles/hover = SubResource("style_btn_primary_hover")
+text = "RESUME MATCH
+Return to grid (ESC)"
+alignment = 0
+
+[node name="BtnSettings" type="Button" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=226368452]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "SETTINGS"
+alignment = 0
+
+[node name="BtnDisconnect" type="Button" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=134589927]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "LEAVE MATCH"
+alignment = 0
+
+[node name="BtnQuit" type="Button" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=1587979528]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.35, 0.4, 1)
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "QUIT TO DESKTOP"
+alignment = 0
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=1749248937]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ControlsHint" type="Label" parent="CenterContainer/MainCard/VBox/ColumnsHBox/LeftButtons" unique_id=438242432]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.56, 0.61, 1)
+theme_override_font_sizes/font_size = 11
+text = "WASD move - F run - Shift slide - Space jump
+LMB right hand - RMB left hand
+E / Q rotate hand - Tab spectate
+Pad: sticks move/look - RT/LT hands - RB/LB rotate
+A jump - B slide - L3 run - Start pause"
+
+[node name="RightReadout" type="PanelContainer" parent="CenterContainer/MainCard/VBox/ColumnsHBox" unique_id=1179341415]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="InfoVBox" type="VBoxContainer" parent="CenterContainer/MainCard/VBox/ColumnsHBox/RightReadout" unique_id=1404012183]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LoadoutHeader" type="Label" parent="CenterContainer/MainCard/VBox/ColumnsHBox/RightReadout/InfoVBox" unique_id=1337089588]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.263, 0.878, 0.776, 1)
+theme_override_font_sizes/font_size = 14
+text = "ACTIVE OPERATOR READOUT"
+
+[node name="LoadoutSummary" type="RichTextLabel" parent="CenterContainer/MainCard/VBox/ColumnsHBox/RightReadout/InfoVBox" unique_id=1487107144]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=#7f99a3]RIGHT HAND (LMB / E)[/color]
+[color=#edf5f7]1. Kinetic (wt 1)   2. Edge (wt 1)[/color]
+
+[color=#7f99a3]LEFT HAND (RMB / Q)[/color]
+[color=#edf5f7]1. Aegis (wt 2)     2. Boost (wt 1)[/color]
+
+[color=#43e0c6]■[/color] [color=#8ca3ad]Standing still accelerates Flux recovery.[/color]
+[color=#e05263]■[/color] [color=#8ca3ad]Fractured Flux reduces max pool until next round.[/color]"

@@ -1,0 +1,99 @@
+[gd_scene load_steps=11 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.04, 0.04, 0.06, 1)
+metallic = 0.6
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.82, 0.85, 0.9, 1)
+metallic = 0.5
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="mat_blast_glow"]
+albedo_color = Color(1, 0.55, 0.2, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(1, 0.45, 0.1, 1)
+emission_energy_multiplier = 3.8
+
+[sub_resource type="BoxMesh" id="mesh_housing"]
+material = SubResource("mat_armor")
+size = Vector3(0.16, 0.18, 0.42)
+
+[sub_resource type="CylinderMesh" id="mesh_barrel"]
+material = SubResource("mat_dark")
+top_radius = 0.065
+bottom_radius = 0.065
+height = 0.46
+radial_segments = 12
+
+[sub_resource type="SphereMesh" id="mesh_core"]
+material = SubResource("mat_blast_glow")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="BoxMesh" id="mesh_vent"]
+material = SubResource("mat_blast_glow")
+size = Vector3(0.17, 0.025, 0.08)
+
+[sub_resource type="BoxMesh" id="mesh_grip"]
+material = SubResource("mat_dark")
+size = Vector3(0.05, 0.14, 0.07)
+
+[sub_resource type="Animation" id="anim_fire"]
+resource_name = "fire"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LauncherBody:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.35),
+"transitions": PackedFloat32Array(0.3, 2, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.02, 0.12), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_blast"]
+_data = {
+&"fire": SubResource("anim_fire")
+}
+
+[node name="Blast" type="Node3D"]
+
+[node name="LauncherBody" type="Node3D" parent="."]
+
+[node name="Housing" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.1)
+mesh = SubResource("mesh_housing")
+
+[node name="Barrel" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.07, -0.14)
+mesh = SubResource("mesh_barrel")
+
+[node name="PayloadCore" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, -0.32)
+mesh = SubResource("mesh_core")
+
+[node name="SideVentA" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, -0.12)
+mesh = SubResource("mesh_vent")
+
+[node name="SideVentB" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, -0.24)
+mesh = SubResource("mesh_vent")
+
+[node name="Grip" type="MeshInstance3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -0.04, 0)
+mesh = SubResource("mesh_grip")
+
+[node name="MuzzlePoint" type="Marker3D" parent="LauncherBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, -0.4)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_blast")
+}

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "bolt"
+display_name = "Bolt"
+category = "WEAPON"
+color = Color(0.78, 0.8, 0.88, 1)
+weight = 2.0
+script_path = "res://scripts/modules/bolt_module.gd"
+hud_meta_template = "SNIPER · {cost} FLUX"
+description_template = "Heavy sniper. Click 1: scope (frozen). Click 2: fire, {cost} Flux, {damage} dmg, head x2. Shift cancels. Slows you; flags you on radar 12 s."
+cost = 30.0
+cooldown = 1.8
+damage = 90.0
+range_m = 130.0

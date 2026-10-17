@@ -1,0 +1,29 @@
+class_name BossDB
+extends RefCounted
+## Black-ICE Server modifiers.
+
+const BOSSES := {
+	"wall": {"name": "The Wall", "desc": "Node values cannot exceed 10."},
+	"needle": {"name": "The Needle", "desc": "Skipping a room deals 5 unmitigated Integrity damage."},
+	"void": {"name": "The Void", "desc": "Base Bytes from Subroutines is reduced to 0."},
+	"mirror": {"name": "The Mirror", "desc": "All Glitch values are doubled."},
+	"leech": {"name": "The Leech", "desc": "Patch Nodes no longer restore Integrity. Instead, they act exactly like Glitches."},
+	"cipher": {"name": "The Cipher", "desc": "All Nodes are drawn face down. Track the Tailbytes to guess their type and value."},
+	"lock": {"name": "The Lock", "desc": "You cannot Stash Nodes. You must play exactly the first 3 you click; the rest are lost."},
+	"furnace": {"name": "The Furnace", "desc": "Firewalls degrade by double the normal amount."},
+}
+const ORDER := ["wall", "needle", "void", "mirror", "leech", "cipher", "lock", "furnace"]
+
+
+static func shuffled_order() -> Array:
+	var o := ORDER.duplicate()
+	o.shuffle()
+	return o
+
+
+static func name_of(id: String) -> String:
+	return BOSSES[id].name if BOSSES.has(id) else ""
+
+
+static func desc_of(id: String) -> String:
+	return BOSSES[id].desc if BOSSES.has(id) else ""

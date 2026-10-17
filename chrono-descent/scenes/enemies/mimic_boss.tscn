@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/mimic_boss.gd" id="1_boss"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="2_hc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(54, 28)
+
+[node name="MimicBoss" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_boss")
+directional = true
+move_speed = 42.0
+hurt_stun_time = 0.0
+knockback_resistance = 0.9
+melee_damage = 16
+melee_knockback = 300.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -30)
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hc")
+max_health = 700

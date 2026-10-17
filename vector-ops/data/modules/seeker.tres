@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "seeker"
+display_name = "Seeker"
+category = "WEAPON"
+color = Color(0.45, 1, 0.45, 1)
+weight = 2.0
+script_path = "res://scripts/modules/seeker_module.gd"
+hud_meta_template = "HOMING · {cost} FLUX"
+description_template = "Homing shot (hold to keep firing), {cost} Flux, {damage} dmg, flies for {flight_time} s. Locks the enemy nearest your crosshair within {range} m; cannot lock Ghosts. An Aegis shield stops it completely (no damage)."
+cost = 8.0
+cooldown = 0.45
+damage = 18.0
+range_m = 45.0
+tuning = {
+"flight_time": 2.2,
+"lock_dot": 0.85,
+"speed": 22.0,
+"turn": 2.4
+}

@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_street"]
+albedo_color = Color(0.14, 0.17, 0.21, 1)
+roughness = 0.85
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="mat_wall_dark"]
+albedo_color = Color(0.07, 0.09, 0.12, 1)
+roughness = 0.55
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="mat_container_blue"]
+albedo_color = Color(0.09, 0.13, 0.18, 1)
+roughness = 0.55
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="mat_container_orange"]
+albedo_color = Color(0.55, 0.32, 0.08, 1)
+roughness = 0.55
+metallic = 0.35
+
+[node name="Alley3_ContainerMaze" type="Node3D"]
+
+[node name="GroundFloor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(160, 1, 160)
+material = SubResource("mat_street")
+
+[node name="OuterBuildingWest" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 15, 0)
+use_collision = true
+size = Vector3(32, 30, 160)
+material = SubResource("mat_wall_dark")
+
+[node name="OuterBuildingEast" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 15, 0)
+use_collision = true
+size = Vector3(32, 30, 160)
+material = SubResource("mat_wall_dark")
+
+[node name="MazeSpineA1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4.8, -42)
+use_collision = true
+size = Vector3(10, 9.6, 36)
+material = SubResource("mat_container_blue")
+
+[node name="MazeSpineA2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 6.4, -36)
+use_collision = true
+size = Vector3(10, 12.8, 36)
+material = SubResource("mat_container_orange")
+
+[node name="MazeSpineB1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0)
+use_collision = true
+size = Vector3(28, 12.8, 12)
+material = SubResource("mat_container_blue")
+
+[node name="MazeSpineC1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 6.4, 36)
+use_collision = true
+size = Vector3(10, 12.8, 36)
+material = SubResource("mat_container_orange")
+
+[node name="MazeSpineC2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4.8, 42)
+use_collision = true
+size = Vector3(10, 9.6, 36)
+material = SubResource("mat_container_blue")
+
+[node name="ContainerBridge1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -38)
+use_collision = true
+size = Vector3(54, 3.2, 6)
+material = SubResource("mat_container_orange")
+
+[node name="ContainerBridge2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, 38)
+use_collision = true
+size = Vector3(54, 3.2, 6)
+material = SubResource("mat_container_orange")

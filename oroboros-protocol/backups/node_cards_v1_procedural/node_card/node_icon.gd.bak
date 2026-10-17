@@ -1,0 +1,48 @@
+class_name NodeIcon
+extends Control
+## Node glyph. Drawn from NodeStyle.icon_parts() (paths copied from the mockup),
+## so every kind shares this one draw routine. `unknown` shows a "?".
+
+var node_type: int = Enums.NodeType.DATA:
+	set(v):
+		node_type = v
+		queue_redraw()
+var tint: Color = Color.WHITE:
+	set(v):
+		tint = v
+		queue_redraw()
+var unknown := false:
+	set(v):
+		unknown = v
+		queue_redraw()
+
+
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	resized.connect(queue_redraw)
+
+
+func _draw() -> void:
+	var c := size * 0.5
+	var u := minf(size.x, size.y) * 0.5
+	if unknown:
+		var w := 2.5
+		draw_arc(c + Vector2(0, -u * 0.25), u * 0.38, PI, TAU + 0.6, 20, tint, w, true)
+		draw_line(c + Vector2(u * 0.25, u * 0.08), c + Vector2(0, u * 0.28), tint, w, true)
+		draw_line(c + Vector2(0, u * 0.28), c + Vector2(0, u * 0.4), tint, w, true)
+		draw_circle(c + Vector2(0, u * 0.7), 3.0, tint)
+		return
+	var s := u * 2.0 / 120.0                 # 120-unit icon box -> control size
+	var origin := c - Vector2(60, 60) * s
+	var stroke := 3.5 * s
+	for part in NodeStyle.icon_parts(node_type):
+		var col: Color = part.get("col", tint)
+		var pts := PackedVector2Array()
+		for p in part["pts"]:
+			pts.append(origin + (p + part["off"]) * s)
+		if part["fill"] > 0.0 and pts.size() >= 3:
+			draw_colored_polygon(pts, Color(col, part["fill"]))
+		var line := pts.duplicate()
+		if part["closed"]:
+			line.append(pts[0])
+		draw_polyline(line, Color(col, part["alpha"]), stroke, true)

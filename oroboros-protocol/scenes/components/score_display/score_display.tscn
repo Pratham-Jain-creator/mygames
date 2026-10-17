@@ -1,0 +1,280 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/score_display/score_display.gd" id="1_script"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBox/Row/MultPanel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBox/Row/BasePanel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBox/Row/Middle/TotalLabel:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tick"]
+resource_name = "tick"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_pulse_mult"]
+resource_name = "pulse_mult"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBox/Row/MultPanel:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 1.3), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pulse_base"]
+resource_name = "pulse_base"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBox/Row/BasePanel:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pop_total"]
+resource_name = "pop_total"
+length = 1.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBox/Row/Middle/TotalLabel:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.34, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.4, 0.4), Vector2(1.45, 1.45), Vector2(1, 1), Vector2(1.08, 1.08)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBox/Row/Middle/TotalLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 1.2, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(2.5, 2.5, 1.6, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_score"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"pop_total": SubResource("Animation_pop_total"),
+&"pulse_base": SubResource("Animation_pulse_base"),
+&"pulse_mult": SubResource("Animation_pulse_mult"),
+&"tick": SubResource("Animation_tick")
+}
+
+[node name="ScoreDisplay" type="Control"]
+custom_minimum_size = Vector2(540, 160)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 440.0
+offset_bottom = 150.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="SubLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.706, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "SELECT 3 NODES"
+horizontal_alignment = 1
+
+[node name="Row" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="BasePanel" type="PanelContainer" parent="VBox/Row"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_vertical = 4
+pivot_offset = Vector2(60, 30)
+mouse_filter = 2
+
+[node name="BaseBox" type="VBoxContainer" parent="VBox/Row/BasePanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BaseLabel" type="Label" parent="VBox/Row/BasePanel/BaseBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.99, 0.945, 1)
+theme_override_font_sizes/font_size = 38
+text = "0"
+horizontal_alignment = 1
+
+[node name="BaseCap" type="Label" parent="VBox/Row/BasePanel/BaseBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 12
+text = "BASE BYTES"
+horizontal_alignment = 1
+
+[node name="Middle" type="Control" parent="VBox/Row"]
+custom_minimum_size = Vector2(64, 60)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Times" type="Label" parent="VBox/Row/Middle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 30
+text = "x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TotalLabel" type="Label" parent="VBox/Row/Middle"]
+unique_name_in_owner = true
+z_index = 20
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -42.0
+offset_right = 170.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(170, 42)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.043, 0.047, 0.063, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 68
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultPanel" type="PanelContainer" parent="VBox/Row"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_vertical = 4
+pivot_offset = Vector2(60, 30)
+mouse_filter = 2
+
+[node name="MultBox" type="VBoxContainer" parent="VBox/Row/MultPanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MultLabel" type="Label" parent="VBox/Row/MultPanel/MultBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.706, 0, 1)
+theme_override_font_sizes/font_size = 38
+text = "1"
+horizontal_alignment = 1
+
+[node name="MultCap" type="Label" parent="VBox/Row/MultPanel/MultBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 12
+text = "OVERCLOCK"
+horizontal_alignment = 1
+
+[node name="NoteLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 15
+text = "Daemons are applied when the turn resolves"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_score")
+}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "heal"
+display_name = "Heal"
+category = "DEFENSE"
+color = Color(1, 0.45, 0.6, 1)
+weight = 2.0
+script_path = "res://scripts/modules/heal_module.gd"
+hud_meta_template = "SUPPORT · 1 USE / ROUND"
+description_template = "One use per round. Click: 0.4 s quick heal (walking is fine; sprinting, jumping or being hit cancels it, charge kept). One charge per player - extra Heal modules add nothing. Refills Active Flux up to your cap - Fractured Flux stays lost."

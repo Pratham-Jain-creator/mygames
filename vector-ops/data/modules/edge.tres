@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "edge"
+display_name = "Edge"
+category = "WEAPON"
+color = Color(1, 0.4, 0.35, 1)
+weight = 1.0
+script_path = "res://scripts/modules/edge_module.gd"
+hud_meta_template = "MELEE · {cost} FLUX"
+description_template = "Blade: lunges forward, {damage} dmg, {cost} Flux, {cooldown} s between swings. Keep clicking for a 3-hit combo: left swing, right swing, poke. Breaks Aegis. Swing timing deflects Kinetic."
+cost = 6.0
+cooldown = 0.3
+damage = 55.0
+range_m = 4.8
+tuning = {
+"lunge_speed": 14.0,
+"radius": 1.4
+}

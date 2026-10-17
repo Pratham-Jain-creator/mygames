@@ -1,0 +1,436 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="Style_hp"]
+bg_color = Color(0.8, 0.15, 0.15, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_posture"]
+bg_color = Color(1, 0.75, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_cast"]
+bg_color = Color(0.7, 0.9, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_flow"]
+bg_color = Color(0.45, 0.85, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_back"]
+bg_color = Color(0, 0, 0, 0.55)
+
+[sub_resource type="Animation" id="A_flash_damage"]
+resource_name = "flash_damage"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/DamageFlash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.45), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="A_flash_deflect"]
+resource_name = "flash_deflect"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/DeflectFlash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.5), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="A_guard_on"]
+resource_name = "guard_on"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffGuard:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="A_guard_off"]
+resource_name = "guard_off"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffGuard:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="A_haste_on"]
+resource_name = "haste_on"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffHaste:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="A_haste_off"]
+resource_name = "haste_off"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffHaste:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="A_banner"]
+resource_name = "banner"
+length = 2.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Banner:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 1.6, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root/Banner:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.4),
+"transitions": PackedFloat32Array(0.4, 1, 1),
+"update": 0,
+"values": [Vector2(1.3, 1.3), Vector2(1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="A_banner_hold"]
+resource_name = "banner_hold"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Banner:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="A_wraith_on"]
+resource_name = "wraith_on"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffWraith:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="A_wraith_off"]
+resource_name = "wraith_off"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/BuffWraith:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="Lib_hud"]
+_data = {
+&"banner": SubResource("A_banner"),
+&"banner_hold": SubResource("A_banner_hold"),
+&"flash_damage": SubResource("A_flash_damage"),
+&"flash_deflect": SubResource("A_flash_deflect"),
+&"guard_off": SubResource("A_guard_off"),
+&"guard_on": SubResource("A_guard_on"),
+&"haste_off": SubResource("A_haste_off"),
+&"haste_on": SubResource("A_haste_on"),
+&"wraith_off": SubResource("A_wraith_off"),
+&"wraith_on": SubResource("A_wraith_on")
+}
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DamageFlash" type="ColorRect" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8, 0.05, 0.05, 1)
+
+[node name="DeflectFlash" type="ColorRect" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.95, 0.7, 0.5)
+
+[node name="BuffGuard" type="ColorRect" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.8, 0.3, 0.12)
+
+[node name="BuffHaste" type="ColorRect" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.3, 0.9, 1, 0.12)
+
+[node name="BuffWraith" type="ColorRect" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.7, 0.4, 1, 0.14)
+
+[node name="Crosshair" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TopLeft" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 344.0
+offset_bottom = 120.0
+
+[node name="JobLabel" type="Label" parent="Root/TopLeft"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Knight"
+
+[node name="HpBar" type="ProgressBar" parent="Root/TopLeft"]
+custom_minimum_size = Vector2(320, 18)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_back")
+theme_override_styles/fill = SubResource("Style_hp")
+value = 100.0
+show_percentage = false
+
+[node name="PostureBar" type="ProgressBar" parent="Root/TopLeft"]
+custom_minimum_size = Vector2(320, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_back")
+theme_override_styles/fill = SubResource("Style_posture")
+value = 0.0
+show_percentage = false
+
+[node name="FlowBar" type="ProgressBar" parent="Root/TopLeft"]
+custom_minimum_size = Vector2(320, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_back")
+theme_override_styles/fill = SubResource("Style_flow")
+value = 0.0
+show_percentage = false
+
+[node name="TopRight" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -284.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 90.0
+grow_horizontal = 0
+
+[node name="TimerLabel" type="Label" parent="Root/TopRight"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "00:00.00"
+horizontal_alignment = 2
+
+[node name="JpLabel" type="Label" parent="Root/TopRight"]
+layout_mode = 2
+text = "JP 0"
+horizontal_alignment = 2
+
+[node name="DepthLabel" type="Label" parent="Root/TopRight"]
+layout_mode = 2
+text = "Depth 0m"
+horizontal_alignment = 2
+
+[node name="Bottom" type="HBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -480.0
+offset_top = -64.0
+offset_right = 480.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="Ability1" type="Label" parent="Root/Bottom"]
+layout_mode = 2
+text = "[Q]"
+
+[node name="Ability2" type="Label" parent="Root/Bottom"]
+layout_mode = 2
+text = "[E]"
+
+[node name="DashLabel" type="Label" parent="Root/Bottom"]
+layout_mode = 2
+text = "[Shift] Dash"
+
+[node name="CastBar" type="ProgressBar" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 40.0
+offset_right = 100.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("Style_back")
+theme_override_styles/fill = SubResource("Style_cast")
+show_percentage = false
+
+[node name="Prompt" type="Label" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "[F]  Change Job"
+horizontal_alignment = 1
+
+[node name="Banner" type="Label" parent="Root"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 110.0
+offset_right = 400.0
+offset_bottom = 170.0
+grow_horizontal = 2
+pivot_offset = Vector2(400, 30)
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Lib_hud")
+}

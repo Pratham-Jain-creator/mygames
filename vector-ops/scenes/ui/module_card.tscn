@@ -1,0 +1,106 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/module_card.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="style_normal"]
+bg_color = Color(0.078, 0.118, 0.145, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.3, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_hover"]
+bg_color = Color(0.11, 0.17, 0.21, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.263, 0.878, 0.776, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_selected"]
+bg_color = Color(0.1, 0.2, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.263, 0.878, 0.776, 1)
+
+[node name="ModuleCard" type="Button"]
+custom_minimum_size = Vector2(0, 66)
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("style_normal")
+theme_override_styles/hover = SubResource("style_hover")
+theme_override_styles/pressed = SubResource("style_selected")
+theme_override_styles/hover_pressed = SubResource("style_selected")
+theme_override_styles/focus = SubResource("style_hover")
+toggle_mode = true
+script = ExtResource("1_script")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Chip" type="ColorRect" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.35, 1)
+
+[node name="Info" type="VBoxContainer" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="TopRow" type="HBoxContainer" parent="Row/Info"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="Row/Info/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Module"
+
+[node name="WeightLabel" type="Label" parent="Row/Info/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "wt 1"
+
+[node name="BottomRow" type="HBoxContainer" parent="Row/Info"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CategoryLabel" type="Label" parent="Row/Info/BottomRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "WEAPON"
+
+[node name="DeltaLabel" type="Label" parent="Row/Info/BottomRow"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "no change"

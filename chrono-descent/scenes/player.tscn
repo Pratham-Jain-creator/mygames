@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://de83nco50inhv"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/blade.gd" id="2_blade"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="3_health"]
+[ext_resource type="Texture2D" path="res://assets/sprites/yellowcircle.png" id="4_light"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(8, 13)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 5
+collision_layer = 2
+script = ExtResource("1_player")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 4.5)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Blade" type="Node2D" parent="."]
+script = ExtResource("2_blade")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.19607843, 0.21176471, 0.4862745, 1)
+shadow_enabled = true
+shadow_item_cull_mask = 1023
+texture = ExtResource("4_light")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
+max_health = 50
+
+[node name="IFrameTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

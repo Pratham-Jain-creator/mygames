@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/pendulum.gd" id="1_pend"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="2_haz"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_steel"]
+albedo_color = Color(0.72, 0.74, 0.8, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_edge"]
+albedo_color = Color(0.8, 0.8, 0.85, 1)
+metallic = 0.9
+roughness = 0.2
+emission_enabled = true
+emission = Color(1, 0.15, 0.1, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_pivot"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rod"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 4.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+size = Vector3(0.16, 1.0, 1.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hurt"]
+size = Vector3(0.6, 1.0, 1.6)
+
+[sub_resource type="Animation" id="Animation_swing"]
+resource_name = "swing"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, -0.96), Vector3(0, 0, 0.96), Vector3(0, 0, -0.96)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pend"]
+_data = {
+&"swing": SubResource("Animation_swing")
+}
+
+[node name="PendulumAxe" type="Node3D"]
+script = ExtResource("1_pend")
+
+[node name="PivotBlock" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_pivot")
+surface_material_override/0 = SubResource("Mat_steel")
+
+[node name="Arm" type="Node3D" parent="."]
+
+[node name="Rod" type="MeshInstance3D" parent="Arm"]
+position = Vector3(0, -2.25, 0)
+mesh = SubResource("CylinderMesh_rod")
+surface_material_override/0 = SubResource("Mat_steel")
+
+[node name="Blade" type="Node3D" parent="Arm"]
+position = Vector3(0, -4.5, 0)
+
+[node name="Head" type="MeshInstance3D" parent="Arm/Blade"]
+mesh = SubResource("BoxMesh_head")
+surface_material_override/0 = SubResource("Mat_edge")
+
+[node name="Hurt" type="Area3D" parent="Arm/Blade"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_haz")
+
+[node name="Shape" type="CollisionShape3D" parent="Arm/Blade/Hurt"]
+shape = SubResource("BoxShape3D_hurt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pend")
+}

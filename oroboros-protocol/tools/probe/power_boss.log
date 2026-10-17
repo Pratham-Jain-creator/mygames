@@ -1,0 +1,44 @@
+start boss
+=== tier SIMPLE: Network 2 Sentinel (quota 1600), Firmware lvl 1, best 8 of 260 random 5-Daemon builds, 25 seeds each
+none        win  86%  death  10%  score/quota 1.28  (100% of no-boss)
+wall        win  85%  death  10%  score/quota 1.26  (98% of no-boss)
+leech       win  84%  death  12%  score/quota 1.24  (97% of no-boss)
+furnace     win  86%  death  10%  score/quota 1.28  (100% of no-boss)
+static      win  86%  death  11%  score/quota 1.26  (99% of no-boss)
+frost       win  82%  death  12%  score/quota 1.33  (104% of no-boss)
+tax         win  86%  death  10%  score/quota 1.28  (100% of no-boss)
+sponge      win  84%  death  12%  score/quota 1.26  (98% of no-boss)
+drought     win  86%  death  10%  score/quota 1.28  (100% of no-boss)
+shackle     win  86%  death  10%  score/quota 1.28  (100% of no-boss)
+hound       win  83%  death  12%  score/quota 1.22  (96% of no-boss)
+=== tier HARD: Network 5 Sentinel (quota 28000), Firmware lvl 3, best 8 of 260 random 5-Daemon builds, 25 seeds each
+none        win   7%  death  22%  score/quota 0.33  (100% of no-boss)
+needle      win   6%  death  23%  score/quota 0.33  (100% of no-boss)
+void        win   0%  death  22%  score/quota 0.15  (45% of no-boss)
+mirror      win   6%  death  30%  score/quota 0.28  (85% of no-boss)
+cipher      win   7%  death  22%  score/quota 0.33  (100% of no-boss)
+leak        win  13%  death  25%  score/quota 0.42  (127% of no-boss)
+choke       win   4%  death  22%  score/quota 0.32  (96% of no-boss)
+sieve       win   5%  death  22%  score/quota 0.31  (92% of no-boss)
+phantom     win   7%  death  22%  score/quota 0.33  (100% of no-boss)
+undertow    win   7%  death  22%  score/quota 0.33  (101% of no-boss)
+rollback    win   0%  death  22%  score/quota 0.13  (39% of no-boss)
+gag         win   0%  death  22%  score/quota 0.27  (80% of no-boss)
+toll        win   7%  death  22%  score/quota 0.33  (100% of no-boss)
+=== tier VERY HARD: Network 8 Sentinel (quota 500000), Firmware lvl 5, best 8 of 260 random 5-Daemon builds, 25 seeds each
+none        win   0%  death  29%  score/quota 0.02  (100% of no-boss)
+lock        win   0%  death  30%  score/quota 0.02  (96% of no-boss)
+famine      win   0%  death  17%  score/quota 0.02  (74% of no-boss)
+shatter     win   0%  death  29%  score/quota 0.02  (100% of no-boss)
+plague      win   0%  death  34%  score/quota 0.02  (89% of no-boss)
+warden      win   0%  death  44%  score/quota 0.02  (92% of no-boss)
+null        win   0%  death  29%  score/quota 0.01  (22% of no-boss)
+reaper      win   0%  death  34%  score/quota 0.02  (93% of no-boss)
+hemorrhage  win   0%  death  39%  score/quota 0.03  (109% of no-boss)
+tyrant      win   0%  death  29%  score/quota 0.02  (74% of no-boss)
+purge       win   0%  death  28%  score/quota 0.02  (63% of no-boss)
+=== Cipher information test (Network 5, same kind of builds)
+cipher mode 0 (sees every value): win 0%  score/quota 0.23
+cipher mode 1 (sees types + tracks Tailbytes): win 0%  score/quota 0.21
+cipher mode 2 (blind / random pick): win 0%  score/quota 0.15
+DONE

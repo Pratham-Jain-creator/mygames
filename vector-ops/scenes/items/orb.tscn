@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/orb_view.gd" id="1_orb"]
+
+[sub_resource type="StandardMaterial3D" id="mat_core"]
+albedo_color = Color(0.800, 0.950, 1.000, 1.000)
+roughness = 0.20
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.400, 0.800, 1.000, 1)
+emission_energy_multiplier = 4.00
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.300, 0.700, 1.000, 0.350)
+transparency = 1
+roughness = 0.30
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.200, 0.600, 1.000, 1)
+emission_energy_multiplier = 1.50
+shading_mode = 0
+cull_mode = 2
+
+[sub_resource type="SphereMesh" id="mesh_0"]
+radius = 0.12
+height = 0.24
+radial_segments = 24
+rings = 12
+material = SubResource("mat_core")
+
+[sub_resource type="SphereMesh" id="mesh_1"]
+radius = 0.2
+height = 0.4
+radial_segments = 24
+rings = 12
+material = SubResource("mat_glow")
+
+[node name="Orb" type="Node3D"]
+script = ExtResource("1_orb")
+
+[node name="Core" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, 0.0000)
+mesh = SubResource("mesh_0")
+
+[node name="Glow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, 0.0000)
+mesh = SubResource("mesh_1")
+
+[node name="Light" type="OmniLight3D" parent="."]
+light_color = Color(0.3, 0.7, 1, 1)
+light_energy = 2.5
+omni_range = 4.0

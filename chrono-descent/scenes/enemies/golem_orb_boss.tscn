@@ -1,0 +1,122 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/boss_orb.gd" id="1_orb"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/boss/golem_boss_fx_clean.png" id="sheet_fx"]
+
+[sub_resource type="AtlasTexture" id="AT_orb_fly_0"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(22, 102, 54, 54)
+
+[sub_resource type="AtlasTexture" id="AT_orb_fly_1"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(84, 100, 58, 58)
+
+[sub_resource type="AtlasTexture" id="AT_orb_fly_2"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(150, 102, 54, 54)
+
+[sub_resource type="AtlasTexture" id="AT_orb_fly_3"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(210, 98, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_0"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(16, 286, 96, 100)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_1"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(112, 286, 96, 100)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_2"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(208, 286, 96, 100)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_3"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(304, 286, 96, 100)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_4"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(400, 286, 96, 100)
+
+[sub_resource type="AtlasTexture" id="AT_orb_impact_5"]
+atlas = ExtResource("sheet_fx")
+region = Rect2(496, 286, 96, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_orb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AT_orb_fly_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_fly_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_fly_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_fly_3")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AT_orb_impact_5")
+}],
+"loop": false,
+"name": &"impact",
+"speed": 22.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_orb"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.4, 0.4, 0.4, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_orb"]
+gradient = SubResource("Gradient_orb")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_orb"]
+radius = 6.0
+
+[node name="GolemOrb" type="Area2D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_orb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_orb")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_orb")
+
+[node name="Glow" type="PointLight2D" parent="."]
+color = Color(1, 0.6, 0.25, 1)
+energy = 0.9
+texture = SubResource("GradientTexture2D_orb")
+texture_scale = 0.75

@@ -1,0 +1,254 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scenes/shop/shop_screen.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/hex_backdrop/hex_backdrop.tscn" id="2_hex"]
+[ext_resource type="Script" path="res://scenes/components/safe_area/safe_area_container.gd" id="3_safe"]
+[ext_resource type="PackedScene" path="res://scenes/components/action_button/action_button.tscn" id="4_btn"]
+[ext_resource type="PackedScene" path="res://scenes/components/deck_viewer/deck_viewer.tscn" id="5_deck"]
+[ext_resource type="PackedScene" path="res://scenes/components/type_picker/type_picker.tscn" id="6_type"]
+[ext_resource type="PackedScene" path="res://scenes/components/toast/toast.tscn" id="7_toast"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu/pause_menu.tscn" id="99_pause"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SafeArea/VBox/Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_intro"]
+resource_name = "intro"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SafeArea/VBox/Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.18, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.3), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shop"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"intro": SubResource("Animation_intro")
+}
+
+[node name="ShopScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.043, 0.047, 0.063, 1)
+
+[node name="HexBackdrop" parent="." instance=ExtResource("2_hex")]
+layout_mode = 1
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_safe")
+base_margin = 12
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="SafeArea/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+theme_override_font_sizes/font_size = 38
+text = "BLACK MARKET"
+
+[node name="SubLabel" type="Label" parent="SafeArea/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 16
+text = "UNREGISTERED VENDORS // NO REFUNDS"
+vertical_alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="SafeArea/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.847, 0.4, 1)
+theme_override_font_sizes/font_size = 38
+text = "Ø4"
+
+[node name="GearSpacer" type="Control" parent="SafeArea/VBox/Header"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="LeftPane" type="VBoxContainer" parent="SafeArea/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.4
+theme_override_constants/separation = 6
+
+[node name="ListingsTitle" type="Label" parent="SafeArea/VBox/Body/LeftPane"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 15
+text = "BLACK MARKET STOCK  //  TAP A LISTING, THEN PRESS BUY"
+
+[node name="ListScroll" type="ScrollContainer" parent="SafeArea/VBox/Body/LeftPane"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ListingsBox" type="VBoxContainer" parent="SafeArea/VBox/Body/LeftPane/ListScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="RightPane" type="VBoxContainer" parent="SafeArea/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="DetailPanel" type="PanelContainer" parent="SafeArea/VBox/Body/RightPane"]
+custom_minimum_size = Vector2(0, 230)
+layout_mode = 2
+
+[node name="DetailBox" type="VBoxContainer" parent="SafeArea/VBox/Body/RightPane/DetailPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DetailKind" type="Label" parent="SafeArea/VBox/Body/RightPane/DetailPanel/DetailBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "INSPECTOR"
+
+[node name="DetailName" type="Label" parent="SafeArea/VBox/Body/RightPane/DetailPanel/DetailBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Select a listing"
+autowrap_mode = 3
+
+[node name="DetailBody" type="RichTextLabel" parent="SafeArea/VBox/Body/RightPane/DetailPanel/DetailBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 17
+bbcode_enabled = true
+
+[node name="DetailAction" parent="SafeArea/VBox/Body/RightPane/DetailPanel/DetailBox" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "-"
+accent = Color(0, 0.98, 0.604, 1)
+
+[node name="RigTitle" type="Label" parent="SafeArea/VBox/Body/RightPane"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 15
+text = "YOUR PROTOCOL"
+
+[node name="RigScroll" type="ScrollContainer" parent="SafeArea/VBox/Body/RightPane"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="RigBox" type="VBoxContainer" parent="SafeArea/VBox/Body/RightPane/RigScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Footer" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="RerollButton" parent="SafeArea/VBox/Footer" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 52)
+layout_mode = 2
+text = "RESTOCK Ø5"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="PurgeButton" parent="SafeArea/VBox/Footer" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 52)
+layout_mode = 2
+text = "PURGE NODE Ø3"
+accent = Color(1, 0, 0.235, 1)
+
+[node name="DeckButton" parent="SafeArea/VBox/Footer" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 52)
+layout_mode = 2
+text = "TAILBYTES"
+accent = Color(0.4, 0.99, 0.945, 1)
+
+[node name="Spacer" type="Control" parent="SafeArea/VBox/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeaveButton" parent="SafeArea/VBox/Footer" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 52)
+layout_mode = 2
+text = "LEAVE MARKET"
+accent = Color(0, 0.98, 0.604, 1)
+
+[node name="DeckViewer" parent="." instance=ExtResource("5_deck")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="TypePicker" parent="." instance=ExtResource("6_type")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Toast" parent="." instance=ExtResource("7_toast")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_shop")
+}
+
+[node name="PauseMenu" parent="." instance=ExtResource("99_pause")]

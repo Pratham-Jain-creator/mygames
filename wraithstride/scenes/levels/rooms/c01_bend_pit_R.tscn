@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="e0"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="e1"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="e2"]
+[ext_resource type="Material" path="res://scenes/levels/materials/rune.tres" id="e3"]
+[ext_resource type="Material" path="res://scenes/levels/materials/iron.tres" id="e4"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="e5"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="e6"]
+[ext_resource type="PackedScene" path="res://scenes/props/seal_switch.tscn" id="e7"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="e8"]
+
+[sub_resource type="StandardMaterial3D" id="M_1"]
+albedo_color = Color(0.55, 0.52, 0.56, 1)
+metallic = 0.8
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.7, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.45
+
+[sub_resource type="MultiMesh" id="MM_3"]
+transform_format = 1
+instance_count = 100
+mesh = SubResource("CM_2")
+buffer = PackedFloat32Array(1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, -5.4, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, -4.2, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, -3, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, -1.8, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, -0.6, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, 0.6, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, 1.8, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, 3, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, 4.2, 0, 1, 0, -4.775, 0, 0, 1, -0.6, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -11.4, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -10.2, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -9, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -7.8, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -6.6, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -5.4, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -4.2, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -3, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -1.8, 1, 0, 0, 5.4, 0, 1, 0, -4.775, 0, 0, 1, -0.6)
+
+[sub_resource type="BoxShape3D" id="BS_4"]
+size = Vector3(12, 0.5, 12)
+
+[node name="Room" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="WallR1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-6.5, 1.5, -6)
+use_collision = true
+size = Vector3(1, 15, 12)
+material = ExtResource("e2")
+
+[node name="WallB1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 1.5, -12.5)
+use_collision = true
+size = Vector3(14, 15, 1)
+material = ExtResource("e2")
+
+[node name="Ceiling1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8.5, -6)
+size = Vector3(14, 1, 12)
+material = ExtResource("e2")
+
+[node name="PostA1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 1.5, -0.5)
+use_collision = true
+size = Vector3(1, 15, 1)
+material = ExtResource("e2")
+
+[node name="PostB1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 1.5, -11.5)
+use_collision = true
+size = Vector3(1, 15, 1)
+material = ExtResource("e2")
+
+[node name="Lintel1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(6.5, 8, -6)
+use_collision = true
+size = Vector3(1, 2.5, 12)
+material = ExtResource("e2")
+
+[node name="Floor1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -1)
+use_collision = true
+size = Vector3(12, 1, 2)
+material = ExtResource("e1")
+
+[node name="Floor2" type="CSGBox3D" parent="Geometry"]
+position = Vector3(4.75, -0.5, -8.75)
+use_collision = true
+size = Vector3(2.5, 1, 4.5)
+material = ExtResource("e1")
+
+[node name="PitSpikes1" type="Area3D" parent="Hazards"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e5")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/PitSpikes1"]
+position = Vector3(0, -4.75, -6)
+shape = SubResource("BS_4")
+
+[node name="Visual" type="MultiMeshInstance3D" parent="Hazards/PitSpikes1"]
+multimesh = SubResource("MM_3")
+material_override = SubResource("M_1")
+
+[node name="T1" parent="Props" instance=ExtResource("e6")]
+position = Vector3(-5.8, 3, -3.5)
+
+[node name="T2" parent="Props" instance=ExtResource("e6")]
+position = Vector3(-5.8, 3, -9.5)
+
+[node name="T3" parent="Props" instance=ExtResource("e6")]
+position = Vector3(2.5, 3, -11.6)
+
+[node name="Stone1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-3, -2.5, -4.5)
+use_collision = true
+size = Vector3(2.6, 5, 2.6)
+material = ExtResource("e3")
+
+[node name="Stone2" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-0.5, -2.5, -7.5)
+use_collision = true
+size = Vector3(2.6, 5, 2.6)
+material = ExtResource("e3")
+
+[node name="Seal1" parent="Props" instance=ExtResource("e7")]
+position = Vector3(-0.5, 0, -7.5)
+
+[node name="Door1" parent="Props" instance=ExtResource("e8")]
+position = Vector3(5.4, 0, -6)
+rotation = Vector3(0, -1.5708, 0)

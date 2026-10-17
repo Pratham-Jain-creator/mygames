@@ -1,0 +1,1053 @@
+[gd_scene load_steps=62 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player_model.gd" id="1_pm"]
+
+[sub_resource type="StandardMaterial3D" id="mat_jacket"]
+albedo_color = Color(0.05, 0.06, 0.08, 1)
+metallic = 0.25
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="mat_tech_fabric"]
+albedo_color = Color(0.11, 0.13, 0.17, 1)
+metallic = 0.15
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="mat_cyber_chrome"]
+albedo_color = Color(0.22, 0.25, 0.3, 1)
+metallic = 0.85
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="mat_crimson_trim"]
+albedo_color = Color(0.55, 0.08, 0.16, 1)
+metallic = 0.3
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.26, 0.88, 0.78, 1)
+roughness = 0.15
+emission_enabled = true
+emission = Color(0.2, 0.85, 1, 1)
+emission_energy_multiplier = 3.8
+
+[sub_resource type="StandardMaterial3D" id="mat_visor"]
+albedo_color = Color(0.02, 0.1, 0.15, 1)
+metallic = 0.95
+roughness = 0.05
+emission_enabled = true
+emission = Color(0.26, 0.9, 0.85, 1)
+emission_energy_multiplier = 2.8
+
+[sub_resource type="StandardMaterial3D" id="mat_team"]
+shading_mode = 0
+albedo_color = Color(0.25, 0.55, 1, 1)
+emission_enabled = true
+emission = Color(0.25, 0.55, 1, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxMesh" id="mesh_pelvis"]
+material = SubResource("mat_tech_fabric")
+size = Vector3(0.29, 0.15, 0.2)
+
+[sub_resource type="BoxMesh" id="mesh_abdomen"]
+material = SubResource("mat_crimson_trim")
+size = Vector3(0.25, 0.22, 0.17)
+
+[sub_resource type="BoxMesh" id="mesh_abs_seam"]
+material = SubResource("mat_glow")
+size = Vector3(0.01, 0.18, 0.01)
+
+[sub_resource type="BoxMesh" id="mesh_jacket_torso"]
+material = SubResource("mat_jacket")
+size = Vector3(0.38, 0.32, 0.23)
+
+[sub_resource type="BoxMesh" id="mesh_lapel"]
+material = SubResource("mat_jacket")
+size = Vector3(0.12, 0.28, 0.04)
+
+[sub_resource type="BoxMesh" id="mesh_lapel_neon"]
+material = SubResource("mat_glow")
+size = Vector3(0.014, 0.27, 0.045)
+
+[sub_resource type="CylinderMesh" id="mesh_chest_node"]
+material = SubResource("mat_glow")
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.02
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="mesh_high_collar"]
+material = SubResource("mat_jacket")
+top_radius = 0.16
+bottom_radius = 0.14
+height = 0.14
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="mesh_collar_glow"]
+material = SubResource("mat_glow")
+top_radius = 0.163
+bottom_radius = 0.163
+height = 0.012
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="mesh_neck"]
+material = SubResource("mat_cyber_chrome")
+top_radius = 0.05
+bottom_radius = 0.055
+height = 0.1
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="mesh_belt"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.31, 0.045, 0.22)
+
+[sub_resource type="BoxMesh" id="mesh_buckle"]
+material = SubResource("mat_glow")
+size = Vector3(0.06, 0.035, 0.02)
+
+[sub_resource type="BoxMesh" id="mesh_coat_tail"]
+material = SubResource("mat_jacket")
+size = Vector3(0.11, 0.24, 0.19)
+
+[sub_resource type="CapsuleMesh" id="mesh_head"]
+material = SubResource("mat_cyber_chrome")
+radius = 0.105
+height = 0.26
+radial_segments = 16
+rings = 6
+
+[sub_resource type="BoxMesh" id="mesh_hood_cowl"]
+material = SubResource("mat_jacket")
+size = Vector3(0.23, 0.24, 0.22)
+
+[sub_resource type="BoxMesh" id="mesh_visor"]
+material = SubResource("mat_visor")
+size = Vector3(0.18, 0.038, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_faceplate"]
+material = SubResource("mat_jacket")
+size = Vector3(0.16, 0.085, 0.09)
+
+[sub_resource type="BoxMesh" id="mesh_crest"]
+material = SubResource("mat_glow")
+size = Vector3(0.016, 0.04, 0.21)
+
+[sub_resource type="CylinderMesh" id="mesh_ear_comms"]
+material = SubResource("mat_cyber_chrome")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.025
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="mesh_antenna"]
+material = SubResource("mat_glow")
+size = Vector3(0.008, 0.11, 0.015)
+
+[sub_resource type="BoxMesh" id="mesh_spine_rig"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.14, 0.36, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_spine_node"]
+material = SubResource("mat_glow")
+size = Vector3(0.06, 0.025, 0.07)
+
+[sub_resource type="BoxMesh" id="mesh_shoulder_pad"]
+material = SubResource("mat_jacket")
+size = Vector3(0.15, 0.12, 0.18)
+
+[sub_resource type="BoxMesh" id="mesh_shoulder_neon"]
+material = SubResource("mat_glow")
+size = Vector3(0.155, 0.012, 0.185)
+
+[sub_resource type="CapsuleMesh" id="mesh_upper_arm"]
+material = SubResource("mat_jacket")
+radius = 0.052
+height = 0.34
+radial_segments = 12
+rings = 4
+
+[sub_resource type="SphereMesh" id="mesh_elbow"]
+material = SubResource("mat_cyber_chrome")
+radius = 0.046
+height = 0.092
+
+[sub_resource type="CapsuleMesh" id="mesh_forearm"]
+material = SubResource("mat_cyber_chrome")
+radius = 0.042
+height = 0.31
+radial_segments = 12
+rings = 4
+
+[sub_resource type="BoxMesh" id="mesh_cyber_deck"]
+material = SubResource("mat_jacket")
+size = Vector3(0.095, 0.17, 0.095)
+
+[sub_resource type="BoxMesh" id="mesh_bracer_blade"]
+material = SubResource("mat_glow")
+size = Vector3(0.012, 0.15, 0.02)
+
+[sub_resource type="BoxMesh" id="mesh_hand"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.07, 0.095, 0.06)
+
+[sub_resource type="CapsuleMesh" id="mesh_thigh"]
+material = SubResource("mat_tech_fabric")
+radius = 0.078
+height = 0.54
+radial_segments = 12
+rings = 4
+
+[sub_resource type="BoxMesh" id="mesh_holster"]
+material = SubResource("mat_jacket")
+size = Vector3(0.045, 0.2, 0.12)
+
+[sub_resource type="BoxMesh" id="mesh_thigh_neon"]
+material = SubResource("mat_glow")
+size = Vector3(0.012, 0.28, 0.025)
+
+[sub_resource type="BoxMesh" id="mesh_kneepad"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.1, 0.12, 0.06)
+
+[sub_resource type="CapsuleMesh" id="mesh_shin"]
+material = SubResource("mat_tech_fabric")
+radius = 0.055
+height = 0.48
+radial_segments = 12
+rings = 4
+
+[sub_resource type="BoxMesh" id="mesh_shin_plate"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.095, 0.28, 0.045)
+
+[sub_resource type="BoxMesh" id="mesh_boot"]
+material = SubResource("mat_jacket")
+size = Vector3(0.115, 0.09, 0.27)
+
+[sub_resource type="BoxMesh" id="mesh_boot_toe"]
+material = SubResource("mat_cyber_chrome")
+size = Vector3(0.112, 0.078, 0.1)
+
+[sub_resource type="BoxMesh" id="mesh_boot_sole_glow"]
+material = SubResource("mat_glow")
+size = Vector3(0.12, 0.014, 0.32)
+
+[sub_resource type="BoxMesh" id="mesh_team_chest"]
+material = SubResource("mat_team")
+size = Vector3(0.18, 0.04, 0.012)
+
+[sub_resource type="BoxMesh" id="mesh_team_back"]
+material = SubResource("mat_team")
+size = Vector3(0.18, 0.28, 0.012)
+
+[sub_resource type="BoxMesh" id="mesh_team_crest"]
+material = SubResource("mat_team")
+size = Vector3(0.02, 0.05, 0.22)
+
+[sub_resource type="Animation" id="anim_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_idle"]
+resource_name = "idle"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.015, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.012, 0, 0.008), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_walk"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.05, 0), Vector3(0, 0, 0), Vector3(0, 0.05, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.05, 0.04, 0.045), Vector3(-0.05, -0.04, -0.045), Vector3(-0.05, 0.04, 0.045)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HipPivotL:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.45, 0, 0), Vector3(-0.45, 0, 0), Vector3(0.45, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HipPivotR:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.45, 0, 0), Vector3(0.45, 0, 0), Vector3(-0.45, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HipPivotL/KneePivotL:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.1, 0, 0), Vector3(-0.7, 0, 0), Vector3(-0.1, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HipPivotR/KneePivotR:rotation")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.7, 0, 0), Vector3(-0.1, 0, 0), Vector3(-0.7, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShoulderPivotL:rotation")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.3, 0, 0), Vector3(0.3, 0, 0), Vector3(-0.3, 0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ShoulderPivotR:rotation")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.3, 0, 0), Vector3(-0.3, 0, 0), Vector3(0.3, 0, 0)]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0],
+"method": &"step"
+}, {
+"args": [1],
+"method": &"step"
+}]
+}
+
+[sub_resource type="Animation" id="anim_run"]
+resource_name = "run"
+length = 0.56
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.28, 0.42, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.09, 0), Vector3(0, 0, 0), Vector3(0, 0.09, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0.07, 0.06), Vector3(-0.2, -0.07, -0.06), Vector3(-0.2, 0.07, 0.06)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HipPivotL:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.8, 0, 0), Vector3(-0.8, 0, 0), Vector3(0.8, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HipPivotR:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.8, 0, 0), Vector3(0.8, 0, 0), Vector3(-0.8, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HipPivotL/KneePivotL:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.2, 0, 0), Vector3(-1.3, 0, 0), Vector3(-0.2, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HipPivotR/KneePivotR:rotation")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.3, 0, 0), Vector3(-0.2, 0, 0), Vector3(-1.3, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShoulderPivotL:rotation")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.7, 0, 0), Vector3(0.7, 0, 0), Vector3(-0.7, 0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ShoulderPivotR:rotation")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.7, 0, 0), Vector3(-0.7, 0, 0), Vector3(0.7, 0, 0)]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.28),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0],
+"method": &"step"
+}, {
+"args": [1],
+"method": &"step"
+}]
+}
+
+[sub_resource type="Animation" id="anim_slide"]
+resource_name = "slide"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.3, 0), Vector3(0, -0.3, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0, 0), Vector3(0.6, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HipPivotL:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.5, 0, 0), Vector3(0.5, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HipPivotR:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.4, 0, 0), Vector3(0.4, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HipPivotL/KneePivotL:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.1, 0, 0), Vector3(-0.1, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HipPivotR/KneePivotR:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.0, 0, 0), Vector3(-1.0, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShoulderPivotL:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5, 0, 0), Vector3(-0.5, 0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ShoulderPivotR:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5, 0, 0), Vector3(-0.5, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_air"]
+resource_name = "air"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.05, 0, 0), Vector3(-0.05, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HipPivotL:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0, 0), Vector3(0.6, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HipPivotR:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.35, 0, 0), Vector3(-0.35, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HipPivotL/KneePivotL:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.0, 0, 0), Vector3(-1.0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HipPivotR/KneePivotR:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5, 0, 0), Vector3(-0.5, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ShoulderPivotL:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.4, 0, -0.3), Vector3(-0.4, 0, -0.3)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShoulderPivotR:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.4, 0, 0.3), Vector3(-0.4, 0, 0.3)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_player"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"air": SubResource("anim_air"),
+&"idle": SubResource("anim_idle"),
+&"run": SubResource("anim_run"),
+&"slide": SubResource("anim_slide"),
+&"walk": SubResource("anim_walk")
+}
+
+[node name="Character" type="Node3D"]
+script = ExtResource("1_pm")
+
+[node name="Pelvis" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94, 0)
+mesh = SubResource("mesh_pelvis")
+
+[node name="Abdomen" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11, 0)
+mesh = SubResource("mesh_abdomen")
+
+[node name="AbsGlowL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055, 1.11, -0.088)
+mesh = SubResource("mesh_abs_seam")
+
+[node name="AbsGlowR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055, 1.11, -0.088)
+mesh = SubResource("mesh_abs_seam")
+
+[node name="Chest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32, 0.01)
+mesh = SubResource("mesh_jacket_torso")
+
+[node name="JacketLapelL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.11, 1.32, -0.115)
+mesh = SubResource("mesh_lapel")
+
+[node name="JacketLapelR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.11, 1.32, -0.115)
+mesh = SubResource("mesh_lapel")
+
+[node name="LapelNeonL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.05, 1.32, -0.122)
+mesh = SubResource("mesh_lapel_neon")
+
+[node name="LapelNeonR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.05, 1.32, -0.122)
+mesh = SubResource("mesh_lapel_neon")
+
+[node name="ChestCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.35, -0.11)
+mesh = SubResource("mesh_chest_node")
+
+[node name="Collar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.51, 0.02)
+mesh = SubResource("mesh_high_collar")
+
+[node name="CollarGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.575, 0.035)
+mesh = SubResource("mesh_collar_glow")
+
+[node name="Neck" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52, 0)
+mesh = SubResource("mesh_neck")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99, 0)
+mesh = SubResource("mesh_belt")
+
+[node name="BeltBuckle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99, -0.115)
+mesh = SubResource("mesh_buckle")
+
+[node name="CoatTailL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.145, 0.88, 0.03)
+mesh = SubResource("mesh_coat_tail")
+
+[node name="CoatTailR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.145, 0.88, 0.03)
+mesh = SubResource("mesh_coat_tail")
+
+[node name="HeadPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52, 0)
+
+[node name="HeadTilt" type="Node3D" parent="HeadPivot"]
+
+[node name="Helmet" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+mesh = SubResource("mesh_head")
+
+[node name="HoodCowl" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.025)
+mesh = SubResource("mesh_hood_cowl")
+
+[node name="Visor" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145, -0.095)
+mesh = SubResource("mesh_visor")
+
+[node name="ChinGuard" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0.08, -0.08)
+mesh = SubResource("mesh_faceplate")
+
+[node name="HelmetCrest" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.265, 0)
+mesh = SubResource("mesh_crest")
+
+[node name="EarPieceL" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -0.118, 0.13, 0)
+mesh = SubResource("mesh_ear_comms")
+
+[node name="EarAntennaL" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, -0.122, 0.2, 0.03)
+mesh = SubResource("mesh_antenna")
+
+[node name="EarPieceR" type="MeshInstance3D" parent="HeadPivot/HeadTilt"]
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0.118, 0.13, 0)
+mesh = SubResource("mesh_ear_comms")
+
+[node name="Backpack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28, 0.145)
+mesh = SubResource("mesh_spine_rig")
+
+[node name="SpineNode1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.155)
+mesh = SubResource("mesh_spine_node")
+
+[node name="SpineNode2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.155)
+mesh = SubResource("mesh_spine_node")
+
+[node name="SpineNode3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.155)
+mesh = SubResource("mesh_spine_node")
+
+[node name="ShoulderL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.24, 1.43, 0.01)
+mesh = SubResource("mesh_shoulder_pad")
+
+[node name="PauldronGlowL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.24, 1.49, 0.01)
+mesh = SubResource("mesh_shoulder_neon")
+
+[node name="ShoulderPivotL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26, 1.42, 0)
+
+[node name="UpperArmL" type="MeshInstance3D" parent="ShoulderPivotL"]
+transform = Transform3D(-0.24254, 0, -0.97014, -0.28337, -0.95639, 0.07084, -0.92783, 0.2921, 0.23196, -0.03, -0.135, 0.01)
+mesh = SubResource("mesh_upper_arm")
+
+[node name="ElbowPivotL" type="Node3D" parent="ShoulderPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07, -0.27, 0.02)
+
+[node name="ElbowL" type="MeshInstance3D" parent="ShoulderPivotL/ElbowPivotL"]
+mesh = SubResource("mesh_elbow")
+
+[node name="ForearmL" type="MeshInstance3D" parent="ShoulderPivotL/ElbowPivotL"]
+transform = Transform3D(0.94868, 0, -0.31623, -0.08058, -0.96699, -0.24175, -0.30579, 0.25482, -0.91736, -0.01, -0.12, -0.03)
+mesh = SubResource("mesh_forearm")
+
+[node name="BracerL" type="MeshInstance3D" parent="ShoulderPivotL/ElbowPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015, -0.15, -0.03)
+mesh = SubResource("mesh_cyber_deck")
+
+[node name="BracerGlowL" type="MeshInstance3D" parent="ShoulderPivotL/ElbowPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, -0.15, -0.03)
+mesh = SubResource("mesh_bracer_blade")
+
+[node name="HandL" type="MeshInstance3D" parent="ShoulderPivotL/ElbowPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025, -0.3, -0.06)
+mesh = SubResource("mesh_hand")
+
+[node name="HandSocketL" type="Marker3D" parent="ShoulderPivotL/ElbowPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025, -0.31, -0.06)
+
+[node name="ShoulderR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.24, 1.43, 0.01)
+mesh = SubResource("mesh_shoulder_pad")
+
+[node name="PauldronGlowR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.24, 1.49, 0.01)
+mesh = SubResource("mesh_shoulder_neon")
+
+[node name="ShoulderPivotR" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, 1.42, 0)
+
+[node name="UpperArmR" type="MeshInstance3D" parent="ShoulderPivotR"]
+transform = Transform3D(-0.24254, 0, 0.97014, 0.28337, -0.95639, 0.07084, 0.92783, 0.2921, 0.23196, 0.03, -0.135, 0.01)
+mesh = SubResource("mesh_upper_arm")
+
+[node name="ElbowPivotR" type="Node3D" parent="ShoulderPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.27, 0.02)
+
+[node name="ElbowR" type="MeshInstance3D" parent="ShoulderPivotR/ElbowPivotR"]
+mesh = SubResource("mesh_elbow")
+
+[node name="ForearmR" type="MeshInstance3D" parent="ShoulderPivotR/ElbowPivotR"]
+transform = Transform3D(0.94868, 0, 0.31623, 0.08058, -0.96699, -0.24175, 0.30579, 0.25482, -0.91736, 0.01, -0.12, -0.03)
+mesh = SubResource("mesh_forearm")
+
+[node name="BracerR" type="MeshInstance3D" parent="ShoulderPivotR/ElbowPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015, -0.15, -0.03)
+mesh = SubResource("mesh_cyber_deck")
+
+[node name="BracerGlowR" type="MeshInstance3D" parent="ShoulderPivotR/ElbowPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, -0.15, -0.03)
+mesh = SubResource("mesh_bracer_blade")
+
+[node name="HandR" type="MeshInstance3D" parent="ShoulderPivotR/ElbowPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025, -0.3, -0.06)
+mesh = SubResource("mesh_hand")
+
+[node name="HandSocketR" type="Marker3D" parent="ShoulderPivotR/ElbowPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025, -0.31, -0.06)
+
+[node name="HipPivotL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.105, 0.95, 0)
+
+[node name="ThighL" type="MeshInstance3D" parent="HipPivotL"]
+transform = Transform3D(0.70711, 0, -0.70711, -0.0238, -0.99943, -0.0238, -0.70671, 0.03365, -0.70671, 0, -0.24, -0.005)
+mesh = SubResource("mesh_thigh")
+
+[node name="ThighHolsterL" type="MeshInstance3D" parent="HipPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.075, -0.22, 0)
+mesh = SubResource("mesh_holster")
+
+[node name="ThighGlowL" type="MeshInstance3D" parent="HipPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.098, -0.22, 0)
+mesh = SubResource("mesh_thigh_neon")
+
+[node name="KneePivotL" type="Node3D" parent="HipPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005, -0.45, -0.05)
+
+[node name="KneePadL" type="MeshInstance3D" parent="HipPivotL/KneePivotL"]
+mesh = SubResource("mesh_kneepad")
+
+[node name="ShinL" type="MeshInstance3D" parent="HipPivotL/KneePivotL"]
+transform = Transform3D(-1, 0, 0, 0, -0.99967, 0.02563, 0, 0.02563, 0.99967, 0, -0.195, 0.045)
+mesh = SubResource("mesh_shin")
+
+[node name="ShinGuardL" type="MeshInstance3D" parent="HipPivotL/KneePivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -0.015)
+mesh = SubResource("mesh_shin_plate")
+
+[node name="AnklePivotL" type="Node3D" parent="HipPivotL/KneePivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, 0)
+
+[node name="BootL" type="MeshInstance3D" parent="HipPivotL/KneePivotL/AnklePivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, 0)
+mesh = SubResource("mesh_boot")
+
+[node name="BootToeL" type="MeshInstance3D" parent="HipPivotL/KneePivotL/AnklePivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0725, -0.125)
+mesh = SubResource("mesh_boot_toe")
+
+[node name="BootGlowL" type="MeshInstance3D" parent="HipPivotL/KneePivotL/AnklePivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11, -0.025)
+mesh = SubResource("mesh_boot_sole_glow")
+
+[node name="HipPivotR" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0.95, 0)
+
+[node name="ThighR" type="MeshInstance3D" parent="HipPivotR"]
+transform = Transform3D(0.70711, 0, 0.70711, 0.0238, -0.99943, -0.0238, 0.70671, 0.03365, -0.70671, 0, -0.24, -0.005)
+mesh = SubResource("mesh_thigh")
+
+[node name="ThighHolsterR" type="MeshInstance3D" parent="HipPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.075, -0.22, 0)
+mesh = SubResource("mesh_holster")
+
+[node name="ThighGlowR" type="MeshInstance3D" parent="HipPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.098, -0.22, 0)
+mesh = SubResource("mesh_thigh_neon")
+
+[node name="KneePivotR" type="Node3D" parent="HipPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005, -0.45, -0.05)
+
+[node name="KneePadR" type="MeshInstance3D" parent="HipPivotR/KneePivotR"]
+mesh = SubResource("mesh_kneepad")
+
+[node name="ShinR" type="MeshInstance3D" parent="HipPivotR/KneePivotR"]
+transform = Transform3D(-1, 0, 0, 0, -0.99967, 0.02563, 0, 0.02563, 0.99967, 0, -0.195, 0.045)
+mesh = SubResource("mesh_shin")
+
+[node name="ShinGuardR" type="MeshInstance3D" parent="HipPivotR/KneePivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -0.015)
+mesh = SubResource("mesh_shin_plate")
+
+[node name="AnklePivotR" type="Node3D" parent="HipPivotR/KneePivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, 0)
+
+[node name="BootR" type="MeshInstance3D" parent="HipPivotR/KneePivotR/AnklePivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, 0)
+mesh = SubResource("mesh_boot")
+
+[node name="BootToeR" type="MeshInstance3D" parent="HipPivotR/KneePivotR/AnklePivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0725, -0.125)
+mesh = SubResource("mesh_boot_toe")
+
+[node name="BootGlowR" type="MeshInstance3D" parent="HipPivotR/KneePivotR/AnklePivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11, -0.025)
+mesh = SubResource("mesh_boot_sole_glow")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34, -0.4)
+light_color = Color(0.26, 0.88, 0.78, 1)
+light_energy = 0.45
+omni_range = 2.0
+
+[node name="TeamChest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.125)
+mesh = SubResource("mesh_team_chest")
+
+[node name="TeamBack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.18)
+mesh = SubResource("mesh_team_back")
+
+[node name="TeamCrest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79, 0)
+mesh = SubResource("mesh_team_crest")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_player")
+}
+autoplay = "idle"

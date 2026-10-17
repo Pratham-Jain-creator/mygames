@@ -1,0 +1,153 @@
+class_name ServerLogic
+extends RefCounted
+## Flow of a single Server: begin, deal rooms, flee, preview, payout.
+
+const TUTORIAL_DATA := preload("res://scripts/data/tutorial_script.gd")
+
+
+static func begin_server() -> ServerState:
+	var sv := ServerState.new()
+	sv.network = RunState.network
+	sv.kind = RunState.server_index
+	sv.quota = Progression.quota_for(sv.network, sv.kind)
+	sv.boss_id = RunState.boss_order[sv.network - 1] if sv.kind == Enums.ServerKind.BLACK_ICE else ""
+	sv.turns_total = RunState.TURNS_PER_SERVER
+	sv.turns_left = sv.turns_total
+	sv.flees_left = RunState.get_flee_limit()
+	RunState.server = sv
+	sv.turn_stats = TurnResolver.fresh_stats()
+	RunState.deck.start_server()
+	if RunState.tutorial:
+		sv.quota = TUTORIAL_DATA.QUOTA
+		RunState.deck.stack_top(TUTORIAL_DATA.deck_order())
+	var pops := DaemonLogic.fire("server_start")
+	DaemonLogic.emit_pops(pops)
+	return sv
+
+
+## Boss / environment adjusted value of a node (Wall, Mirror).
+static func effective_value(node: NodeData) -> int:
+	var v := node.base_value
+	if RunState.is_boss("mirror") and node.type == Enums.NodeType.ICE:
+		v *= 2
+	if RunState.is_boss("wall"):
+		v = mini(v, 10)
+	return v
+
+
+static func deal_room() -> Dictionary:
+	var sv: ServerState = RunState.server
+	var forced: Array = sv.stash.duplicate()
+	sv.stash = []
+	var need := maxi(0, RunState.get_room_size() - forced.size())
+	var room: Array = forced + RunState.deck.draw(need)
+	var notes: Array = []
+
+	var hide_nodes := RunState.is_boss("cipher") or RunState.has_daemon("poltergeist")
+	for n: NodeData in room:
+		n.eff_value = effective_value(n)
+		n.face_down = hide_nodes
+	if RunState.has_daemon("quarantine"):
+		for n: NodeData in forced:
+			if n.type == Enums.NodeType.ICE:
+				n.eff_value = maxi(1, n.eff_value / 2)
+				notes.append("QUARANTINE: stashed Glitch halved to %d" % n.eff_value)
+
+	if RunState.has_daemon("honeypot"):
+		var weakest: NodeData = null
+		var ice_count := 0
+		for n: NodeData in room:
+			if n.type == Enums.NodeType.ICE:
+				ice_count += 1
+				if weakest == null or n.eff_value < weakest.eff_value:
+					weakest = n
+		if ice_count >= 2 and weakest != null:
+			var idx := room.find(weakest)
+			var repl := RunState.deck.draw(1)
+			RunState.deck.discard([weakest])
+			notes.append("HONEYPOT: %s self-destructed" % weakest.label())
+			DaemonLogic.emit_pops(DaemonLogic.fire("ice_destroyed", {"node": weakest}))
+			if repl.is_empty():
+				room.remove_at(idx)
+			else:
+				var r: NodeData = repl[0]
+				r.eff_value = effective_value(r)
+				r.face_down = hide_nodes
+				room[idx] = r
+	sv.room = room
+	# Core rule: you ALWAYS resolve exactly 3 Nodes (fewer only if the deck runs dry).
+	# No card may change this; the rest of the room is the Stash carried over.
+	var need_min := mini(RunState.RESOLVE_COUNT, room.size())
+	var need_max := need_min
+	return {"room": room, "notes": notes, "required": need_min, "max": need_max}
+
+
+static func can_flee() -> String:
+	var sv: ServerState = RunState.server
+	if sv.last_action_flee and not RunState.has_voucher("proxy_server"):
+		return "CANNOT SKIP TWICE IN A ROW"
+	if RunState.deck.draw_pile.size() < RunState.RESOLVE_COUNT:
+		return "NOT ENOUGH NODES LEFT TO SKIP"
+	return ""
+
+
+## Returns {events, died}. The caller redeals afterwards.
+static func flee() -> Dictionary:
+	var sv: ServerState = RunState.server
+	var events: Array = []
+	sv.flees_left -= 1
+	sv.last_action_flee = true
+	sv.fled_this_turn = true
+	if sv.turn_number == 1:
+		sv.skipped_first_turn = true
+	# Skipped Nodes are removed for the rest of this Server (restored next Server).
+	RunState.deck.discard(sv.room.duplicate())
+	sv.room = []
+	events.append_array(DaemonLogic.fire("flee"))
+	var died := false
+	if RunState.is_boss("needle"):
+		died = TurnResolver.hurt(5, "needle", events)
+	return {"events": events, "died": died}
+
+
+## Rough pre-daemon preview for the live equation display.
+static func preview(selected: Array) -> Dictionary:
+	var sv: ServerState = RunState.server
+	if selected.is_empty():
+		return {"sub": "", "chips": 0.0, "mult": 1.0 + sv.bandwidth_bonus}
+	var id := SubroutineDB.identify(selected) if selected.size() >= 3 else ""
+	var chips := 0.0
+	var mult := 1.0 + sv.bandwidth_bonus
+	if id != "":
+		var lvl := int(RunState.sub_levels.get(id, 0))
+		chips = 0.0 if RunState.is_boss("void") else float(SubroutineDB.base_for(id, lvl))
+		mult += SubroutineDB.mult_for(id, lvl)
+	for n: NodeData in selected:
+		chips += float(n.eff_value) * (2.0 if n.type == Enums.NodeType.DATA else 1.0)
+		if n.zipped:
+			chips += 10.0
+		if n.holo:
+			mult += 1.0
+	return {"sub": SubroutineDB.name_of(id) if id != "" else "", "chips": chips, "mult": mult}
+
+
+## Pays out a cleared Server. Returns {lines:[[label, amount]], total}.
+static func payout() -> Dictionary:
+	var sv: ServerState = RunState.server
+	var lines: Array = []
+	if RunState.has_daemon("ransomware"):
+		lines.append(["RANSOMWARE SEIZED THE PAYOUT", 0])
+		return {"lines": lines, "total": 0}
+	var base: int = Progression.KIND_REWARD[sv.kind]
+	lines.append(["SERVER CLEARED", base])
+	var total := base
+	if sv.turns_left > 0:
+		lines.append(["UNUSED TURNS x%d" % sv.turns_left, sv.turns_left])
+		total += sv.turns_left
+	if RunState.has_daemon("investment_bank"):
+		var interest := mini(10, (RunState.money / 5) * 2)
+		if interest > 0:
+			lines.append(["INVESTMENT BANK INTEREST", interest])
+			total += interest
+	RunState.money += total
+	return {"lines": lines, "total": total}

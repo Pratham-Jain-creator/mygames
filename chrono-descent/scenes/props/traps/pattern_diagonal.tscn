@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/spike_pattern.gd" id="1_pattern"]
+
+[node name="PatternDiagonal" type="Node2D"]
+script = ExtResource("1_pattern")
+offsets = PackedVector2Array(-2.0, -2.0, -1.0, -1.0, 0.0, 0.0, 1.0, 1.0, 2.0, 2.0)
+mode = 2
+sweep_delay = 0.2

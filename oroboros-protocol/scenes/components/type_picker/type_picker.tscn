@@ -1,0 +1,161 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/type_picker/type_picker.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/action_button/action_button.tscn" id="2_btn"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_show"]
+resource_name = "show"
+length = 0.16
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hide"]
+resource_name = "hide"
+length = 0.12
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.12),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_picker"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"hide": SubResource("Animation_hide"),
+&"show": SubResource("Animation_show")
+}
+
+[node name="TypePicker" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.99, 0.945, 1)
+theme_override_font_sizes/font_size = 24
+text = "REFORMAT: CHOOSE NEW TYPE"
+horizontal_alignment = 1
+
+[node name="DataButton" parent="Panel/VBox" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SIPHON"
+accent = Color(0.4, 0.99, 0.945, 1)
+
+[node name="IceButton" parent="Panel/VBox" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "GLITCH"
+accent = Color(1, 0, 0.235, 1)
+
+[node name="BreachButton" parent="Panel/VBox" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FIREWALL"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="CoolantButton" parent="Panel/VBox" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PATCH"
+accent = Color(0, 0.98, 0.604, 1)
+
+[node name="CancelButton" parent="Panel/VBox" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CANCEL"
+accent = Color(0.36, 0.4, 0.44, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_picker")
+}

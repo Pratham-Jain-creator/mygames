@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://du5lt2xkly3rr"]
+
+[ext_resource type="Script" uid="uid://c0lh7dq2nai4g" path="res://scripts/game.gd" id="1_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://bay7fg6he70ix" path="res://assets/images/space.png" id="2_gee14"]
+[ext_resource type="PackedScene" uid="uid://cgdldb0dsktnf" path="res://scenes/player.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://b67x8187s7b0q" path="res://scenes/start_menu.tscn" id="3_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://chc657reh1e0n" path="res://scenes/pause_menu.tscn" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://dm60k680hhtbt" path="res://scripts/score.gd" id="3_p57ef"]
+[ext_resource type="PackedScene" uid="uid://wxiedcf8r87u" path="res://scenes/death_menu.tscn" id="4_iywne"]
+[ext_resource type="Script" uid="uid://bp8crj7lgk34q" path="res://scripts/health.gd" id="7_u5sy4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7wquq"]
+size = Vector2(1148.5, 34)
+
+[sub_resource type="QuadMesh" id="QuadMesh_cb8fh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cb8fh"]
+size = Vector2(27, 696)
+
+[sub_resource type="QuadMesh" id="QuadMesh_7wquq"]
+
+[node name="game" type="Node2D" unique_id=847809011]
+script = ExtResource("1_yqjtg")
+
+[node name="Space" type="Sprite2D" parent="." unique_id=742877319]
+position = Vector2(22.000015, 41.000008)
+scale = Vector2(0.53338075, 0.5091146)
+texture = ExtResource("2_gee14")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=825419175]
+wait_time = 2.5
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1778193275]
+position = Vector2(-2, 1)
+
+[node name="player" parent="." unique_id=709660062 groups=["player"] instance=ExtResource("2_yqjtg")]
+unique_name_in_owner = true
+position = Vector2(-1, -1)
+
+[node name="walls" type="Node" parent="." unique_id=1108777096]
+
+[node name="ground" type="StaticBody2D" parent="walls" unique_id=625303122]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/ground" unique_id=1809768958]
+position = Vector2(4.75, 342)
+shape = SubResource("RectangleShape2D_7wquq")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="walls/ground" unique_id=613227846]
+visible = false
+position = Vector2(4.624939, 340.99997)
+scale = Vector2(1150.7499, 34.5)
+mesh = SubResource("QuadMesh_cb8fh")
+
+[node name="ceiling" type="StaticBody2D" parent="walls" unique_id=670781676]
+position = Vector2(-18, 30)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/ceiling" unique_id=1534996215]
+position = Vector2(7, -327)
+shape = SubResource("RectangleShape2D_7wquq")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="walls/ceiling" unique_id=1561647224]
+visible = false
+position = Vector2(4, -328.00003)
+scale = Vector2(1150.7499, 34.5)
+mesh = SubResource("QuadMesh_cb8fh")
+
+[node name="leftwall" type="StaticBody2D" parent="walls" unique_id=1152583097]
+position = Vector2(-2, 12)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/leftwall" unique_id=85440529]
+position = Vector2(-564.5, 7)
+shape = SubResource("RectangleShape2D_cb8fh")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="walls/leftwall" unique_id=1294251289]
+visible = false
+position = Vector2(-565.625, 3.5)
+scale = Vector2(29.250029, 695)
+mesh = SubResource("QuadMesh_7wquq")
+
+[node name="rightwall" type="StaticBody2D" parent="walls" unique_id=1259379167]
+position = Vector2(-2, 12)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/rightwall" unique_id=36314220]
+position = Vector2(567, 7)
+shape = SubResource("RectangleShape2D_cb8fh")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="walls/rightwall" unique_id=805992568]
+visible = false
+position = Vector2(569, 0.99999976)
+scale = Vector2(29.250029, 695)
+mesh = SubResource("QuadMesh_7wquq")
+
+[node name="spawnareas" type="Node" parent="." unique_id=1103191258]
+
+[node name="spawnArea1" type="ReferenceRect" parent="spawnareas" unique_id=208637859 groups=["spawners"]]
+offset_left = -524.0
+offset_top = 324.0
+offset_right = 531.0
+offset_bottom = 345.0
+
+[node name="spawnArea2" type="ReferenceRect" parent="spawnareas" unique_id=1325893350 groups=["spawners"]]
+offset_left = -581.0
+offset_top = -246.0
+offset_right = -555.0
+offset_bottom = 276.0
+
+[node name="spawnArea3" type="ReferenceRect" parent="spawnareas" unique_id=492119680 groups=["spawners"]]
+offset_left = -530.0
+offset_top = -307.0
+offset_right = 525.0
+offset_bottom = -286.0
+
+[node name="spawnArea4" type="ReferenceRect" parent="spawnareas" unique_id=1692355086 groups=["spawners"]]
+offset_left = 554.0
+offset_top = -241.0
+offset_right = 580.0
+offset_bottom = 281.0
+
+[node name="boons" type="ReferenceRect" parent="spawnareas" unique_id=1261240826 groups=["item_area"]]
+offset_left = -456.0
+offset_top = -238.0
+offset_right = 468.0
+offset_bottom = 281.0
+
+[node name="Labels" type="Node" parent="." unique_id=1012436443]
+
+[node name="score" type="Label" parent="Labels" unique_id=715686688]
+offset_left = 427.0
+offset_top = 298.0
+offset_right = 545.0
+offset_bottom = 321.0
+text = "score: x "
+script = ExtResource("3_p57ef")
+
+[node name="health" type="Label" parent="Labels" unique_id=786566522]
+offset_left = -539.0
+offset_top = 296.0
+offset_right = -421.0
+offset_bottom = 319.0
+text = "health: x "
+script = ExtResource("7_u5sy4")
+
+[node name="UserInterface" type="Node" parent="." unique_id=452077036]
+
+[node name="PauseMenu" parent="UserInterface" unique_id=67745071 instance=ExtResource("3_lnu2h")]
+offset_left = -135.0
+offset_top = -97.0
+offset_right = -135.0
+offset_bottom = -97.0
+
+[node name="DeathMenu" parent="UserInterface" unique_id=319987180 groups=["death_menu"] instance=ExtResource("4_iywne")]
+offset_left = -133.0
+offset_top = -97.0
+offset_right = -133.0
+offset_bottom = -97.0
+
+[node name="StartMenu" parent="UserInterface" unique_id=823799271 instance=ExtResource("3_lbhrr")]
+offset_left = -579.0
+offset_top = -303.0
+offset_right = -579.0
+offset_bottom = -303.0
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="child_exiting_tree" from="Camera2D" to="." method="_on_camera_2d_child_exiting_tree"]

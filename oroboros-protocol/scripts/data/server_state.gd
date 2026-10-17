@@ -1,0 +1,33 @@
+class_name ServerState
+extends RefCounted
+## Everything that lives only for the duration of a single Server.
+
+var network := 1
+var kind := 0                       # Enums.ServerKind
+var boss_id := ""
+var quota := 0
+var score := 0
+var turns_total := 4
+var turns_left := 4
+var turn_number := 1
+var flees_left := 2
+var last_action_flee := false
+var fled_this_turn := false
+var skipped_first_turn := false     # Infinity Loop: set by an Eject on turn 1, lasts the whole Server
+var bandwidth_bonus := 0            # +1 per damage instance, +3 Basic Overclock, ...
+var weapon: WeaponState = null
+var weapon_enabled := true          # player toggle: use weapon on ICE or take raw hits
+var stash: Array = []               # Array[NodeData] carried into the next room
+var room: Array = []                # Array[NodeData] currently on the table
+var subs_played: Dictionary = {}    # subroutine id -> count (this server)
+var turn_stats: Dictionary = {}
+var last_turn_bonus := 0.0          # Echo
+var best_turn := 0
+var counters: Dictionary = {}       # per-Server counters used by Daemons
+var last_sub := ""                  # Subroutine played last turn (Habit)
+var last_hit := {}                  # what hit you last (death screen)
+var damage_taken := 0               # Integrity lost this Server (Spotless Record)
+
+
+func is_final_turn() -> bool:
+	return turns_left <= 1

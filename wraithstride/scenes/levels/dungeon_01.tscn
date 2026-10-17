@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/dungeon.gd" id="1_dungeon"]
+
+[sub_resource type="Environment" id="Environment_dungeon"]
+background_mode = 1
+background_color = Color(0.01, 0.01, 0.015, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.33, 0.48, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.05, 0.06, 0.09, 1)
+fog_density = 0.008
+
+[node name="Dungeon01" type="Node3D"]
+script = ExtResource("1_dungeon")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dungeon")
+
+[node name="Spawn" type="Marker3D" parent="."]
+position = Vector3(0, 0.3, 4)

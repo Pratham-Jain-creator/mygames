@@ -1,0 +1,227 @@
+class_name NodeCard
+extends InteractiveControl
+## Base "Datachip": a wide 16:9-ish server blade showing one NodeData.
+## Type specific cards (data / ice / breach / coolant) inherit this scene + script
+## and only override description / extra read-outs. All motion lives in the
+## AnimationPlayer: deal_in, select, deselect, hit, resolve, deny, pulse, reveal,
+## ceiling_hit, hover_in, hover_out, press, release.
+
+@export var node_type: Enums.NodeType = Enums.NodeType.DATA
+
+var data: NodeData
+var selected := false
+var face_down := false
+var _dealing := false
+var idle_enabled := true   # compact copies (Tailbytes viewer, Stash) switch it off
+
+@onready var _frame: NodeFace = %Frame
+@onready var _value_label: Label = %ValueLabel
+@onready var _icon: NodeIcon = %Icon
+@onready var _type_label: Label = %TypeLabel
+@onready var _badges: Label = %Badges
+@onready var _strength_label: Label = %StrengthLabel
+@onready var _damage_label: Label = %DamagePreview
+@onready var _ceiling_badge: Label = %CeilingBadge
+@onready var _order_badge: PanelContainer = %OrderBadge
+@onready var _order_label: Label = %OrderLabel
+@onready var _cover: Control = %Cover
+
+
+func _ready() -> void:
+	super()
+	_apply_look(node_type, false)
+
+
+# ------------------------------------------------------------------ binding
+func bind(d: NodeData) -> void:
+	data = d
+	selected = false
+	_frame.selected = false
+	reset_visual()
+	_order_badge.visible = false
+	face_down = d.face_down
+	_cover.visible = face_down
+	_refresh()
+
+
+func _refresh() -> void:
+	if data == null:
+		return
+	if face_down:
+		_apply_look(node_type, true)
+		set_idle(false)
+		_value_label.text = "?"
+		_frame.value = 0
+		_badges.text = ""
+		return
+	_apply_look(data.type, false)
+	# Still scanlines on every card; the gloss sweep only on modified Nodes (E / Z / H / $).
+	set_idle(idle_enabled, Enums.TYPE_COLORS[data.type], 1.0, data.is_modified())
+	_value_label.text = str(data.eff_value)
+	_frame.value = data.eff_value
+	_badges.text = " ".join(data.mod_tags())
+	_on_refreshed()
+
+
+func _apply_look(t: int, hidden: bool) -> void:
+	var col: Color = Enums.COL_DIM if hidden else Enums.TYPE_COLORS[t]
+	_frame.configure(t, col, hidden)
+	_value_label.add_theme_color_override("font_color", col)
+	_value_label.add_theme_color_override("font_shadow_color", Color(col, 0.55))
+	_value_label.add_theme_constant_override("shadow_offset_x", 0)
+	_value_label.add_theme_constant_override("shadow_offset_y", 0)
+	_value_label.add_theme_constant_override("shadow_outline_size", 7)
+	_order_label.add_theme_color_override("font_color", Enums.COL_BG)
+	_order_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_type_label.add_theme_color_override("font_color", col)
+	_badges.add_theme_color_override("font_color", col)
+	_type_label.text = "UNKNOWN NODE" if hidden else Enums.TYPE_NAMES[t]
+	_icon.node_type = t
+	_icon.tint = col
+	_icon.unknown = hidden
+
+
+## Override in subclasses for type specific read-outs.
+func _on_refreshed() -> void:
+	pass
+
+
+## Override: the body text of the tooltip.
+func _describe() -> String:
+	return ""
+
+
+func on_weapon_changed(_weapon: WeaponState, _enabled: bool) -> void:
+	pass
+
+
+# --------------------------------------------------------------- interaction
+func set_selected(v: bool, order := 0) -> void:
+	if selected != v:
+		selected = v
+		play_anim(&"select" if v else &"deselect")
+	_frame.selected = v
+	z_index = 5 if v else 0
+	_frame.queue_order = order if v else 0
+	_order_badge.visible = v
+	if v:
+		_order_label.text = "QUEUE %02d" % order
+		if anim != null and anim.has_animation(&"tab_pop"):
+			anim.queue(&"tab_pop")
+		AudioService.play("select", 1.0 + order * 0.12)
+	elif is_node_ready():
+		AudioService.play("deselect")
+
+
+func set_order(order: int) -> void:
+	_order_label.text = "QUEUE %02d" % order
+	_frame.queue_order = order
+	if anim != null and anim.has_animation(&"tab_pop") and not anim.is_playing():
+		anim.play(&"tab_pop")
+
+
+func play_hit_then_resolve() -> void:
+	play_anim(&"hit")
+	if anim != null and anim.has_animation(&"resolve"):
+		anim.queue(&"resolve")
+	AudioService.play("thunk", 0.8)
+
+
+func deny() -> void:
+	play_anim(&"deny")
+	AudioService.play("deny")
+
+
+func reveal() -> void:
+	if not face_down:
+		return
+	face_down = false
+	if data:
+		data.face_down = false
+	_refresh()
+	play_anim(&"reveal")
+
+
+func play_hit() -> void:
+	play_anim(&"hit")
+
+
+func play_resolve() -> void:
+	play_anim(&"resolve")
+	AudioService.play("thunk")
+
+
+## Called the moment a card is spawned for a deal, before its staggered deal_in,
+## so hover can never fight the deal animation.
+func begin_deal() -> void:
+	_dealing = true
+	if visual:
+		visual.modulate.a = 0.0
+
+
+func play_deal_in() -> void:
+	_dealing = true
+	reset_visual()
+	play_anim(&"deal_in")
+	var dur := 0.4
+	if anim != null and anim.has_animation(&"deal_in"):
+		dur = anim.get_animation(&"deal_in").length
+	await get_tree().create_timer(dur + 0.05).timeout
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
+	_dealing = false
+	# Always land on a clean, fully opaque state, whatever interrupted the animation.
+	if anim != null:
+		anim.stop()
+	if visual:
+		visual.modulate = Color.WHITE
+		visual.scale = Vector2.ONE
+		visual.position = Vector2.ZERO
+	# A card dealt under the cursor must settle into its true resting/hover state.
+	if not selected:
+		if is_hovered and not is_touch_ui():
+			play_anim(&"hover_in")
+		else:
+			reset_visual()
+
+
+func _hover_animation(hovered: bool) -> void:
+	if _dealing:
+		return
+	z_index = 10 if hovered else (5 if selected else 0)   # overlapped rows: pointed card comes to front
+	play_anim(&"hover_in" if hovered else &"hover_out")
+
+
+func get_tip_data() -> Dictionary:
+	if data == null:
+		return {}
+	if face_down:
+		return {
+			"title": "UNKNOWN NODE",
+			"body": "Face down. Study the Tailbytes tracker (TAILBYTES button) to deduce its type and value. It reveals itself when resolved.",
+			"color": Enums.COL_DIM,
+		}
+	var body := _describe()
+	var mods := _mods_text()
+	if mods != "":
+		body += "\n\n" + mods
+	return {
+		"title": "%s  %d" % [Enums.TYPE_NAMES[data.type], data.eff_value],
+		"body": body,
+		"color": Enums.TYPE_COLORS[data.type],
+	}
+
+
+func _mods_text() -> String:
+	var parts: Array = []
+	if data.encrypted:
+		parts.append("[color=#66FCF1]ENCRYPTED[/color] value boosted")
+	if data.zipped:
+		parts.append("[color=#66FCF1]ZIPPED[/color] +10 Base Bytes when resolved")
+	if data.holo:
+		parts.append("[color=#FF00FF]HOLOGRAPHIC[/color] +1 Overclock when resolved")
+	if data.gold:
+		parts.append("[color=#FFD866]GOLD[/color] earns $ when resolved")
+	if data.eff_value != data.base_value:
+		parts.append("[color=#FFB400]Base value %d, modified to %d this room[/color]" % [data.base_value, data.eff_value])
+	return "\n".join(parts)

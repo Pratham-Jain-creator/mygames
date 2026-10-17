@@ -1,0 +1,144 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/goal_gate.gd" id="1_goal"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_goal"]
+size = Vector3(4, 4, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+size = Vector3(0.6, 4.4, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lintel"]
+size = Vector3(5.2, 0.6, 0.6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_disc"]
+top_radius = 1.8
+bottom_radius = 1.8
+height = 0.04
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+inner_radius = 1.75
+outer_radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_gstone"]
+albedo_color = Color(0.2, 0.19, 0.23, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_portal"]
+shading_mode = 0
+albedo_color = Color(0.4, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="Animation" id="Animation_gidle"]
+resource_name = "idle"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Portal:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 3.2, 2.0]
+}
+
+[sub_resource type="Animation" id="Animation_gactivate"]
+resource_name = "activate"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Portal:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.5),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.6, 1.6, 1.6), Vector3(1.2, 1.2, 1.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.5),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [3.0, 14.0, 6.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_goal"]
+_data = {
+&"activate": SubResource("Animation_gactivate"),
+&"idle": SubResource("Animation_gidle")
+}
+
+[node name="GoalGate" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_goal")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+position = Vector3(0, 2, 0)
+shape = SubResource("BoxShape3D_goal")
+
+[node name="PillarL" type="MeshInstance3D" parent="."]
+position = Vector3(-2.3, 2.2, 0)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("Mat_gstone")
+
+[node name="PillarR" type="MeshInstance3D" parent="."]
+position = Vector3(2.3, 2.2, 0)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("Mat_gstone")
+
+[node name="Lintel" type="MeshInstance3D" parent="."]
+position = Vector3(0, 4.5, 0)
+mesh = SubResource("BoxMesh_lintel")
+surface_material_override/0 = SubResource("Mat_gstone")
+
+[node name="Portal" type="Node3D" parent="."]
+position = Vector3(0, 2.1, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Portal"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("CylinderMesh_disc")
+surface_material_override/0 = SubResource("Mat_portal")
+
+[node name="Ring" type="MeshInstance3D" parent="Portal"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("TorusMesh_ring")
+surface_material_override/0 = SubResource("Mat_portal")
+
+[node name="Light" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.1, 1.0)
+light_color = Color(0.4, 0.9, 1, 1)
+light_energy = 2.0
+omni_range = 12.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_goal")
+}
+autoplay = "idle"

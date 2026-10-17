@@ -1,0 +1,27 @@
+# Oroboros Protocol: design guardrails
+
+## Core-rule protection (the owner asked for this reminder)
+
+Never change a core game rule just to make ONE card/Daemon/item work.
+Core rules: resolve exactly 3 Nodes per turn; room = 3 + Stash capacity; the unplayed
+Node(s) become the Stash; 20 base Server Integrity; deal 4 / resolve 3 / stash 1; lose only at
+0 Integrity or when the Tailbytes are exhausted without meeting the threshold.
+
+Whenever the owner proposes a mechanic change motivated by a single card (for example
+"make 4 nodes resolvable so Cloud Sync works"), STOP and remind them of this rule first,
+then offer to rewrite the card's own text/behaviour instead. Card behaviour adapts to
+the engine, not the other way round.
+
+## Layout
+
+See docs/ARCHITECTURE.md. Logic is UI-free in scripts/logic, data in scripts/database.
+
+## Terminology (fiction: you are an Operator; your OROBOROS PROTOCOL siphons bytes from a Server but can also destroy it)
+Display names changed; code identifiers (`DECK`, `ICE`, `BREACH`, `COOLANT`, `health`, `chips`, `mult`...) did NOT.
+- Deck -> **Tailbytes** | Data Cache node (`NodeType.DATA`) -> **Siphon** | ICE node (`NodeType.ICE`) -> **Glitch**
+- Coolant node (`COOLANT`) -> **Patch** | Breach Protocol / weapon (`BREACH`) -> **Firewall**
+- Rig Health -> **Server Integrity** | Data / score -> **bytes** (Base Data -> **Base Bytes**) | Bandwidth / mult -> **Overclock**
+- Flee -> **Skip** | Black-ICE server -> **Sentinel** server
+- Renamed to avoid clashes: Daemon "Glitch" -> Ghost Write (id `glitch`), Daemon "Firewall" -> Shock Absorber (id `firewall`),
+  Subroutine "Data Dump" -> Bulk Siphon, Subroutine "Overclock" -> Full Spectrum, Executable "Overclock" -> Hyperdrive.
+- Quota -> **Threshold** (code still uses `quota`)

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "bunker"
+display_name = "Barricade"
+category = "DEFENSE"
+color = Color(0.25, 0.75, 0.95, 1)
+weight = 2.0
+script_path = "res://scripts/modules/bunker_module.gd"
+hud_meta_template = "BARRICADE · {cost} FLUX"
+description_template = "Drops a wall {place_dist} m ahead, {cost} Flux. Up to 6, stackable (look at one to build on it). Only breaks when its 120 hp run out. Blast and Vector get past it."
+cost = 6.0
+cooldown = 0.4
+tuning = {
+"max_up": 5.0,
+"min_dist": 1.4,
+"place_dist": 3.5
+}

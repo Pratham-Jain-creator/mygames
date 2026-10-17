@@ -1,0 +1,316 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="e0"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_floor.tres" id="e1"]
+[ext_resource type="Material" path="res://scenes/levels/materials/stone_wall.tres" id="e2"]
+[ext_resource type="Material" path="res://scenes/levels/materials/rune.tres" id="e3"]
+[ext_resource type="Material" path="res://scenes/levels/materials/iron.tres" id="e4"]
+[ext_resource type="PackedScene" path="res://scenes/props/torch.tscn" id="e5"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="e6"]
+[ext_resource type="PackedScene" path="res://scenes/props/seal_switch.tscn" id="e7"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="e8"]
+
+[sub_resource type="StandardMaterial3D" id="M_1"]
+albedo_color = Color(0.55, 0.52, 0.56, 1)
+metallic = 0.8
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.7, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="CylinderMesh" id="CM_2"]
+top_radius = 0
+bottom_radius = 0.1
+height = 0.45
+
+[sub_resource type="BoxShape3D" id="BS_3"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxMesh" id="BM_4"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxShape3D" id="BS_5"]
+size = Vector3(9.2, 1, 2.6)
+
+[sub_resource type="Animation" id="A_6"]
+resource_name = "move"
+length = 3.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0667, 0.1333, 0.2, 0.2667, 0.3333, 0.4, 0.4667, 0.5333, 0.6, 0.6667, 0.7333, 0.8, 0.8667, 0.9333, 1, 1.0667, 1.1333, 1.2, 1.2667, 1.3333, 1.4, 1.4667, 1.5333, 1.6, 1.6667, 1.7333, 1.8, 1.8667, 1.9333, 2, 2.0667, 2.1333, 2.2, 2.2667, 2.3333, 2.4, 2.4667, 2.5333, 2.6, 2.6667, 2.7333, 2.8, 2.8667, 2.9333, 3, 3.0667, 3.1333, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 7, -12), Vector3(0, 5.984, -12), Vector3(0, 4.2907, -12), Vector3(0, 2.5973, -12), Vector3(0, 0.904, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 0.65, -12), Vector3(0, 1.0469, -12), Vector3(0, 1.7083, -12), Vector3(0, 2.3698, -12), Vector3(0, 3.0312, -12), Vector3(0, 3.6927, -12), Vector3(0, 4.3542, -12), Vector3(0, 5.0156, -12), Vector3(0, 5.6771, -12), Vector3(0, 6.3385, -12), Vector3(0, 7, -12)]
+}
+
+[sub_resource type="AnimationLibrary" id="L_7"]
+_data = {
+&"move": SubResource("A_6")
+}
+
+[sub_resource type="BoxShape3D" id="BS_8"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxMesh" id="BM_9"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxShape3D" id="BS_10"]
+size = Vector3(9.2, 1, 2.6)
+
+[sub_resource type="Animation" id="A_11"]
+resource_name = "move"
+length = 3.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0667, 0.1333, 0.2, 0.2667, 0.3333, 0.4, 0.4667, 0.5333, 0.6, 0.6667, 0.7333, 0.8, 0.8667, 0.9333, 1, 1.0667, 1.1333, 1.2, 1.2667, 1.3333, 1.4, 1.4667, 1.5333, 1.6, 1.6667, 1.7333, 1.8, 1.8667, 1.9333, 2, 2.0667, 2.1333, 2.2, 2.2667, 2.3333, 2.4, 2.4667, 2.5333, 2.6, 2.6667, 2.7333, 2.8, 2.8667, 2.9333, 3, 3.0667, 3.1333, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 5.984, -22), Vector3(0, 4.2907, -22), Vector3(0, 2.5973, -22), Vector3(0, 0.904, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 0.65, -22), Vector3(0, 1.0469, -22), Vector3(0, 1.7083, -22), Vector3(0, 2.3698, -22), Vector3(0, 3.0312, -22), Vector3(0, 3.6927, -22), Vector3(0, 4.3542, -22), Vector3(0, 5.0156, -22), Vector3(0, 5.6771, -22), Vector3(0, 6.3385, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22), Vector3(0, 7, -22)]
+}
+
+[sub_resource type="AnimationLibrary" id="L_12"]
+_data = {
+&"move": SubResource("A_11")
+}
+
+[sub_resource type="BoxShape3D" id="BS_13"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxMesh" id="BM_14"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxShape3D" id="BS_15"]
+size = Vector3(9.2, 1, 2.6)
+
+[sub_resource type="Animation" id="A_16"]
+resource_name = "move"
+length = 3.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0667, 0.1333, 0.2, 0.2667, 0.3333, 0.4, 0.4667, 0.5333, 0.6, 0.6667, 0.7333, 0.8, 0.8667, 0.9333, 1, 1.0667, 1.1333, 1.2, 1.2667, 1.3333, 1.4, 1.4667, 1.5333, 1.6, 1.6667, 1.7333, 1.8, 1.8667, 1.9333, 2, 2.0667, 2.1333, 2.2, 2.2667, 2.3333, 2.4, 2.4667, 2.5333, 2.6, 2.6667, 2.7333, 2.8, 2.8667, 2.9333, 3, 3.0667, 3.1333, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 5.984, -32), Vector3(0, 4.2907, -32), Vector3(0, 2.5973, -32), Vector3(0, 0.904, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 0.65, -32), Vector3(0, 1.0469, -32), Vector3(0, 1.7083, -32), Vector3(0, 2.3698, -32), Vector3(0, 3.0312, -32), Vector3(0, 3.6927, -32), Vector3(0, 4.3542, -32), Vector3(0, 5.0156, -32), Vector3(0, 5.6771, -32), Vector3(0, 6.3385, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32), Vector3(0, 7, -32)]
+}
+
+[sub_resource type="AnimationLibrary" id="L_17"]
+_data = {
+&"move": SubResource("A_16")
+}
+
+[sub_resource type="BoxShape3D" id="BS_18"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxMesh" id="BM_19"]
+size = Vector3(9.6, 1.2, 3)
+
+[sub_resource type="BoxShape3D" id="BS_20"]
+size = Vector3(9.2, 1, 2.6)
+
+[sub_resource type="Animation" id="A_21"]
+resource_name = "move"
+length = 3.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0667, 0.1333, 0.2, 0.2667, 0.3333, 0.4, 0.4667, 0.5333, 0.6, 0.6667, 0.7333, 0.8, 0.8667, 0.9333, 1, 1.0667, 1.1333, 1.2, 1.2667, 1.3333, 1.4, 1.4667, 1.5333, 1.6, 1.6667, 1.7333, 1.8, 1.8667, 1.9333, 2, 2.0667, 2.1333, 2.2, 2.2667, 2.3333, 2.4, 2.4667, 2.5333, 2.6, 2.6667, 2.7333, 2.8, 2.8667, 2.9333, 3, 3.0667, 3.1333, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 1.0469, -42), Vector3(0, 1.7083, -42), Vector3(0, 2.3698, -42), Vector3(0, 3.0312, -42), Vector3(0, 3.6927, -42), Vector3(0, 4.3542, -42), Vector3(0, 5.0156, -42), Vector3(0, 5.6771, -42), Vector3(0, 6.3385, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 7, -42), Vector3(0, 5.984, -42), Vector3(0, 4.2907, -42), Vector3(0, 2.5973, -42), Vector3(0, 0.904, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42), Vector3(0, 0.65, -42)]
+}
+
+[sub_resource type="AnimationLibrary" id="L_22"]
+_data = {
+&"move": SubResource("A_21")
+}
+
+[node name="Room" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="WallL1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-5.5, 1.5, -25)
+use_collision = true
+size = Vector3(1, 15, 50)
+material = ExtResource("e2")
+
+[node name="WallR1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(5.5, 1.5, -25)
+use_collision = true
+size = Vector3(1, 15, 50)
+material = ExtResource("e2")
+
+[node name="Ceiling1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8.5, -25)
+size = Vector3(12, 1, 50)
+material = ExtResource("e2")
+
+[node name="Floor1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.5, -25)
+use_collision = true
+size = Vector3(10, 1, 50)
+material = ExtResource("e1")
+
+[node name="Lintel1" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 8, -49.5)
+use_collision = true
+size = Vector3(11, 2.5, 1)
+material = ExtResource("e2")
+
+[node name="T1" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -7)
+
+[node name="T2" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -7)
+
+[node name="T3" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -21)
+
+[node name="T4" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -21)
+
+[node name="T5" parent="Props" instance=ExtResource("e5")]
+position = Vector3(-4.8, 3, -35)
+
+[node name="T6" parent="Props" instance=ExtResource("e5")]
+position = Vector3(4.8, 3, -35)
+
+[node name="Crusher1" type="AnimatableBody3D" parent="Geometry"]
+position = Vector3(0, 7, -12)
+sync_to_physics = true
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher1"]
+shape = SubResource("BS_3")
+
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/Crusher1"]
+mesh = SubResource("BM_4")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Kill" type="Area3D" parent="Geometry/Crusher1"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher1/Kill"]
+position = Vector3(0, -1.1, 0)
+shape = SubResource("BS_5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Geometry/Crusher1"]
+libraries = {
+&"": SubResource("L_7")
+}
+autoplay = "move"
+
+[node name="Crusher2" type="AnimatableBody3D" parent="Geometry"]
+position = Vector3(0, 7, -22)
+sync_to_physics = true
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher2"]
+shape = SubResource("BS_8")
+
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/Crusher2"]
+mesh = SubResource("BM_9")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Kill" type="Area3D" parent="Geometry/Crusher2"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher2/Kill"]
+position = Vector3(0, -1.1, 0)
+shape = SubResource("BS_10")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Geometry/Crusher2"]
+libraries = {
+&"": SubResource("L_12")
+}
+autoplay = "move"
+
+[node name="Crusher3" type="AnimatableBody3D" parent="Geometry"]
+position = Vector3(0, 7, -32)
+sync_to_physics = true
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher3"]
+shape = SubResource("BS_13")
+
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/Crusher3"]
+mesh = SubResource("BM_14")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Kill" type="Area3D" parent="Geometry/Crusher3"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher3/Kill"]
+position = Vector3(0, -1.1, 0)
+shape = SubResource("BS_15")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Geometry/Crusher3"]
+libraries = {
+&"": SubResource("L_17")
+}
+autoplay = "move"
+
+[node name="Crusher4" type="AnimatableBody3D" parent="Geometry"]
+position = Vector3(0, 7, -42)
+sync_to_physics = true
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher4"]
+shape = SubResource("BS_18")
+
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/Crusher4"]
+mesh = SubResource("BM_19")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Kill" type="Area3D" parent="Geometry/Crusher4"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("e6")
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/Crusher4/Kill"]
+position = Vector3(0, -1.1, 0)
+shape = SubResource("BS_20")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Geometry/Crusher4"]
+libraries = {
+&"": SubResource("L_22")
+}
+autoplay = "move"
+
+[node name="Seal1" parent="Props" instance=ExtResource("e7")]
+position = Vector3(0, 0, -47)
+
+[node name="Door1" parent="Props" instance=ExtResource("e8")]
+position = Vector3(0, 0, -49.4)

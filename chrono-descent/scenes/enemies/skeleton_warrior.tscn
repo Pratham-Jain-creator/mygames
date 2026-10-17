@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/skeleton_warrior.gd" id="1_sw"]
+[ext_resource type="Script" uid="uid://j8ksamico0sm" path="res://scripts/health_component.gd" id="2_hc"]
+[ext_resource type="Script" uid="uid://dpodcefemw4ey" path="res://scripts/hitbox.gd" id="3_hb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(12, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_atk"]
+radius = 15.0
+
+[node name="SkeletonWarrior" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_sw")
+directional = true
+skeleton_sheet = "skeleton_melee.png"
+move_speed = 52.0
+attack_range = 30.0
+windup_time = 0.5
+attack_time = 0.2
+recover_time = 0.55
+attack_cooldown = 1.1
+dash_speed = 90.0
+melee_damage = 12
+melee_knockback = 210.0
+melee_reach = 16.0
+knockback_resistance = 0.25
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+scale = Vector2(0.65, 0.65)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hc")
+max_health = 40
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+position = Vector2(0, 8)
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("3_hb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("CircleShape2D_atk")

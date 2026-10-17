@@ -1,0 +1,15 @@
+class_name CoolantCard
+extends NodeCard
+## Coolant (Healing).
+
+
+func _ready() -> void:
+	super()
+	node_type = Enums.NodeType.COOLANT
+
+
+func _describe() -> String:
+	var amount := data.eff_value * (2 if RunState.has_daemon("antivirus") else 1)
+	if RunState.is_boss("leech"):
+		return "[color=#FF003C]THE LEECH:[/color] this Patch restores nothing."
+	return "Repairs [b]%d[/b] Integrity when resolved (up to the maximum)." % amount

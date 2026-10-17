@@ -1,0 +1,418 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/world/map_builder.gd" id="s"]
+[ext_resource type="PackedScene" path="res://scenes/world/alley1.tscn" id="alley1"]
+[ext_resource type="PackedScene" path="res://scenes/world/alley2.tscn" id="alley2"]
+[ext_resource type="PackedScene" path="res://scenes/world/alley3.tscn" id="alley3"]
+[ext_resource type="PackedScene" path="res://scenes/world/alley4.tscn" id="alley4"]
+[ext_resource type="PackedScene" path="res://scenes/world/alley5.tscn" id="alley5"]
+[ext_resource type="PackedScene" path="res://scenes/world/building1.tscn" id="building1"]
+[ext_resource type="PackedScene" path="res://scenes/world/building2.tscn" id="building2"]
+[ext_resource type="PackedScene" path="res://scenes/world/building3.tscn" id="building3"]
+[ext_resource type="PackedScene" path="res://scenes/world/building4.tscn" id="building4"]
+[ext_resource type="PackedScene" path="res://scenes/world/building5.tscn" id="building5"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_1.tscn" id="c1"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_2.tscn" id="c2"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_3.tscn" id="c3"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_4.tscn" id="c4"]
+[ext_resource type="PackedScene" path="res://scenes/world/container_5.tscn" id="c5"]
+
+[sub_resource type="NavigationMesh" id="nav"]
+geometry_parsed_geometry_type = 0
+cell_size = 0.5
+cell_height = 0.25
+agent_height = 1.8
+agent_radius = 0.5
+agent_max_climb = 0.5
+
+[sub_resource type="StandardMaterial3D" id="m_ground"]
+albedo_color = Color(0.13, 0.16, 0.2, 1)
+metallic = 0.3
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="m_wall"]
+albedo_color = Color(0.09, 0.1, 0.13, 1)
+metallic = 0.6
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="m_strip"]
+albedo_color = Color(0.3, 0.8, 1, 1)
+roughness = 0.9
+emission_enabled = true
+emission = Color(0.3, 0.8, 1, 1)
+emission_energy_multiplier = 2.5
+
+[node name="Map" type="Node3D"]
+script = ExtResource("s")
+[node name="Nav" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("nav")
+[node name="Geo" type="Node3D" parent="Nav"]
+[node name="Ground" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(680, 1, 680)
+material = SubResource("m_ground")
+[node name="Hole2" type="CSGBox3D" parent="Nav/Geo/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 0.5, -156)
+operation = 2
+size = Vector3(87.96, 4, 87.96)
+[node name="Hole12" type="CSGBox3D" parent="Nav/Geo/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -260, 0.5, 52)
+operation = 2
+size = Vector3(87.96, 4, 87.96)
+[node name="Hole22" type="CSGBox3D" parent="Nav/Geo/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 156, 0.5, 156)
+operation = 2
+size = Vector3(87.96, 4, 87.96)
+[node name="WallN" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -340.5)
+use_collision = true
+size = Vector3(682, 8, 1)
+material = SubResource("m_wall")
+[node name="WallS" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 340.5)
+use_collision = true
+size = Vector3(682, 8, 1)
+material = SubResource("m_wall")
+[node name="WallW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -340.5, 4, 0)
+use_collision = true
+size = Vector3(1, 8, 682)
+material = SubResource("m_wall")
+[node name="WallE" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 340.5, 4, 0)
+use_collision = true
+size = Vector3(1, 8, 682)
+material = SubResource("m_wall")
+[node name="StripNS" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+size = Vector3(0.3, 0.04, 678)
+material = SubResource("m_strip")
+[node name="StripEW" type="CSGBox3D" parent="Nav/Geo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+size = Vector3(678, 0.04, 0.3)
+material = SubResource("m_strip")
+[node name="P0_alley2" parent="Nav/Geo" instance=ExtResource("alley2")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-260, -0.03, -156)
+[node name="P1_building5" parent="Nav/Geo" instance=ExtResource("building5")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-156, -0.03, -156)
+[node name="P2_alley4" parent="Nav/Geo" instance=ExtResource("alley4")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-52, 0, -156)
+[node name="P3_alley5" parent="Nav/Geo" instance=ExtResource("alley5")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(52, -0.03, -156)
+[node name="P4_building1" parent="Nav/Geo" instance=ExtResource("building1")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(156, -0.03, -156)
+[node name="P5_alley3" parent="Nav/Geo" instance=ExtResource("alley3")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(260, -0.03, -156)
+[node name="P6_alley1" parent="Nav/Geo" instance=ExtResource("alley1")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-260, -0.03, -52)
+[node name="P7_building3" parent="Nav/Geo" instance=ExtResource("building3")]
+scale = Vector3(0.55, 0.55, 0.55)
+position = Vector3(-156, -0.03, -52)
+[node name="P8_building4" parent="Nav/Geo" instance=ExtResource("building4")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-52, -0.03, -52)
+[node name="P9_building2" parent="Nav/Geo" instance=ExtResource("building2")]
+scale = Vector3(0.55, 0.55, 0.55)
+position = Vector3(52, -0.03, -52)
+[node name="P10_alley2" parent="Nav/Geo" instance=ExtResource("alley2")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(156, -0.03, -52)
+[node name="P11_building5" parent="Nav/Geo" instance=ExtResource("building5")]
+scale = Vector3(0.55, 0.55, 0.55)
+position = Vector3(260, -0.03, -52)
+[node name="P12_alley4" parent="Nav/Geo" instance=ExtResource("alley4")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-260, 0, 52)
+[node name="P13_alley5" parent="Nav/Geo" instance=ExtResource("alley5")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-156, -0.03, 52)
+[node name="P14_building1" parent="Nav/Geo" instance=ExtResource("building1")]
+scale = Vector3(0.55, 0.55, 0.55)
+position = Vector3(-52, -0.03, 52)
+[node name="P15_alley3" parent="Nav/Geo" instance=ExtResource("alley3")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(52, -0.03, 52)
+[node name="P16_alley1" parent="Nav/Geo" instance=ExtResource("alley1")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(156, -0.03, 52)
+[node name="P17_building3" parent="Nav/Geo" instance=ExtResource("building3")]
+scale = Vector3(0.55, 0.55, 0.55)
+position = Vector3(260, -0.03, 52)
+[node name="P18_building4" parent="Nav/Geo" instance=ExtResource("building4")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-260, -0.03, 156)
+[node name="P19_building2" parent="Nav/Geo" instance=ExtResource("building2")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-156, -0.03, 156)
+[node name="P20_alley2" parent="Nav/Geo" instance=ExtResource("alley2")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-52, -0.03, 156)
+[node name="P21_building5" parent="Nav/Geo" instance=ExtResource("building5")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(52, -0.03, 156)
+[node name="P22_alley4" parent="Nav/Geo" instance=ExtResource("alley4")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(156, 0, 156)
+[node name="P23_alley5" parent="Nav/Geo" instance=ExtResource("alley5")]
+scale = Vector3(0.55, 0.55, 0.55)
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(260, -0.03, 156)
+[node name="Spawn_0_-9" type="Marker3D" parent="." groups=["spawn_0"]]
+position = Vector3(-9, 0.15, -331)
+[node name="Spawn_0_0" type="Marker3D" parent="." groups=["spawn_0"]]
+position = Vector3(0, 0.15, -331)
+[node name="Spawn_0_9" type="Marker3D" parent="." groups=["spawn_0"]]
+position = Vector3(9, 0.15, -331)
+[node name="Spawn_1_-9" type="Marker3D" parent="." groups=["spawn_1"]]
+position = Vector3(-9, 0.15, 331)
+[node name="Spawn_1_0" type="Marker3D" parent="." groups=["spawn_1"]]
+position = Vector3(0, 0.15, 331)
+[node name="Spawn_1_9" type="Marker3D" parent="." groups=["spawn_1"]]
+position = Vector3(9, 0.15, 331)
+[node name="C0" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-129, 0, 219)
+[node name="C1" parent="Nav/Geo" instance=ExtResource("c1")]
+position = Vector3(-261, 0, 288)
+[node name="C2" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-132, 0, -246)
+[node name="C3" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-261, 0, 211)
+[node name="C4" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(210, 0, 132)
+[node name="C5" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(318, 0, 199)
+[node name="C6" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(20, 0, 298)
+[node name="C7" parent="Nav/Geo" instance=ExtResource("c3")]
+position = Vector3(-193, 0, 292)
+[node name="C8" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-325, 0, 322)
+[node name="C9" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-16, 0, 297)
+[node name="C10" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-70, 0, 244)
+[node name="C11" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-116, 0, -295)
+[node name="C12" parent="Nav/Geo" instance=ExtResource("c4")]
+position = Vector3(-315, 0, 169)
+[node name="C13" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(150, 0, 103)
+[node name="C14" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(238, 0, 331)
+[node name="C15" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-323, 0, -60)
+[node name="C16" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-159, 0, -242)
+[node name="C17" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(327, 0, 100)
+[node name="C18" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(28, 0, -290)
+[node name="C19" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-17, 0, -317)
+[node name="C20" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-305, 0, 213)
+[node name="C21" parent="Nav/Geo" instance=ExtResource("c3")]
+position = Vector3(132, 0, -284)
+[node name="C22" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(275, 0, 243)
+[node name="C23" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(325, 0, -271)
+[node name="C24" parent="Nav/Geo" instance=ExtResource("c1")]
+position = Vector3(-163, 0, -279)
+[node name="C25" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(117, 0, -290)
+[node name="C26" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-55, 0, -256)
+[node name="C27" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(212, 0, 326)
+[node name="C28" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(211, 0, -138)
+[node name="C29" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(178, 0, 293)
+[node name="C30" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(152, 0, 237)
+[node name="C31" parent="Nav/Geo" instance=ExtResource("c3")]
+position = Vector3(179, 0, 315)
+[node name="C32" parent="Nav/Geo" instance=ExtResource("c3")]
+position = Vector3(148, 0, 284)
+[node name="C33" parent="Nav/Geo" instance=ExtResource("c4")]
+position = Vector3(-267, 0, -301)
+[node name="C34" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(194, 0, 234)
+[node name="C35" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(105, 0, -29)
+[node name="C36" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-155, 0, 321)
+[node name="C37" parent="Nav/Geo" instance=ExtResource("c1")]
+position = Vector3(136, 0, 323)
+[node name="C38" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(107, 0, 235)
+[node name="C39" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(328, 0, 86)
+[node name="C40" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(172, 0, 219)
+[node name="C41" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-18, 0, 328)
+[node name="C42" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-70, 0, 323)
+[node name="C43" parent="Nav/Geo" instance=ExtResource("c5")]
+position = Vector3(-167, 0, 314)
+[node name="C44" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-125, 0, 317)
+[node name="C45" parent="Nav/Geo" instance=ExtResource("c3")]
+position = Vector3(-237, 0, 225)
+[node name="C46" parent="Nav/Geo" instance=ExtResource("c5")]
+position = Vector3(-103, 0, -121)
+[node name="C47" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-282, 0, -318)
+[node name="C48" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-34, 0, -244)
+[node name="C49" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(176, 0, 238)
+[node name="C50" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(243, 0, -221)
+[node name="C51" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(314, 0, -140)
+[node name="C52" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(16, 0, 253)
+[node name="C53" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-165, 0, 218)
+[node name="C54" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(320, 0, 262)
+[node name="C55" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-140, 0, 209)
+[node name="C56" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-55, 0, -305)
+[node name="C57" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(81, 0, -250)
+[node name="C58" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-200, 0, -267)
+[node name="C59" parent="Nav/Geo" instance=ExtResource("c4")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(92, 0, -219)
+[node name="C60" parent="Nav/Geo" instance=ExtResource("c1")]
+position = Vector3(165, 0, 320)
+[node name="C61" parent="Nav/Geo" instance=ExtResource("c5")]
+position = Vector3(-102, 0, -266)
+[node name="C62" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(-115, 0, 250)
+[node name="C63" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(196, 0, 301)
+[node name="C64" parent="Nav/Geo" instance=ExtResource("c4")]
+position = Vector3(-148, 0, 259)
+[node name="C65" parent="Nav/Geo" instance=ExtResource("c2")]
+position = Vector3(322, 0, -215)
+[node name="C66" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(44, 0, -229)
+[node name="C67" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-148, 0, -209)
+[node name="C68" parent="Nav/Geo" instance=ExtResource("c2")]
+position = Vector3(111, 0, -215)
+[node name="C69" parent="Nav/Geo" instance=ExtResource("c3")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(324, 0, -16)
+[node name="C70" parent="Nav/Geo" instance=ExtResource("c2")]
+position = Vector3(-259, 0, -215)
+[node name="C71" parent="Nav/Geo" instance=ExtResource("c4")]
+position = Vector3(-270, 0, -266)
+[node name="C72" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-99, 0, -221)
+[node name="C73" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(309, 0, -316)
+[node name="C74" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(209, 0, 176)
+[node name="C75" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(146, 0, -297)
+[node name="C76" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, 1.5708, 0)
+position = Vector3(311, 0, 323)
+[node name="C77" parent="Nav/Geo" instance=ExtResource("c2")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-199, 0, 228)
+[node name="C78" parent="Nav/Geo" instance=ExtResource("c5")]
+rotation = Vector3(0, -1.5708, 0)
+position = Vector3(-323, 0, -203)
+[node name="C79" parent="Nav/Geo" instance=ExtResource("c1")]
+rotation = Vector3(0, 3.1416, 0)
+position = Vector3(-243, 0, -228)

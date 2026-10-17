@@ -1,0 +1,6 @@
+turn 0 room=4 facedown=1 (expect 1)
+turn 1 room=4 facedown=1 (expect 1)
+turn 2 room=4 facedown=1 (expect 1)
+turn 3 room=4 facedown=1 (expect 1)
+turn 4 room=4 facedown=1 (expect 1)
+DONE

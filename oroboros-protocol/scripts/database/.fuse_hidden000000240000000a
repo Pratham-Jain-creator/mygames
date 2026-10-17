@@ -1,0 +1,57 @@
+class_name ItemDB
+extends RefCounted
+## Black Market stock other than Daemons: Executables, Firmware Updates,
+## Corruptions and Root Access. `min`/`max` = number of Nodes to target.
+
+const EXECUTABLES := {
+	"encrypt": {"name": "Encrypt", "desc": "Adds +4 Base Value to a selected Node.", "cost": 3, "min": 1, "max": 1},
+	"compress": {"name": "Compress", "desc": "Turns a Node into a Zipped Node (+10 Base Bytes when resolved).", "cost": 3, "min": 1, "max": 1},
+	"reformat": {"name": "Reformat", "desc": "Changes a Node's type (e.g. Glitch to Siphon). You choose the new type.", "cost": 3, "min": 1, "max": 1},
+	"overclock_exe": {"name": "Hyperdrive", "desc": "Turns a Node into a Holographic Node (+1 Overclock when resolved).", "cost": 4, "min": 1, "max": 1},
+	"clone": {"name": "Clone", "desc": "Duplicates 1 Node in your Tailbytes.", "cost": 4, "min": 1, "max": 1},
+	"shred": {"name": "Shred", "desc": "Permanently deletes up to 2 Nodes.", "cost": 3, "min": 1, "max": 2},
+	"gild": {"name": "Gild", "desc": "Turns a Node into a Gold Node (earns $1 when resolved).", "cost": 3, "min": 1, "max": 1},
+}
+
+const CORRUPTIONS := {
+	"worm": {"name": "Worm", "desc": "Destroy 1 Node, gain a random Rare Daemon.", "cost": 7, "min": 1, "max": 1},
+	"trojan_exe": {"name": "Trojan.exe", "desc": "Add a powerful Daemon (Rare or better), but reduce max Integrity by 5.", "cost": 8, "min": 0, "max": 0},
+	"memory_wipe": {"name": "Memory Wipe", "desc": "Destroy 5 random Nodes, gain $20.", "cost": 6, "min": 0, "max": 0},
+	"format_c": {"name": "Format C:", "desc": "Convert all Nodes in the current room to random Face-Card (11-14) Glitch. Only usable inside a Server.", "cost": 5, "min": 0, "max": 0},
+}
+
+const ROOT_ACCESS := {
+	"ram_expansion": {"name": "RAM Expansion", "desc": "+1 Stash Slot (the room grows by 1 Node, one more Node carries over).", "cost": 10},
+	"cooling_system": {"name": "Cooling System", "desc": "+10 Max Integrity.", "cost": 10},
+	"backdoor": {"name": "Backdoor", "desc": "The shop has 1 extra item slot.", "cost": 10},
+	"proxy_server": {"name": "Proxy Server", "desc": "You can Skip twice in a row.", "cost": 10},
+	"admin_privileges": {"name": "Admin Privileges", "desc": "Shop restocks cost 50% less.", "cost": 10},
+}
+
+const FIRMWARE_COST := 4
+
+
+## Unified lookup. Always returns a Dictionary with name, desc, cost, min, max.
+static func get_item(kind: int, id: String) -> Dictionary:
+	match kind:
+		Enums.ItemKind.DAEMON:
+			var d := DaemonDB.get_def(id)
+			return {"name": d.name, "desc": d.desc, "cost": d.cost, "min": 0, "max": 0, "rarity": d.rarity}
+		Enums.ItemKind.EXECUTABLE:
+			return EXECUTABLES[id]
+		Enums.ItemKind.CORRUPTION:
+			return CORRUPTIONS[id]
+		Enums.ItemKind.ROOT_ACCESS:
+			var r: Dictionary = ROOT_ACCESS[id].duplicate()
+			r["min"] = 0
+			r["max"] = 0
+			return r
+		Enums.ItemKind.FIRMWARE:
+			var sub: Dictionary = SubroutineDB.SUBS[id]
+			var lvl: int = RunState.sub_levels.get(id, 0) if is_instance_valid(RunState) else 0
+			return {
+				"name": "Firmware: %s" % sub.name,
+				"desc": "Levels up %s (%s). +%d Base Bytes, +%d Overclock per level. Currently level %d." % [sub.name, sub.text, sub.lvl_base, sub.lvl_mult, lvl + 1],
+				"cost": FIRMWARE_COST, "min": 0, "max": 0,
+			}
+	return {"name": "?", "desc": "", "cost": 0, "min": 0, "max": 0}

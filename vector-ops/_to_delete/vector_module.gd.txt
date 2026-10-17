@@ -1,0 +1,105 @@
+class_name VectorModule
+extends Module
+## Programmable cornering rifle (numbers: data/modules/vector.tres). Hold to fire continuously, like Kinetic.
+## Each round does NOT fly straight: it follows an L-shaped path (straight legs, sharp corners) that was
+## chosen for this slot in the menu, and ends exactly where the crosshair pointed when it was fired.
+## It never tracks an enemy. The choice is stored per slot (Player.vcurves).
+
+enum Bend { RIGHT, LEFT, UP, DOWN, BEHIND_RIGHT, BEHIND_LEFT }
+const CURVE_NAMES: Array[String] = ["Right", "Left", "Up", "Down", "Behind R", "Behind L"]
+const CURVE_HELP: Array[String] = [
+	"Goes out to the right, turns sharply, then hits the aim point.",
+	"Goes out to the left, turns sharply, then hits the aim point.",
+	"Rises above cover, turns sharply down onto the aim point.",
+	"Drops below, turns sharply up onto the aim point.",
+	"Swings wide to the right past the target, then hits it from behind.",
+	"Swings wide to the left past the target, then hits it from behind.",
+]
+
+var _cd: float = 0.0
+var _last_ms: int = 0
+
+
+func cooldown_ratio() -> float:
+	return clampf(_cd / data.cooldown, 0.0, 1.0)
+
+
+func controller_update(delta: float) -> void:
+	_cd -= delta
+	if held() and _cd <= 0.0 and player.flux.active_flux >= data.cost:
+		_cd = data.cooldown
+		send({"d": player.aim_dir()})
+
+
+func server_use(args: Dictionary) -> void:
+	var now: int = Time.get_ticks_msec()
+	if now - _last_ms < int(data.cooldown * 700.0):
+		return
+	if not player.flux.spend(data.cost, "vector"):
+		return
+	_last_ms = now
+	var dir: Vector3 = args.get("d", Vector3.ZERO)
+	if dir.length() < 0.5:
+		dir = player.aim_dir()
+	dir = dir.normalized()
+	var eye: Vector3 = player.eye_pos()
+	# where the crosshair points: the round has to end up here
+	var q := PhysicsRayQueryParameters3D.create(eye, eye + dir * data.range_m, 3, [player.get_rid()])
+	var hit: Dictionary = player.get_world_3d().direct_space_state.intersect_ray(q)
+	var aim_point: Vector3 = hit["position"] if not hit.is_empty() else eye + dir * data.range_m
+	var pts: Array = _clear_path(eye, aim_point, player.vcurve_of(hand, slot_index))
+	var first: Vector3 = (pts[0] - eye).normalized()
+	Projectile.launch(player, self, "vector", eye + first * 0.6, first, tune(&"speed"), data.damage, 0.0, pts, null, 0.0)
+	player.fx_play.rpc("cast", eye, eye)
+
+
+## The chosen path, shortened if a wall is in the way of a leg (down to a straight shot as a last resort).
+func _clear_path(from: Vector3, to: Vector3, curve: int) -> Array:
+	var space: PhysicsDirectSpaceState3D = player.get_world_3d().direct_space_state
+	for k in [1.0, 0.6, 0.3]:
+		var pts: Array = build_path(from, to, curve, tune(&"reach") * k)
+		if _legs_clear(space, from, pts):
+			return pts
+	return [to]
+
+
+func _legs_clear(space: PhysicsDirectSpaceState3D, from: Vector3, pts: Array) -> bool:
+	var a: Vector3 = from
+	for i in pts.size():
+		var b: Vector3 = pts[i]
+		var stop: Vector3 = a + (b - a) * 0.97 if i == pts.size() - 1 else b # the last point sits on a surface
+		if not space.intersect_ray(PhysicsRayQueryParameters3D.create(a, stop, 1, [player.get_rid()])).is_empty():
+			return false
+		a = b
+	return true
+
+
+## Corner points from `from` to `to` for the chosen curve (the last point is `to`).
+## `reach` = the most the path may stray sideways, in metres.
+static func build_path(from: Vector3, to: Vector3, curve: int, reach: float) -> Array:
+	var dist: float = from.distance_to(to)
+	if dist < 3.0 or reach < 0.5:
+		return [to]
+	var fwd: Vector3 = (to - from) / dist
+	var right: Vector3 = fwd.cross(Vector3.UP)
+	if right.length() < 0.05:
+		right = Vector3.RIGHT # looking straight up / down
+	right = right.normalized()
+	var up: Vector3 = right.cross(fwd).normalized()
+	if curve == Bend.BEHIND_RIGHT or curve == Bend.BEHIND_LEFT:
+		# beside the target, then behind it, then back at it: two sharp corners
+		var side: Vector3 = right if curve == Bend.BEHIND_RIGHT else -right
+		var beside: Vector3 = to + side * minf(dist * 0.4, reach * 1.4)
+		var behind: Vector3 = to + fwd * minf(dist * 0.35, reach)
+		return [beside, behind, to]
+	var off: Vector3 = right
+	match curve:
+		Bend.LEFT:
+			off = -right
+		Bend.UP:
+			off = up
+		Bend.DOWN:
+			off = -up
+	# one corner halfway along, pushed out sideways: an L-shaped dogleg (90 degrees when reach >= half the distance)
+	var corner: Vector3 = from + fwd * dist * 0.5 + off * minf(dist * 0.5, reach)
+	return [corner, to]

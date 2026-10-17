@@ -1,0 +1,172 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scenes/network_map/network_map.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/hex_backdrop/hex_backdrop.tscn" id="2_hex"]
+[ext_resource type="Script" path="res://scenes/components/safe_area/safe_area_container.gd" id="3_safe"]
+[ext_resource type="PackedScene" path="res://scenes/components/action_button/action_button.tscn" id="4_btn"]
+[ext_resource type="PackedScene" path="res://scenes/components/deck_viewer/deck_viewer.tscn" id="5_deck"]
+[ext_resource type="PackedScene" path="res://scenes/components/type_picker/type_picker.tscn" id="6_type"]
+[ext_resource type="PackedScene" path="res://scenes/components/toast/toast.tscn" id="7_toast"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu/pause_menu.tscn" id="99_pause"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SafeArea/VBox/Cards:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_intro"]
+resource_name = "intro"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SafeArea/VBox/Cards:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_map"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"intro": SubResource("Animation_intro")
+}
+
+[node name="NetworkMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.043, 0.047, 0.063, 1)
+
+[node name="HexBackdrop" parent="." instance=ExtResource("2_hex")]
+layout_mode = 1
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_safe")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="SafeArea/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.4, 0.99, 0.945, 1)
+theme_override_font_sizes/font_size = 38
+text = "NETWORK 1 / 8"
+
+[node name="MoneyLabel" type="Label" parent="SafeArea/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.847, 0.4, 1)
+theme_override_font_sizes/font_size = 38
+text = "Ø4"
+
+[node name="GearSpacer" type="Control" parent="SafeArea/VBox/Header"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+
+[node name="Cards" type="HBoxContainer" parent="SafeArea/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="RigRow" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RigLabel" type="Label" parent="SafeArea/VBox/RigRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 18
+text = "SERVER"
+vertical_alignment = 1
+
+[node name="DeckButton" parent="SafeArea/VBox/RigRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TAILBYTES"
+accent = Color(1, 0.706, 0, 1)
+
+[node name="ConnectButton" parent="SafeArea/VBox/RigRow" instance=ExtResource("4_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 60)
+layout_mode = 2
+text = "CONNECT"
+accent = Color(0.4, 0.99, 0.945, 1)
+
+[node name="Bottom" type="HBoxContainer" parent="SafeArea/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DaemonRack" type="HBoxContainer" parent="SafeArea/VBox/Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ConsumableBox" type="VBoxContainer" parent="SafeArea/VBox/Bottom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DeckViewer" parent="." instance=ExtResource("5_deck")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="TypePicker" parent="." instance=ExtResource("6_type")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Toast" parent="." instance=ExtResource("7_toast")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_map")
+}
+
+[node name="PauseMenu" parent="." instance=ExtResource("99_pause")]

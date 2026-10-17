@@ -1,0 +1,4 @@
+draw before eject=48 room=4
+draw after eject=52 discard=0 (expect +4 and 0)
+stashed siphon v=11 top temp=true type=0 value=14
+DONE

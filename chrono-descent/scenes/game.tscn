@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="Script" path="res://scripts/levels.gd" id="2_levels"]
+[ext_resource type="PackedScene" path="res://scenes/base/base_hub.tscn" id="3_base"]
+[ext_resource type="Texture2D" uid="uid://bpo134ls0xjv0" path="res://assets/sprites/darkbg.png" id="4_bg"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(160, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+texture = ExtResource("4_bg")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="Base" parent="." instance=ExtResource("3_base")]
+position = Vector2(-60000, 0)
+
+[node name="Levels" type="Node" parent="."]
+script = ExtResource("2_levels")
+
+[node name="Transition" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="Fade" type="ColorRect" parent="Transition"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

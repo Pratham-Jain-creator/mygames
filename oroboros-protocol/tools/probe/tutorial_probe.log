@@ -1,0 +1,26 @@
+TUT start
+TUT step 0 expect=next score=0 hp=10 phase=1
+TUT step 1 expect=next score=0 hp=10 phase=1
+TUT step 2 expect=next score=0 hp=10 phase=1
+TUT step 3 expect=next score=0 hp=10 phase=1
+TUT step 4 expect=next score=0 hp=10 phase=1
+TUT step 5 expect=next score=0 hp=10 phase=1
+TUT step 6 expect=card score=0 hp=10 phase=1
+TUT gate check ok=true
+TUT step 7 expect=card score=0 hp=10 phase=1
+TUT step 8 expect=card score=0 hp=10 phase=1
+TUT step 9 expect=next score=0 hp=10 phase=1
+TUT step 10 expect=next score=0 hp=10 phase=1
+TUT step 11 expect=execute score=0 hp=10 phase=1
+TUT step 12 expect=turn_done score=212 hp=8 phase=2
+TUT step 13 expect=next score=212 hp=8 phase=1
+TUT step 14 expect=skip score=212 hp=8 phase=1
+TUT step 15 expect=weapon score=212 hp=8 phase=1
+TUT step 16 expect=card score=212 hp=8 phase=1
+TUT step 17 expect=card score=212 hp=8 phase=1
+TUT step 18 expect=card score=212 hp=8 phase=1
+TUT step 19 expect=execute score=212 hp=8 phase=1
+TUT step 20 expect=turn_done score=497 hp=10 phase=2
+TUT step 21 expect=next score=497 hp=10 phase=1
+TUT step 22 expect=next score=497 hp=10 phase=1
+TUT DONE score=497/600 hp=10

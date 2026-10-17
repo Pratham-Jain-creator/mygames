@@ -1,0 +1,9 @@
+# Godot 4
+.godot/
+.import/
+*.translation
+/android/
+*.tmp
+
+# Generator scripts + debug helpers (kept local, not pushed)
+tools/

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c2sya47ob3x0w"]
+
+[ext_resource type="AudioStream" uid="uid://c26matn1gtfws" path="res://assets/music/paulyudin-space.mp3" id="1_vvhc6"]
+
+[node name="PaulyudinSpace" type="AudioStreamPlayer2D" unique_id=208722381]
+stream = ExtResource("1_vvhc6")
+autoplay = true
+bus = &"bgMusic"

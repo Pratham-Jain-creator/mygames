@@ -1,0 +1,13 @@
+server_screen pause_menu=PauseMenu:<Control#83147884702>
+server_screen open=true overlay_open=true
+crt=false music=false
+server_screen closed=true
+shop_screen pause_menu=PauseMenu:<Control#191612586722>
+shop_screen open=true overlay_open=true
+crt=false music=false
+shop_screen closed=true
+network_map pause_menu=PauseMenu:<Control#304674244931>
+network_map open=true overlay_open=true
+crt=false music=false
+network_map closed=true
+PAUSE DONE

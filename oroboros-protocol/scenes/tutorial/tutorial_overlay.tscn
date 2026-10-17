@@ -1,0 +1,474 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scenes/tutorial/tutorial_director.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/action_button/action_button.tscn" id="2_btn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spot"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.706, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(1, 0.706, 0, 0.35)
+shadow_size = 10
+
+[sub_resource type="Animation" id="Animation_bot_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel/HBox/BotHolder/Bot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel/HBox/BotHolder/Bot/Head/Mouth:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel/HBox/BotHolder/Bot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel/HBox/BotHolder/Bot/Head/EyeL:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BotPanel/HBox/BotHolder/Bot/Head/EyeR:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_talk"]
+resource_name = "talk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel/HBox/BotHolder/Bot/Head/Mouth:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.25, 0.37, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(20, 4), Vector2(20, 9), Vector2(20, 4), Vector2(20, 7), Vector2(20, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel/HBox/BotHolder/Bot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_panel_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_panel_in"]
+resource_name = "panel_in"
+length = 0.18
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector2(0.96, 0.96), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_nudge"]
+resource_name = "nudge"
+length = 0.32
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.32),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1.7, 0.55, 0.55, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BotPanel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.32),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.035, 1.035), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_type"]
+resource_name = "type"
+length = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BotPanel/HBox/VBox/Text:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_spot_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_spot_pulse"]
+resource_name = "spot_pulse"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spot:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.3), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bot"]
+_data = {
+&"RESET": SubResource("Animation_bot_reset"),
+&"idle": SubResource("Animation_idle"),
+&"talk": SubResource("Animation_talk")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_panel"]
+_data = {
+&"RESET": SubResource("Animation_panel_reset"),
+&"nudge": SubResource("Animation_nudge"),
+&"panel_in": SubResource("Animation_panel_in"),
+&"type": SubResource("Animation_type")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_spot"]
+_data = {
+&"RESET": SubResource("Animation_spot_reset"),
+&"spot_pulse": SubResource("Animation_spot_pulse")
+}
+
+[node name="TutorialOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Spot" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 60.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_spot")
+
+[node name="BotPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 0)
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 140.0
+
+[node name="HBox" type="HBoxContainer" parent="BotPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="BotHolder" type="Control" parent="BotPanel/HBox"]
+custom_minimum_size = Vector2(96, 120)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Bot" type="Control" parent="BotPanel/HBox/BotHolder"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 96.0
+offset_bottom = 112.0
+mouse_filter = 2
+
+[node name="AntennaTip" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 0.0
+offset_right = 55.0
+offset_bottom = 7.0
+mouse_filter = 2
+color = Color(1, 0, 1, 1)
+
+[node name="Antenna" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 7.0
+offset_right = 51.0
+offset_bottom = 16.0
+mouse_filter = 2
+color = Color(0.36, 0.4, 0.44, 1)
+
+[node name="Head" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 16.0
+offset_right = 82.0
+offset_bottom = 68.0
+mouse_filter = 2
+color = Color(0.2, 0.25, 0.3, 1)
+
+[node name="Visor" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot/Head"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 62.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(0.03, 0.04, 0.06, 1)
+
+[node name="EyeL" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot/Head"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 15.0
+offset_right = 26.0
+offset_bottom = 25.0
+mouse_filter = 2
+color = Color(0.4, 0.99, 0.945, 1)
+
+[node name="EyeR" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot/Head"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 15.0
+offset_right = 52.0
+offset_bottom = 25.0
+mouse_filter = 2
+color = Color(0.4, 0.99, 0.945, 1)
+
+[node name="Mouth" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot/Head"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 38.0
+offset_right = 44.0
+offset_bottom = 42.0
+mouse_filter = 2
+color = Color(1, 0, 1, 1)
+
+[node name="Body" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 72.0
+offset_right = 72.0
+offset_bottom = 108.0
+mouse_filter = 2
+color = Color(0.16, 0.2, 0.25, 1)
+
+[node name="Chest" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot/Body"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 34.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(1, 0.706, 0, 1)
+
+[node name="ArmL" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 74.0
+offset_right = 22.0
+offset_bottom = 102.0
+mouse_filter = 2
+color = Color(0.36, 0.4, 0.44, 1)
+
+[node name="ArmR" type="ColorRect" parent="BotPanel/HBox/BotHolder/Bot"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 74.0
+offset_right = 86.0
+offset_bottom = 102.0
+mouse_filter = 2
+color = Color(0.36, 0.4, 0.44, 1)
+
+[node name="VBox" type="VBoxContainer" parent="BotPanel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="NameLabel" type="Label" parent="BotPanel/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "NODE-9 // GUIDE BOT"
+
+[node name="Text" type="RichTextLabel" parent="BotPanel/HBox/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/bold_font_size = 19
+theme_override_font_sizes/normal_font_size = 19
+bbcode_enabled = true
+text = "..."
+fit_content = true
+scroll_active = false
+
+[node name="Footer" type="HBoxContainer" parent="BotPanel/HBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StepLabel" type="Label" parent="BotPanel/HBox/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.36, 0.4, 0.44, 1)
+theme_override_font_sizes/font_size = 15
+text = "STEP 1 / 1"
+
+[node name="ExitButton" parent="BotPanel/HBox/VBox/Footer" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 38)
+layout_mode = 2
+text = "EXIT TUTORIAL"
+accent = Color(0.36, 0.4, 0.44, 1)
+
+[node name="NextButton" parent="BotPanel/HBox/VBox/Footer" instance=ExtResource("2_btn")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 42)
+layout_mode = 2
+text = "NEXT >"
+accent = Color(0.4, 0.99, 0.945, 1)
+
+[node name="BotAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bot")
+}
+autoplay = "idle"
+
+[node name="PanelAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_panel")
+}
+
+[node name="SpotAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_spot")
+}
+autoplay = "spot_pulse"

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ModuleData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/module_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "vector"
+display_name = "Vector"
+category = "WEAPON"
+color = Color(0.4, 1, 0.9, 1)
+weight = 2.0
+script_path = "res://scripts/modules/vector_module.gd"
+hud_meta_template = "CORNER SHOT · {cost} FLUX/SHOT"
+description_template = "Rifle (hold). {cost} Flux/shot, {damage} dmg. Each round flies an L-shaped path with sharp corners (you pick right, left, up, down or from behind when you choose it) and lands on the spot you aim at. It never tracks enemies. Slow round: reach {range} m."
+cost = 3.0
+cooldown = 0.35
+damage = 18.0
+range_m = 40.0
+tuning = {
+"reach": 6.0,
+"speed": 34.0
+}

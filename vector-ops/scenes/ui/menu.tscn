@@ -1,0 +1,591 @@
+[gd_scene format=3 uid="uid://y8qgnrjkty4o"]
+
+[ext_resource type="Script" uid="uid://b72vc7qu18wi8" path="res://scripts/ui/menu.gd" id="1_yqeox"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menu_character.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/play_dialog.tscn" id="3_play"]
+[ext_resource type="PackedScene" path="res://scenes/ui/guide_dialog.tscn" id="4_guide"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_dialog.tscn" id="5_settings"]
+[ext_resource type="PackedScene" path="res://scenes/ui/slot_button.tscn" id="6_slot"]
+[ext_resource type="PackedScene" path="res://scenes/ui/module_picker.tscn" id="7_picker"]
+[ext_resource type="PackedScene" path="res://scenes/ui/builds_panel.tscn" id="8_builds"]
+[ext_resource type="Texture2D" path="res://assets/images/icon/vector_ops_icon/icon_128.png" id="9_icon"]
+
+[sub_resource type="Environment" id="env_preview"]
+background_mode = 0
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.65, 0.75, 1)
+ambient_light_energy = 0.9
+
+[sub_resource type="LabelSettings" id="lbl_title_white"]
+font_size = 46
+font_color = Color(0.95, 0.97, 0.98, 1)
+
+[sub_resource type="LabelSettings" id="lbl_title_cyan"]
+font_size = 46
+font_color = Color(0.263, 0.878, 0.776, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_panel"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.066, 0.098, 0.122, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.168, 0.278, 0.318, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_primary"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.263, 0.878, 0.776, 1)
+border_width_right = 4
+border_color = Color(0.18, 0.65, 0.58, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_primary_hover"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.35, 0.94, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_dark"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.078, 0.118, 0.145, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.3, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_btn_dark_hover"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.11, 0.17, 0.21, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.263, 0.878, 0.776, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_bar_bg"]
+bg_color = Color(0.12, 0.17, 0.2, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.32, 0.37, 1)
+
+[sub_resource type="StyleBoxFlat" id="style_bar_fill"]
+bg_color = Color(0.263, 0.878, 0.776, 1)
+
+[node name="Menu" type="Control" unique_id=530528651]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yqeox")
+
+[node name="Background" type="ColorRect" parent="." unique_id=2068091700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.047, 0.067, 0.082, 1)
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=2044670394]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="PlayDialog" parent="." instance=ExtResource("3_play")]
+unique_name_in_owner = true
+
+[node name="GuideDialog" parent="." instance=ExtResource("4_guide")]
+unique_name_in_owner = true
+
+[node name="SettingsDialog" parent="." instance=ExtResource("5_settings")]
+unique_name_in_owner = true
+
+[node name="ModulePicker" parent="." instance=ExtResource("7_picker")]
+unique_name_in_owner = true
+
+[node name="MainVBox" type="VBoxContainer" parent="Margin" unique_id=912724894]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Margin/MainVBox" unique_id=2083474788]
+layout_mode = 2
+
+[node name="TitleBox" type="HBoxContainer" parent="Margin/MainVBox/Header" unique_id=1037983181]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="GameIcon" type="TextureRect" parent="Margin/MainVBox/Header/TitleBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("9_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VectorLabel" type="Label" parent="Margin/MainVBox/Header/TitleBox" unique_id=1523334628]
+layout_mode = 2
+text = "V E C T O R"
+label_settings = SubResource("lbl_title_white")
+
+[node name="OpsLabel" type="Label" parent="Margin/MainVBox/Header/TitleBox" unique_id=596175334]
+layout_mode = 2
+text = "O P S"
+label_settings = SubResource("lbl_title_cyan")
+
+[node name="Spacer" type="Control" parent="Margin/MainVBox/Header" unique_id=873735684]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubtitleBox" type="VBoxContainer" parent="Margin/MainVBox/Header" unique_id=612349785]
+layout_mode = 2
+alignment = 1
+
+[node name="ModeInfo" type="Label" parent="Margin/MainVBox/Header/SubtitleBox" unique_id=1993823240]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.69, 0.74, 1)
+theme_override_font_sizes/font_size = 13
+text = "3v3  ·  BEST OF 5  ·  5 MIN ROUNDS  ·  NO RESPAWNS"
+horizontal_alignment = 2
+
+[node name="Tagline" type="Label" parent="Margin/MainVBox/Header/SubtitleBox" unique_id=994516908]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.56, 0.61, 1)
+theme_override_font_sizes/font_size = 13
+text = "Every action spends the same life: Flux."
+horizontal_alignment = 2
+
+[node name="BodyHBox" type="HBoxContainer" parent="Margin/MainVBox" unique_id=1335033528]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="LeftNavPanel" type="PanelContainer" parent="Margin/MainVBox/BodyHBox" unique_id=159258319]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="NavVBox" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox/LeftNavPanel" unique_id=433482617]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnPlay" type="Button" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=2135887880]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.08, 0.09, 1)
+theme_override_colors/font_hover_color = Color(0.04, 0.08, 0.09, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("style_btn_primary")
+theme_override_styles/hover = SubResource("style_btn_primary_hover")
+text = "PLAY
+Host or join LAN"
+alignment = 0
+
+[node name="BtnBots" type="Button" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=1074503540]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "VS BOTS
+Solo 3v3 trial"
+alignment = 0
+
+[node name="MapLabel" type="Label" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.6, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+text = "ARENA"
+
+[node name="MapPicker" type="OptionButton" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+alignment = 0
+
+[node name="Spacer1" type="Control" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=332512954]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="BtnGuide" type="Button" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=1759283906]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "FLUX GUIDE"
+alignment = 0
+
+[node name="BtnSettings" type="Button" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=736400008]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "SETTINGS"
+alignment = 0
+
+[node name="Spacer2" type="Control" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=855518865]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CallsignLabel" type="Label" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=1713396120]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.6, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+text = "CALLSIGN"
+
+[node name="CallsignInput" type="LineEdit" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=285188774]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("style_btn_dark")
+text = "Operator"
+
+[node name="StatusLabel" type="Label" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.71, 0.33, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="SpacerBottom" type="Control" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=1674513250]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ControlsHint" type="Label" parent="Margin/MainVBox/BodyHBox/LeftNavPanel/NavVBox" unique_id=746736848]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.56, 0.61, 1)
+theme_override_font_sizes/font_size = 11
+text = "WASD move - F run - Shift slide - Space jump
+LMB right hand - RMB left hand
+E / Q rotate hand - Tab spectate
+Pad: sticks - RT/LT hands - RB/LB rotate
+A jump - B slide - L3 run - Start pause"
+
+[node name="CenterWorkspace" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox" unique_id=1886010999]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="ColumnsHBox" type="HBoxContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace" unique_id=1222365467]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="RightHandPanel" type="PanelContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox" unique_id=1031434290]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel" unique_id=1379555082]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=1440515891]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.263, 0.878, 0.776, 1)
+theme_override_font_sizes/font_size = 16
+text = "RIGHT HAND"
+
+[node name="RightSub" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=1328366878]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "LMB  ·  rotate E"
+
+[node name="LblR1" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=2050274613]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 1 · START"
+
+[node name="SlotR1" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblR2" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=152540655]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 2"
+
+[node name="SlotR2" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblR3" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=1364319910]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 3"
+
+[node name="SlotR3" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblR4" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" unique_id=538918282]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 4"
+
+[node name="SlotR4" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/RightHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PreviewPanel" type="PanelContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox" unique_id=1873038574]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel" unique_id=1485853675]
+unique_name_in_owner = true
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel/SubViewportContainer" unique_id=1815497077]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(133, 392)
+render_target_update_mode = 4
+
+[node name="Character" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel/SubViewportContainer/SubViewport" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+
+[node name="Camera3D" type="Camera3D" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel/SubViewportContainer/SubViewport"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.96, -4.2)
+fov = 32.0
+
+[node name="Sun" type="DirectionalLight3D" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel/SubViewportContainer/SubViewport"]
+transform = Transform3D(-0.93969, -0.14455, 0.30998, 0, 0.90631, 0.42262, -0.34202, 0.39713, -0.85165, 0, 0, 0)
+light_energy = 1.2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/PreviewPanel/SubViewportContainer/SubViewport"]
+environment = SubResource("env_preview")
+
+[node name="LeftHandPanel" type="PanelContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox" unique_id=414721481]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel" unique_id=563682723]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=1246147548]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.263, 0.878, 0.776, 1)
+theme_override_font_sizes/font_size = 16
+text = "LEFT HAND"
+
+[node name="LeftSub" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=130082101]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "RMB  ·  rotate Q"
+
+[node name="LblL1" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=1281221523]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 1 · START"
+
+[node name="SlotL1" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblL2" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=1017134049]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 2"
+
+[node name="SlotL2" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblL3" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=805208609]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 3"
+
+[node name="SlotL3" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblL4" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" unique_id=374491185]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.58, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "SLOT 4"
+
+[node name="SlotL4" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/ColumnsHBox/LeftHandPanel/VBox" instance=ExtResource("6_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PresetsVBox" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace" unique_id=1324054577]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PresetsLabel" type="Label" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox" unique_id=605110243]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "SUGGESTED LOADOUTS"
+
+[node name="PresetsHBox" type="HBoxContainer" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox" unique_id=1539467255]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="BtnBrawler" type="Button" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox/PresetsHBox" unique_id=2021596169]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "BRAWLER
+Flux 67"
+alignment = 0
+
+[node name="BtnSniper" type="Button" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox/PresetsHBox" unique_id=29253793]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "SNIPER
+Flux 77"
+alignment = 0
+
+[node name="BtnDemolition" type="Button" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox/PresetsHBox" unique_id=691340234]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "DEMOLITION
+Flux 39"
+alignment = 0
+
+[node name="BtnPhantom" type="Button" parent="Margin/MainVBox/BodyHBox/CenterWorkspace/PresetsVBox/PresetsHBox" unique_id=747215397]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("style_btn_dark")
+theme_override_styles/hover = SubResource("style_btn_dark_hover")
+text = "PHANTOM
+Flux 67"
+alignment = 0
+
+[node name="FluxReadoutPanel" type="PanelContainer" parent="Margin/MainVBox/BodyHBox" unique_id=1134503100]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("style_panel")
+
+[node name="ReadoutVBox" type="VBoxContainer" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel" unique_id=1936708873]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=1800687688]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 13
+text = "FLUX READOUT"
+
+[node name="FluxValueLabel" type="Label" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=649203406]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.263, 0.878, 0.776, 1)
+theme_override_font_sizes/font_size = 56
+text = "77"
+
+[node name="MaxFluxTitle" type="Label" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=185688079]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.62, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "MAX FLUX"
+
+[node name="FluxBar" type="ProgressBar" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=427577925]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme_override_styles/background = SubResource("style_bar_bg")
+theme_override_styles/fill = SubResource("style_bar_fill")
+max_value = 124.0
+value = 77.0
+show_percentage = false
+
+[node name="FormulaLabel" type="Label" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=287036818]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.92, 1)
+theme_override_font_sizes/font_size = 13
+text = "100 - 5 weight x 7 + 4 empty x 3
+= 77  (min 30)"
+
+[node name="Spacer" type="Control" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox" unique_id=151467276]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="InfoTabs" type="TabContainer" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Notes" type="RichTextLabel" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox/InfoTabs" unique_id=926537866]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 0
+bbcode_enabled = true
+text = "[color=#43e0c6]■[/color] [color=#8ca3ad]One pool: health, stamina and energy. Spend it and it regens - unless it is Fractured.[/color]
+
+[color=#43e0c6]■[/color] [color=#8ca3ad]Standing still regenerates Flux faster.[/color]
+
+[color=#e05263]■[/color] [color=#8ca3ad]Fractured Flux is lost for the round. Heavier modules mean a smaller pool.[/color]
+
+[color=#e05263]■[/color] [color=#8ca3ad]Empty slots add +3 max Flux each.[/color]"
+
+[node name="Builds" parent="Margin/MainVBox/BodyHBox/FluxReadoutPanel/ReadoutVBox/InfoTabs" instance=ExtResource("8_builds")]
+unique_name_in_owner = true
+layout_mode = 2
+metadata/_tab_index = 1

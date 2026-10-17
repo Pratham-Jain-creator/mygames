@@ -1,0 +1,480 @@
+[gd_scene load_steps=42 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/bolt_view.gd" id="1_bv"]
+
+[sub_resource type="StandardMaterial3D" id="mat_gunmetal"]
+albedo_color = Color(0.130, 0.140, 0.170, 1.000)
+roughness = 0.35
+metallic = 0.85
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.820, 0.850, 0.900, 1.000)
+roughness = 0.35
+metallic = 0.50
+
+[sub_resource type="StandardMaterial3D" id="mat_polymer"]
+albedo_color = Color(0.060, 0.060, 0.080, 1.000)
+roughness = 0.85
+metallic = 0.00
+
+[sub_resource type="StandardMaterial3D" id="mat_glow"]
+albedo_color = Color(0.400, 0.850, 1.000, 1.000)
+roughness = 0.20
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.300, 0.800, 1.000, 1)
+emission_energy_multiplier = 3.50
+
+[sub_resource type="StandardMaterial3D" id="mat_glass"]
+albedo_color = Color(0.200, 0.700, 1.000, 0.450)
+transparency = 1
+roughness = 0.10
+metallic = 0.00
+emission_enabled = true
+emission = Color(0.200, 0.700, 1.000, 1)
+emission_energy_multiplier = 1.50
+cull_mode = 2
+
+[sub_resource type="BoxMesh" id="mesh_0"]
+size = Vector3(0.0650, 0.0950, 0.7000)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_1"]
+size = Vector3(0.0500, 0.0200, 0.5000)
+material = SubResource("mat_armor")
+
+[sub_resource type="BoxMesh" id="mesh_2"]
+size = Vector3(0.0690, 0.0280, 0.4200)
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_3"]
+size = Vector3(0.0500, 0.1300, 0.2400)
+material = SubResource("mat_armor")
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+size = Vector3(0.0550, 0.1400, 0.0300)
+material = SubResource("mat_polymer")
+
+[sub_resource type="BoxMesh" id="mesh_5"]
+size = Vector3(0.0450, 0.0400, 0.1500)
+material = SubResource("mat_polymer")
+
+[sub_resource type="BoxMesh" id="mesh_6"]
+size = Vector3(0.0400, 0.1000, 0.0500)
+material = SubResource("mat_polymer")
+
+[sub_resource type="BoxMesh" id="mesh_7"]
+size = Vector3(0.0500, 0.1500, 0.0800)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_8"]
+size = Vector3(0.0520, 0.1000, 0.0500)
+material = SubResource("mat_glass")
+
+[sub_resource type="BoxMesh" id="mesh_9"]
+size = Vector3(0.0400, 0.0800, 0.0500)
+material = SubResource("mat_polymer")
+
+[sub_resource type="CylinderMesh" id="mesh_10"]
+top_radius = 0.011
+bottom_radius = 0.011
+height = 0.95
+radial_segments = 8
+rings = 1
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_11"]
+size = Vector3(0.0120, 0.0120, 0.9500)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_12"]
+size = Vector3(0.0120, 0.0120, 0.9500)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_13"]
+size = Vector3(0.0120, 0.0120, 0.9500)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_14"]
+size = Vector3(0.0120, 0.0120, 0.9500)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="TorusMesh" id="mesh_15"]
+inner_radius = 0.03
+outer_radius = 0.047
+rings = 24
+ring_segments = 10
+material = SubResource("mat_armor")
+
+[sub_resource type="TorusMesh" id="mesh_16"]
+inner_radius = 0.03
+outer_radius = 0.047
+rings = 24
+ring_segments = 10
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="TorusMesh" id="mesh_17"]
+inner_radius = 0.03
+outer_radius = 0.047
+rings = 24
+ring_segments = 10
+material = SubResource("mat_armor")
+
+[sub_resource type="TorusMesh" id="mesh_18"]
+inner_radius = 0.03
+outer_radius = 0.047
+rings = 24
+ring_segments = 10
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="CylinderMesh" id="mesh_19"]
+top_radius = 0.028
+bottom_radius = 0.048
+height = 0.1
+radial_segments = 12
+rings = 1
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="TorusMesh" id="mesh_20"]
+inner_radius = 0.022
+outer_radius = 0.044
+rings = 24
+ring_segments = 10
+material = SubResource("mat_glow")
+
+[sub_resource type="BoxMesh" id="mesh_21"]
+size = Vector3(0.0500, 0.0500, 0.3400)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_22"]
+size = Vector3(0.0120, 0.0080, 0.2600)
+material = SubResource("mat_glow")
+
+[sub_resource type="CylinderMesh" id="mesh_23"]
+top_radius = 0.036
+bottom_radius = 0.036
+height = 0.07
+radial_segments = 12
+rings = 1
+material = SubResource("mat_armor")
+
+[sub_resource type="CylinderMesh" id="mesh_24"]
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.05
+radial_segments = 12
+rings = 1
+material = SubResource("mat_polymer")
+
+[sub_resource type="CylinderMesh" id="mesh_25"]
+top_radius = 0.032
+bottom_radius = 0.032
+height = 0.006
+radial_segments = 12
+rings = 1
+material = SubResource("mat_glass")
+
+[sub_resource type="BoxMesh" id="mesh_26"]
+size = Vector3(0.0200, 0.0400, 0.0400)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_27"]
+size = Vector3(0.0200, 0.0400, 0.0400)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_28"]
+size = Vector3(0.0140, 0.2600, 0.0140)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="BoxMesh" id="mesh_29"]
+size = Vector3(0.0140, 0.2600, 0.0140)
+material = SubResource("mat_gunmetal")
+
+[sub_resource type="Animation" id="anim_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MuzzleGlow:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="anim_idle"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.006, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.004, 0.006, 0.01), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MuzzleGlow:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.25, 1.25, 1.25), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="anim_equip"]
+resource_name = "equip"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector3(0, -0.25, 0.1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector3(0.8, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_fire"]
+resource_name = "fire"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.5, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.01, 0.16), Vector3(0, 0.003, 0.03), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.5, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.14, 0, 0.02), Vector3(0.03, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MuzzleGlow:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(2.4, 2.4, 2.4), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_bolt"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"equip": SubResource("anim_equip"),
+&"fire": SubResource("anim_fire"),
+&"idle": SubResource("anim_idle")
+}
+
+[node name="PlasmaSniper" type="Node3D"]
+script = ExtResource("1_bv")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, 0.0000)
+mesh = SubResource("mesh_0")
+
+[node name="TopPlate" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0570, -0.0500)
+mesh = SubResource("mesh_1")
+
+[node name="GlowPanels" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0050, -0.0600)
+mesh = SubResource("mesh_2")
+
+[node name="Stock" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0200, 0.5000)
+mesh = SubResource("mesh_3")
+
+[node name="StockPad" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.0200, 0.6300)
+mesh = SubResource("mesh_4")
+
+[node name="CheekRest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0700, 0.4500)
+mesh = SubResource("mesh_5")
+
+[node name="Grip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.93969, 0.34202, 0.00000, -0.34202, 0.93969, 0.0000, -0.0900, 0.2000)
+mesh = SubResource("mesh_6")
+
+[node name="CellHousing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.1100, 0.0300)
+mesh = SubResource("mesh_7")
+
+[node name="CellGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, -0.1100, 0.0300)
+mesh = SubResource("mesh_8")
+
+[node name="Foregrip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.98481, -0.17365, 0.00000, 0.17365, 0.98481, 0.0000, -0.0800, -0.2000)
+mesh = SubResource("mesh_9")
+
+[node name="PlasmaCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -0.8250)
+mesh = SubResource("mesh_10")
+
+[node name="Rail_-1_-1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, -0.0260, -0.0260, -0.8250)
+mesh = SubResource("mesh_11")
+
+[node name="Rail_-1_1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, -0.0260, 0.0260, -0.8250)
+mesh = SubResource("mesh_12")
+
+[node name="Rail_1_-1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0260, -0.0260, -0.8250)
+mesh = SubResource("mesh_13")
+
+[node name="Rail_1_1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0260, 0.0260, -0.8250)
+mesh = SubResource("mesh_14")
+
+[node name="BarrelRing0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -0.5000)
+mesh = SubResource("mesh_15")
+
+[node name="BarrelRing1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -0.7500)
+mesh = SubResource("mesh_16")
+
+[node name="BarrelRing2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -1.0000)
+mesh = SubResource("mesh_17")
+
+[node name="BarrelRing3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -1.2200)
+mesh = SubResource("mesh_18")
+
+[node name="MuzzleBrake" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -1.3400)
+mesh = SubResource("mesh_19")
+
+[node name="MuzzleGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.0000, -1.3950)
+mesh = SubResource("mesh_20")
+
+[node name="ScopeBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.1150, -0.0200)
+mesh = SubResource("mesh_21")
+
+[node name="ScopeTopStrip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.1420, -0.0200)
+mesh = SubResource("mesh_22")
+
+[node name="ScopeFront" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.1150, -0.2200)
+mesh = SubResource("mesh_23")
+
+[node name="ScopeRear" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.1150, 0.1700)
+mesh = SubResource("mesh_24")
+
+[node name="ScopeLens" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.0000, 0.1150, -0.2580)
+mesh = SubResource("mesh_25")
+
+[node name="ScopeMount1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0750, -0.1000)
+mesh = SubResource("mesh_26")
+
+[node name="ScopeMount2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0750, 0.1000)
+mesh = SubResource("mesh_27")
+
+[node name="BipodL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95106, 0.30902, 0.00000, -0.30902, 0.95106, 0.00000, 0.00000, 0.00000, 1.00000, -0.0500, -0.1500, -0.5500)
+mesh = SubResource("mesh_28")
+
+[node name="BipodR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 0.00000, 0.00000, 0.00000, 1.00000, 0.0500, -0.1500, -0.5500)
+mesh = SubResource("mesh_29")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0.0000, 0.0000, -1.4300)
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib_bolt")
+}
+autoplay = "idle"

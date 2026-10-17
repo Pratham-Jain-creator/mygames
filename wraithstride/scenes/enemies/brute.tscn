@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/sentinel.tscn" id="1_sent"]
+[ext_resource type="Script" path="res://scripts/brute.gd" id="2_brute"]
+
+[node name="Brute" instance=ExtResource("1_sent")]
+script = ExtResource("2_brute")
+max_hp = 220.0
+max_posture = 150.0
+move_speed = 2.8
+damage = 36.0
+posture_damage = 40.0
+jp_reward = 90
+thrust_chance = 0.55
